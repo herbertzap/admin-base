@@ -1,0 +1,324 @@
+nosotros actFLUJO DE PROCESO DE SERVICIOS PARA NUEVOS CLIENTES
+==================================================
+
+DESCRIPCIÓN GENERAL
+-------------------
+Este documento describe el flujo completo de atención de solicitudes de servicios para nuevos clientes, desde la recepción inicial hasta el cierre comercial. El proceso involucra múltiples departamentos y roles con responsabilidades específicas en cada fase.
+
+ROLES Y RESPONSABILIDADES
+-------------------------
+• Gerente Alianzas: Revisión y aprobación de propuestas comerciales
+• Gerente Comercial: Aprobación final de todos los documentos del flujo B2B
+• Responsable Implementación B2B: Revisión técnica y planificación de implementación
+• Operador Operación: Ejecución de tareas operativas y validaciones
+• Mesa de Ayuda: Validación inicial y soporte técnico
+• Proceso: Coordinación general y documentación
+
+FASES DEL PROCESO
+=================
+
+FASE 1: INICIO
+--------------
+Objetivo: Recepción y validación inicial de la solicitud de servicio
+
+Actividades por Rol:
+
+OPERADOR OPERACIÓN:
+1. Inicio Operación
+2. Recepción de Solicitud de Servicio - Nuevo Cliente
+3. Confirmación Booking
+4. Validar si la información es correcta para continuar con el flujo
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+5. Generar CRO
+6. Enviar CRO
+7. Cargar Cliente Internacional en SD-CRM
+8. Notificar OOB y envío de datos de contacto
+
+MESA DE AYUDA:
+1. Inicio Mesa de Ayuda
+2. Validar Solicitud de Servicio - Nuevo Cliente
+3. Validar si la información es correcta para continuar con el flujo
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+4. Generar CRO
+5. Enviar CRO
+
+FASE 2: ENVÍO PROPUESTA
+-----------------------
+Objetivo: Generación y envío de propuesta comercial
+
+OPERADOR OPERACIÓN:
+1. Validar CRO
+2. CRO Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Propuesta Comercial
+4. Enviar Propuesta Comercial
+
+MESA DE AYUDA:
+1. Validar CRO
+2. CRO Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Propuesta Comercial
+4. Enviar Propuesta Comercial
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de CRO enviado
+2. Revisar Propuesta Comercial
+3. Propuesta Aprobada?
+   - Si NO: Volver a Revisar Propuesta Comercial
+   - Si SÍ: Continuar
+4. Generar Contrato
+5. Enviar Contrato
+
+FASE 3: ANÁLISIS COMERCIAL
+---------------------------
+Objetivo: Validación y análisis comercial de la propuesta
+
+OPERADOR OPERACIÓN:
+1. Validar Propuesta Comercial
+2. Propuesta Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Contrato
+4. Enviar Contrato
+
+MESA DE AYUDA:
+1. Validar Propuesta Comercial
+2. Propuesta Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Contrato
+4. Enviar Contrato
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Propuesta Comercial enviada
+2. Revisar Contrato
+3. Contrato Aprobado?
+   - Si NO: Volver a Revisar Contrato
+   - Si SÍ: Continuar
+4. Generar Orden de Servicio
+5. Enviar Orden de Servicio
+
+FASE 4: ANÁLISIS TÉCNICO
+-------------------------
+Objetivo: Validación técnica y generación de orden de servicio
+
+OPERADOR OPERACIÓN:
+1. Validar Contrato
+2. Contrato Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Orden de Servicio
+4. Enviar Orden de Servicio
+
+MESA DE AYUDA:
+1. Validar Contrato
+2. Contrato Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Orden de Servicio
+4. Enviar Orden de Servicio
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Contrato enviado
+2. Revisar Orden de Servicio
+3. Orden de Servicio Aprobada?
+   - Si NO: Volver a Revisar Orden de Servicio
+   - Si SÍ: Continuar
+4. Generar Plan de Implementación
+5. Enviar Plan de Implementación
+
+FASE 5: ENVÍO CONTRATO
+-----------------------
+Objetivo: Validación de orden de servicio y plan de implementación
+
+OPERADOR OPERACIÓN:
+1. Validar Orden de Servicio
+2. Orden de Servicio Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Plan de Implementación
+4. Enviar Plan de Implementación
+
+MESA DE AYUDA:
+1. Validar Orden de Servicio
+2. Orden de Servicio Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Plan de Implementación
+4. Enviar Plan de Implementación
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Orden de Servicio enviada
+2. Revisar Plan de Implementación
+3. Plan de Implementación Aprobado?
+   - Si NO: Volver a Revisar Plan de Implementación
+   - Si SÍ: Continuar
+4. Implementar Servicio
+5. Enviar Confirmación de Implementación
+
+FASE 6: IMPLEMENTACIÓN
+-----------------------
+Objetivo: Ejecución del servicio y confirmación de implementación
+
+OPERADOR OPERACIÓN:
+1. Validar Plan de Implementación
+2. Plan de Implementación Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Implementar Servicio
+4. Enviar Confirmación de Implementación
+
+MESA DE AYUDA:
+1. Validar Plan de Implementación
+2. Plan de Implementación Validado?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Implementar Servicio
+4. Enviar Confirmación de Implementación
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Plan de Implementación enviado
+2. Revisar Confirmación de Implementación
+3. Confirmación de Implementación Aprobada?
+   - Si NO: Volver a Revisar Confirmación de Implementación
+   - Si SÍ: Continuar
+4. Generar Factura
+5. Enviar Factura
+
+FASE 7: FACTURACIÓN
+--------------------
+Objetivo: Generación y envío de facturación
+
+OPERADOR OPERACIÓN:
+1. Validar Confirmación de Implementación
+2. Confirmación de Implementación Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Factura
+4. Enviar Factura
+
+MESA DE AYUDA:
+1. Validar Confirmación de Implementación
+2. Confirmación de Implementación Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Factura
+4. Enviar Factura
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Confirmación de Implementación enviada
+2. Revisar Factura
+3. Factura Aprobada?
+   - Si NO: Volver a Revisar Factura
+   - Si SÍ: Continuar
+4. Generar Cobranza
+5. Enviar Cobranza
+
+FASE 8: COBRANZA
+-----------------
+Objetivo: Gestión de cobranza y seguimiento de pagos
+
+OPERADOR OPERACIÓN:
+1. Validar Factura
+2. Factura Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Cobranza
+4. Enviar Cobranza
+
+MESA DE AYUDA:
+1. Validar Factura
+2. Factura Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Generar Cobranza
+4. Enviar Cobranza
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Factura enviada
+2. Revisar Cobranza
+3. Cobranza Aprobada?
+   - Si NO: Volver a Revisar Cobranza
+   - Si SÍ: Continuar
+4. Cerrar Comercial
+5. Fin de Proceso
+
+FASE 9: CIERRE COMERCIAL
+-------------------------
+Objetivo: Cierre formal del proceso comercial
+
+OPERADOR OPERACIÓN:
+1. Validar Cobranza
+2. Cobranza Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Cerrar Comercial
+4. Fin de Proceso
+
+MESA DE AYUDA:
+1. Validar Cobranza
+2. Cobranza Validada?
+   - Si NO: Fin de Proceso - Solicitud Rechazada
+   - Si SÍ: Continuar
+3. Cerrar Comercial
+4. Fin de Proceso
+
+GERENTE ALIANZAS, GERENTE COMERCIAL, RESPONSABLE IMPLEMENTACIÓN B2B, PROCESO:
+1. Recibir mensaje de Cobranza enviada
+2. Cerrar Comercial
+3. Fin de Proceso
+
+PUNTOS DE DECISIÓN Y VALIDACIÓN
+===============================
+En cada fase existen puntos de validación que pueden resultar en:
+• Continuación del proceso (Si)
+• Rechazo y fin del proceso (No)
+• Retroalimentación para corrección (ciclos de revisión)
+
+PRE-REQUISITOS IMPORTANTES
+==========================
+• IMPLEMENTACIÓN: El cliente debe tener un ambiente de pruebas para la integración
+• FACTURACIÓN: El cliente debe tener un ambiente de producción para la integración
+• COBRANZA: El cliente debe tener un ambiente de producción para la integración
+• CIERRE COMERCIAL: El cliente debe tener un ambiente de producción para la integración
+
+NOTA IMPORTANTE PARA FLUJO B2B
+==============================
+Para el flujo de B2B, el Gerente Comercial debe ser el único responsable de aprobar:
+• Propuesta
+• Contrato
+• Orden de Servicio
+• Plan de Implementación
+• Confirmación de Implementación
+• Factura
+• Cobranza
+
+CRITERIOS DE REVISIÓN
+=====================
+Según Cliente: Precio, Plazo, Servicio, SLA, etc.
+
+DOCUMENTACIÓN REQUERIDA
+=======================
+Para cada fase de revisión se requiere la documentación correspondiente:
+• Documentación de la Propuesta
+• Documentación del Contrato
+• Documentación de la Orden de Servicio
+• Documentación del Plan de Implementación
+• Documentación de la Confirmación de Implementación
+• Documentación de la Factura
+• Documentación de la Cobranza
+
+EVENTOS TEMPORALES
+==================
+Existen eventos temporales asociados a las actividades iniciales de cada rol, indicando plazos o deadlines específicos para la ejecución de las tareas.
+
+RESULTADOS ESPERADOS
+====================
+• Proceso exitoso: Cierre Comercial y Fin de Proceso
+• Proceso rechazado: Fin de Proceso - Solicitud Rechazada (en cualquier punto de validación)
+
+Este flujo asegura un control riguroso de calidad y aprobación en cada etapa del proceso de atención a nuevos clientes, garantizando que todos los requisitos técnicos, comerciales y operativos sean cumplidos antes de proceder a la siguiente fase. 

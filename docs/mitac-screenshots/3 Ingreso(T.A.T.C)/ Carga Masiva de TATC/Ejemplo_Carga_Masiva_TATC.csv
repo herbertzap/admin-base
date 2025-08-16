@@ -1,0 +1,2 @@
+Tipo_Ingreso;Fecha_Ingreso_Pais;Fecha_Ingreso_Deposito;Nro_Contenedor;Codigo_Aduana;TATC;Eir;Origen_Tatc;Destino_Tatc;Tipo_Contenedor;Tamano_Contenedor;Documento_Ingreso;Puerto_Ingreso;Tatc_emisor;Tatc_Ingreso;Fecha_Traspaso;Tara_Contenedor;Anio_Contenedor;Comentario_Tatc;Estado_Contenedor;Codigo_Tipo_Bulto;Lugar_Deposito;Valor_Fob;Valor_Cif
+2;29-07-2019;29-07-2019;ABCD554411-2;34;341230000002;99250692;341171287173;VALPARAISO;DRY;40;EIR DYC;VALPARAISO;921170030643;TALCAHUANO;30-07-2019;4730;2004;Comentario de pruebas;OP;98;99;2600;2782

@@ -1,0 +1,156 @@
+		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+		<table cellpadding="0" cellspacing="0" border="1" >
+		  <thead>
+		      <tr>
+				<th style="background-color: rgb(236,240,245)">Operador</th>
+				<th style="background-color: rgb(236,240,245)">ID Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Ingreso al País</th>
+				<th style="background-color: rgb(236,240,245)">Tipo de Ingreso</th>
+				<th style="background-color: rgb(236,240,245)">Nro Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Aduana</th>
+				<th style="background-color: rgb(236,240,245)">TIPO</th>
+				<th style="background-color: rgb(236,240,245)">TATC/TSTC </th>
+				<th style="background-color: rgb(236,240,245)">Tipo Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Tamaño Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Usuario Creador</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Ingreso al Depósito</th>
+				<th style="background-color: rgb(236,240,245)">EIR</th>
+				<th style="background-color: rgb(236,240,245)">TATC Origen</th>
+				<th style="background-color: rgb(236,240,245)">TATC Destino</th>
+				<th style="background-color: rgb(236,240,245)">Ingreso Documento</th>
+				<th style="background-color: rgb(236,240,245)">Ingreso Puerto</th>
+				<th style="background-color: rgb(236,240,245)">TATC Emisor</th>
+				<th style="background-color: rgb(236,240,245)">TATC Ingreso</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Traspaso</th>
+				<th style="background-color: rgb(236,240,245)">Tara Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Año Fabricación Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Comentario TATC</th>
+				<th style="background-color: rgb(236,240,245)">Estado Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Tipo Bulto</th>
+				<th style="background-color: rgb(236,240,245)">Lugar Deposito</th>
+				<th style="background-color: rgb(236,240,245)">Valor FOB</th>
+				<th style="background-color: rgb(236,240,245)">Valor CIF</th>
+				<th style="background-color: rgb(236,240,245)">Transporte Empresa Id</th>
+				<th style="background-color: rgb(236,240,245)">Transporte Chofer Rut</th>
+				<th style="background-color: rgb(236,240,245)">Transporte Camión Patente</th>
+				<th style="background-color: rgb(236,240,245)">Transporte Documento</th>
+				
+				<th style="background-color: rgb(236,240,245); width: 10px"></th>
+				<th style="background-color: rgb(236,240,245)">Salida Fecha</th>
+				<th style="background-color: rgb(236,240,245)">Salida Doc. Internación</th>
+				<th style="background-color: rgb(236,240,245)">Salida Doc. Internación Comentario</th>
+				<th style="background-color: rgb(236,240,245)">Salida Cancelación Aduana</th>
+				<th style="background-color: rgb(236,240,245)">Salida Cancelación Comentario</th>
+				<th style="background-color: rgb(236,240,245)">Salida Traspaso Valor</th>
+				<th style="background-color: rgb(236,240,245)">Salida Traspaso Operador</th>
+				<th style="background-color: rgb(236,240,245)">Salida Traspaso Tipo Bulto</th>
+				<th style="background-color: rgb(236,240,245)">Salida Traspaso Origen</th>
+				<th style="background-color: rgb(236,240,245)">Salida Traspaso Destino</th>
+				<th style="background-color: rgb(236,240,245)">Salida TATC Destino</th>
+		      </tr>
+		  </thead> 
+		  
+		  <tbody>
+		    
+		    <tr>
+		      	<td>CONTENEDORES DAVI E.I.R.L.</td>
+				<td>121244</td>
+				<td>08/11/2022 15:00:00</td>
+				<td>
+					Traspaso				</td>				
+				<td>CAIU411412-7</td>
+				<td>San Antonio</td>
+				<td>TATC</td>
+				<td>392460000002</td>
+				<td>DRY</td>
+				<td>40</td>
+				<td>Tomas Dagnino Vicencio</td>
+				<td>12/11/2022 15:00:00</td>
+				<td></td>
+				<td>391480032030</td>
+				<td></td>
+				<td></td>
+				<td>SAN ANTONIO</td>
+				<td></td>
+				<td></td>
+				<td>2023-01-11</td>
+				<td>3660</td>
+				<td>2008</td>
+				<td></td>
+				<td>OP</td>
+				<td>74</td>
+				<td>DyC San Antonio (Ruta G 94 F Nuevo Acceso al Puerto 3559 Barrio Industrial San Antonio, San Antonio, Valparaíso )</td>
+				<td>2000</td>
+				<td>2140</td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245);"></td>
+				<td>11/01/2023				<td>3370009353-6</td>
+				<td>pago TGR  12/01/2023</td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		      	<td>CONTENEDORES DAVI E.I.R.L.</td>
+				<td>121092</td>
+				<td>17/10/2022 21:00:00</td>
+				<td>
+					Traspaso				</td>				
+				<td>CAIU402611-3</td>
+				<td>San Antonio</td>
+				<td>TATC</td>
+				<td>392460000001</td>
+				<td>DRY</td>
+				<td>40</td>
+				<td>Tomas Dagnino Vicencio</td>
+				<td>14/11/2022 12:00:00</td>
+				<td></td>
+				<td>391480031849</td>
+				<td></td>
+				<td></td>
+				<td>SAN ANTONIO</td>
+				<td></td>
+				<td></td>
+				<td>2022-12-21</td>
+				<td>3660</td>
+				<td>2007</td>
+				<td></td>
+				<td>OP</td>
+				<td>74</td>
+				<td>DyC San Antonio (Ruta G 94 F Nuevo Acceso al Puerto 3559 Barrio Industrial San Antonio, San Antonio, Valparaíso )</td>
+				<td>2000</td>
+				<td>2140</td>
+				<td>415</td>
+				<td>14275360-K</td>
+				<td>BGVK-17</td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245);"></td>
+				<td>23/12/2022				<td>3370009332-3</td>
+				<td>PAGO TGR 23/12/2022 </td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		  		  	<tr>
+			  <td style="background-color: rgb(236,240,245); font-weight: bold;" colspan="44">2 Registros de Informe-Movimientos-desde-01-01-2022-al-01-12-2022</td>
+		  	</tr>		  
+		  </tbody>
+		</table>  
+
+

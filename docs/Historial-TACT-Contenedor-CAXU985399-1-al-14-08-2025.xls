@@ -1,0 +1,876 @@
+		<meta http-equiv='content-type' content='text/html; charset=utf-8' />
+		<table cellpadding="0" cellspacing="0" border="1" >
+		  <thead>
+		      <tr>
+				<th style="background-color: rgb(236,240,245)">Operador</th>
+				<th style="background-color: rgb(236,240,245)">Ingreso Por</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Ingreso al País</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Ingreso al Deposito</th>
+				<th style="background-color: rgb(236,240,245)">Nro de Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Aduana</th>
+				<th style="background-color: rgb(236,240,245)">TATC</th>
+				<th style="background-color: rgb(236,240,245)">EIR</th>
+				<th style="background-color: rgb(236,240,245)">TATC Origen</th>
+				<th style="background-color: rgb(236,240,245)">TATC Destino</th>
+				<th style="background-color: rgb(236,240,245)">Tipo Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Tamaño Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Doc. de Ingreso</th>
+				<th style="background-color: rgb(236,240,245)">Puerto de Ingreso</th>
+				<th style="background-color: rgb(236,240,245)">TATC Emisor</th>
+				<th style="background-color: rgb(236,240,245)">TATC Ingreso</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Traspaso</th>
+				<th style="background-color: rgb(236,240,245)">Tara Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Año Fabricación</th>
+				<th style="background-color: rgb(236,240,245)">Estado Contenedor</th>
+				<th style="background-color: rgb(236,240,245)">Tipo Bulto</th>
+				<th style="background-color: rgb(236,240,245)">Valor CIF</th>
+				<th style="background-color: rgb(236,240,245)">Comentario</th>
+				<th style="background-color: rgb(236,240,245)">Registro Creado</th>
+				<th style="background-color: rgb(236,240,245)">Registro Usuario</th>
+				<th style="background-color: rgb(236,240,245)">Estado</th>
+				
+				<th style="background-color: rgb(236,240,245); width:10px"></th>
+				<th style="background-color: rgb(236,240,245)">ID. Documento de Internación Salida</th>				
+				<th style="background-color: rgb(236,240,245)">Fecha Documento de Internación Salida</th>
+				<th style="background-color: rgb(236,240,245)">Comentario Documento de Internación Salida</th>
+				
+				<th style="background-color: rgb(236,240,245); width:10px"></th>
+				<th style="background-color: rgb(236,240,245)">Fecha Cancelación Aduana Salida</th>
+				<th style="background-color: rgb(236,240,245)">Aduana Cancelación Salida</th>
+				<th style="background-color: rgb(236,240,245)">Comentario Cancelación Aduana Salida</th>
+				
+				<th style="background-color: rgb(236,240,245); width:10px"></th>
+				<th style="background-color: rgb(236,240,245)">TATC Destino Salida</th>
+				<th style="background-color: rgb(236,240,245)">Fecha Traspaso Salida</th>
+				<th style="background-color: rgb(236,240,245)">Valor Traspaso Salida</th>
+				<th style="background-color: rgb(236,240,245)">Operador Traspaso Salida</th>
+				<th style="background-color: rgb(236,240,245)">Tipo Bulto Traspaso Salida</th>
+				<th style="background-color: rgb(236,240,245)">Origen Traspaso Salida</th>
+				<th style="background-color: rgb(236,240,245)">Destino Traspaso Salida</th>				
+		      </tr>
+		  </thead> 
+		  
+		  <tbody>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/07/2017 08:30:00</td>
+		        <td>19/07/2017 12:00:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 417</td>
+		        <td>09/12/2019 12:59:25</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Salida por DI</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td>3370005048-9</td>				
+				<td>31/08/2017</td>
+				<td>factura agencia 1997</td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/07/2017 08:30:00</td>
+		        <td>19/07/2017 12:00:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 417</td>
+		        <td>09/12/2019 12:56:26</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/07/2017 08:30:00</td>
+		        <td>19/07/2017 12:00:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 417</td>
+		        <td>09/12/2019 12:56:15</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/07/2017 08:30:00</td>
+		        <td>19/07/2017 12:00:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:54:47</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/07/2017 08:30:00</td>
+		        <td>21/12/2015 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:53:33</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>09/03/2015 08:30:00</td>
+		        <td>21/12/2015 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-22</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:52:59</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>09/03/2015 08:30:00</td>
+		        <td>21/12/2015 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-31</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:48:41</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>08/08/2017 08:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2017-08-31</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:46:13</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td>factura 227</td>
+		        <td>09/12/2019 12:29:15</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td></td>
+		        <td>09/12/2019 12:29:06</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td></td>
+		        <td>09/12/2019 12:27:46</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAXU985399-1</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2005</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1445</td>
+		        <td></td>
+		        <td>04/11/2019 14:08:24</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>09/08/2019 14:30:00</td>
+		        <td>CAIU830201-4</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td>valparaíso</td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2008</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1712</td>
+		        <td></td>
+		        <td>29/10/2019 15:53:22</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>07/08/2019 14:30:00</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>CAIU830201-4</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td>341480030657</td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3830</td>
+		        <td>2008</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1712</td>
+		        <td></td>
+		        <td>29/10/2019 15:49:54</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>CAIU830201-4</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td></td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3900</td>
+		        <td>2008</td>
+		        <td>[OP] Operativo</td>
+		        <td>74</td>
+		        <td>1712</td>
+		        <td></td>
+		        <td>29/10/2019 15:05:36</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Traspaso</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>CAIU830201-4</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td></td>
+		        <td>342460000001</td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td>34</td>
+		        <td>2019-10-29</td>
+		        <td>3900</td>
+		        <td>2008</td>
+		        <td>[OP] Operativo</td>
+		        <td>98</td>
+		        <td>1712</td>
+		        <td></td>
+		        <td>29/10/2019 15:04:37</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		    
+		    <tr>
+		        <td>CONTENEDORES DAVI E.I.R.L.</td>
+		        <td>Desembarque</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>29/10/2019 14:30:00</td>
+		        <td>CAIU830201-4</td>
+		        <td>Valparaíso</td>
+		        <td>342460000001</td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td>HIGH CUBE</td>
+		        <td>40</td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td></td>
+		        <td>2019-10-29</td>
+		        <td>3900</td>
+		        <td>2008</td>
+		        <td>[OP] Operativo</td>
+		        <td>98</td>
+		        <td>1712</td>
+		        <td></td>
+		        <td>29/10/2019 14:26:43</td>
+		        <td>Tomas Dagnino Vicencio</td>
+		        <td>Ingresado</td>
+		        
+				<td style="background-color: rgb(236,240,245)"></td>		
+				<td></td>				
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+				<td style="background-color: rgb(236,240,245)"></td>
+				<td></td>
+				<td></td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+		    </tr>
+		  		  	<tr>
+			  <td style="background-color: rgb(236,240,245); font-weight: bold;" colspan="42">17 Registros de Historial-TACT-Contenedor-CAXU985399-1-al-14-08-2025</td>
+		  	</tr>
+		  </tbody>
+		</table>  
+
+
