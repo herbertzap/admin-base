@@ -70,7 +70,7 @@ if ($githubEvent === 'push' &&
     writeLog('Push detectado en main branch - Iniciando despliegue');
     
     // Ejecutar el script de despliegue en segundo plano
-    $command = 'cd /var/www/html/contenedores-pricer-cl && ./deploy.sh > /var/www/html/contenedores-pricer-cl/deploy.log 2>&1 &';
+    $command = 'cd /var/www/html/contenedores-pricer-cl && ./deploy-simple.sh > /var/www/html/contenedores-pricer-cl/deploy.log 2>&1 &';
     exec($command);
     
     writeLog('Script de despliegue ejecutado en segundo plano');

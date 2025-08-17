@@ -39,8 +39,8 @@ if [ $# -eq 0 ]; then
 fi
 
 ENVIRONMENT=$1
-PROJECT_DIR="/var/www/admin-base"
-BACKUP_DIR="/var/backups/admin-base"
+PROJECT_DIR="/var/www/html/contenedores-pricer-cl"
+BACKUP_DIR="/var/backups/contenedores-pricer-cl"
 DATE=$(date +%Y%m%d_%H%M%S)
 
 print_header "Iniciando Despliegue - Ambiente: $ENVIRONMENT"
