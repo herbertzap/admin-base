@@ -1,28 +1,18 @@
 #!/bin/bash
 
-# Script de Despliegue Simplificado para Contenedores Pricer
+# Script de Despliegue Final para Webhook
 # Este script se ejecuta automáticamente cuando hay cambios en GitHub
 
 set -e
 
 # Colores para output
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Función para imprimir mensajes
 print_message() {
     echo -e "${GREEN}[INFO]${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
 }
 
 print_header() {
@@ -32,25 +22,19 @@ print_header() {
 }
 
 PROJECT_DIR="/var/www/html/contenedores-pricer-cl"
-DATE=$(date +%Y%m%d_%H%M%S)
 
-print_header "Iniciando Despliegue Automático - $(date)"
-
-# Verificar que el directorio del proyecto existe
-if [ ! -d "$PROJECT_DIR" ]; then
-    print_error "El directorio del proyecto no existe: $PROJECT_DIR"
-    exit 1
-fi
+print_header "Iniciando Despliegue Final - $(date)"
 
 cd "$PROJECT_DIR"
 
-# 1. Activar modo mantenimiento
-print_message "Activando modo mantenimiento..."
-php artisan down --retry=60 || print_warning "No se pudo activar modo mantenimiento"
+# 1. Configurar Git para evitar problemas de permisos
+print_message "Configurando Git..."
+export GIT_TERMINAL_PROMPT=0
+export GIT_CONFIG_GLOBAL=/dev/null
+export GIT_CONFIG_SYSTEM=/dev/null
 
 # 2. Actualizar código desde Git
 print_message "Actualizando código desde Git..."
-cd /var/www/html/contenedores-pricer-cl
 git fetch origin
 git reset --hard origin/main
 
@@ -90,24 +74,11 @@ sudo chmod -R 755 "$PROJECT_DIR"
 sudo chown -R apache:apache storage bootstrap/cache
 sudo chmod -R 775 storage bootstrap/cache
 
-# 10. Desactivar modo mantenimiento
-print_message "Desactivando modo mantenimiento..."
-php artisan up
-
-# 11. Recargar Apache
+# 10. Recargar Apache
 print_message "Recargando Apache..."
 sudo systemctl reload httpd
 
-print_header "Despliegue Completado Exitosamente"
-print_message "Fecha: $(date)"
+print_header "Despliegue Final Completado"
 print_message "✅ Sistema actualizado y funcionando"
-
-# Mostrar información útil
-echo ""
-print_message "Comandos útiles:"
-echo "  - Ver logs: tail -f storage/logs/laravel.log"
-echo "  - Verificar estado: php artisan about"
-echo "  - Limpiar caché: php artisan cache:clear"
-echo ""
-
-print_message "🎉 ¡Despliegue automático completado!"
+print_message "Fecha: $(date)"
+print_message "🎉 ¡Webhook funcionando correctamente!"
