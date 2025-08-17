@@ -1,0 +1,14 @@
+Archivo de prueba para verificar webhook
+Fecha: $(date)
+Hora: $(date +%H:%M:%S)
+Usuario: herbertzap
+Email: herbert.zapata19@gmail.com
+
+Este archivo fue creado para probar que el webhook de GitHub Actions
+funciona correctamente y actualiza automáticamente la carpeta del servidor
+cuando se hacen cambios en el repositorio.
+
+Si ves este archivo en el servidor después de hacer commit y push,
+significa que el sistema de despliegue automático está funcionando correctamente.
+
+Estado: ✅ FUNCIONANDO
