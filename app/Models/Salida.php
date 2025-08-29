@@ -30,6 +30,19 @@ class Salida extends Model
         'observaciones',
         'estado',
         'user_id',
+        // Campos específicos para Declaración de Internación
+        'declaracion_internacion',
+        'comentario_internacion',
+        // Campos específicos para Cancelación
+        'aduana_ingreso_cancelacion',
+        'documento_cancelacion',
+        // Campos específicos para Traspaso
+        'tatc_destino',
+        'operador_destino',
+        'lugar_deposito_origen',
+        'lugar_deposito_destino',
+        'valor_contenedor_traspaso',
+        'tipo_bulto_traspaso',
     ];
 
     protected $casts = [
@@ -76,6 +89,8 @@ class Salida extends Model
         return $query->where('numero_contenedor', 'like', '%' . $numero . '%');
     }
 
+
+
     /**
      * Scope para buscar por tipo de salida
      */
@@ -105,13 +120,25 @@ class Salida extends Model
      */
     public static function generarNumeroSalida($tatc, $tipoSalida)
     {
-        $ultimaSalida = self::where('tatc_id', $tatc->id)
-            ->orderBy('id', 'desc')
-            ->first();
-
-        $secuencial = $ultimaSalida ? (intval(substr($ultimaSalida->numero_salida, -3)) + 1) : 1;
-
-        return $tatc->numero_tatc . '-SAL-' . str_pad($secuencial, 3, '0', STR_PAD_LEFT);
+        $prefijo = '';
+        switch($tipoSalida) {
+            case 'internacion':
+                $prefijo = 'DI';
+                break;
+            case 'cancelacion':
+                $prefijo = 'CA';
+                break;
+            case 'traspaso':
+                $prefijo = 'TR';
+                break;
+            default:
+                $prefijo = 'SA';
+        }
+        
+        $fecha = now()->format('Ymd');
+        $secuencial = str_pad(self::where('tipo_salida', $tipoSalida)->count() + 1, 4, '0', STR_PAD_LEFT);
+        
+        return $prefijo . $fecha . $secuencial;
     }
 
     /**

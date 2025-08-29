@@ -72,7 +72,7 @@ class TatcController extends Controller
             'tipo_contenedor' => 'required|string|max:10',
             'tipo_ingreso' => 'required|in:traspaso,desembarque',
             'ingreso_pais' => 'required|date',
-            'ingreso_deposito' => 'required|date|after_or_equal:ingreso_pais',
+            'ingreso_deposito' => 'required|date',
             'tatc_origen' => 'nullable|string|max:12',
             'tatc_destino' => 'nullable|string|max:12',
             'documento_ingreso' => 'nullable|string|max:50',
@@ -261,6 +261,12 @@ class TatcController extends Controller
      */
     public function edit(Tatc $tatc)
     {
+        // Verificar si el TATC puede ser modificado
+        if (!$tatc->puedeSerModificado()) {
+            return redirect()->route('tatc.index')
+                ->with('error', 'Este TATC no puede ser modificado porque ya tiene salidas registradas.');
+        }
+
         $userOperador = Auth::user()->operador;
         $tiposContenedor = TipoContenedor::where('estado', 'Activo')->orderBy('descripcion')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();

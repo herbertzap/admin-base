@@ -293,70 +293,107 @@
     <x-footers.auth></x-footers.auth>
 </x-layout>
 
+<!-- JavaScript para TSTC -->
 <script>
-$(document).ready(function() {
-    // Máscaras de fecha
-    $('#fecha_emision_tstc, #ingreso_deposito').inputmask('dd/mm/yyyy');
-    $('#fecha_salida_pais').inputmask('dd/mm/yyyy hh:mm');
-    
-    // Máscara para número de contenedor (como en TATC)
-    $('#numero_contenedor').inputmask('AAAA999999-9');
-    
-    // Validación del número de contenedor (como en TATC)
-    $('#numero_contenedor').blur(function() {
-        var nn = $(this).val().replace("_","");
-        
-        if (nn.length != 12) {
-            $(this).css("background-color", "#FD7F83");
-            $("#btnAccion").attr('disabled','disabled');
-        } else {
-            $(this).css("background-color", "#FFFFFF");
-            $("#btnAccion").removeAttr('disabled');
-        }
-    });
-    
-    // Generar TSTC automáticamente cuando cambie la aduana (como en TATC)
-    $('#aduana_salida').on('change', function() {
-        var aduana = $(this).val();
-        if (aduana) {
-            // Llamar al endpoint AJAX para generar el número TSTC
-            $.ajax({
-                url: '{{ route("tstc.generar-numero") }}',
-                method: 'POST',
-                data: {
-                    aduana_salida: aduana,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $("#tstc").val(response.numero_tstc);
-                    } else {
-                        console.error('Error generando TSTC:', response.error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error en la petición AJAX:', error);
-                }
-            });
-        }
-    });
-    
-    // Validación para Valor FOB (solo números y decimales)
-    $('#valor_fob').on('input', function() {
-        this.value = this.value.replace(/[^0-9\\.]+/g,'');
-    });
-    
-    // Validación para Tara Contenedor (solo números enteros)
-    $('#tara_contenedor').on('input', function() {
-        this.value = this.value.replace(/[^0-9]+/g,'');
-    });
-    
-    // Validación para Año Fabricación (solo números, máximo 4 dígitos)
-    $('#anio_fabricacion').on('input', function() {
-        this.value = this.value.replace(/[^0-9]+/g,'');
-        if (this.value.length > 4) {
-            this.value = this.value.slice(0, 4);
-        }
-    });
-});
+   // Esperar a que el DOM esté listo
+   document.addEventListener('DOMContentLoaded', function() {
+       console.log('DOM Content Loaded - TSTC');
+       
+       // Verificar jQuery después del DOM
+       if (typeof $j === 'undefined') {
+           console.error('ERROR: $j no está disponible después del DOM');
+           return;
+       }
+       
+       // Máscaras de fecha
+       $j('#fecha_emision_tstc, #ingreso_deposito').inputmask('dd/mm/yyyy');
+       $j('#fecha_salida_pais').inputmask('dd/mm/yyyy hh:mm');
+       
+       // Probar inputmask para contenedor (igual que TATC)
+       if ($j("#numero_contenedor").length) {
+           console.log('Configurando inputmask para contenedor TSTC...');
+           try {
+               // Aplicar inputmask exactamente como en Mitac
+               $j("#numero_contenedor").inputmask("AAAA999999-9");
+               console.log('Inputmask aplicado exitosamente TSTC');
+               
+               // Agregar validación al perder el foco (blur) como en Mitac
+               $j("#numero_contenedor").blur(function() {
+                   var nn = $j(this).val().replace("_","");
+                   
+                   if (nn.length != 12) {
+                       $j(this).css("background-color", "#FD7F83");
+                       $j("#btnAccion").attr('disabled','disabled');
+                       console.log('Contenedor TSTC inválido - longitud incorrecta');
+                   } else {
+                       $j(this).css("background-color", "#FFFFFF");
+                       $j("#btnAccion").removeAttr('disabled');
+                       console.log('Contenedor TSTC válido');
+                   }
+               });
+               
+           } catch (error) {
+               console.error('Error aplicando inputmask TSTC:', error);
+           }
+       }
+       
+       // Probar generación TSTC (considerando TATC + TSTC)
+       if ($j("#aduana_salida").length) {
+           console.log('Configurando generación TSTC...');
+           $j('#aduana_salida').on('change', function() {
+               console.log('Aduana TSTC cambiada:', $j(this).val());
+               var aduana = $j(this).val();
+               if (aduana) {
+                   // Llamar al endpoint AJAX para generar el número TSTC
+                   $j.ajax({
+                       url: '{{ route("tstc.generar-numero") }}',
+                       method: 'POST',
+                       data: {
+                           aduana_salida: aduana,
+                           _token: '{{ csrf_token() }}'
+                       },
+                       success: function(response) {
+                           if (response.success) {
+                               $j("#tstc").val(response.numero_tstc);
+                               console.log('TSTC generado via AJAX:', response.numero_tstc);
+                           } else {
+                               console.error('Error generando TSTC:', response.error);
+                               alert('Error generando número TSTC: ' + response.error);
+                           }
+                       },
+                       error: function(xhr, status, error) {
+                           console.error('Error en la petición AJAX TSTC:', error);
+                           alert('Error en la comunicación con el servidor');
+                       }
+                   });
+               }
+           });
+       }
+       
+       // Validación para Valor FOB (solo números y decimales)
+       $j('#valor_fob').on('input', function() {
+           this.value = this.value.replace(/[^0-9\\.]+/g,'');
+       });
+       
+       // Validación para Tara Contenedor (solo números enteros)
+       $j('#tara_contenedor').on('input', function() {
+           this.value = this.value.replace(/[^0-9]+/g,'');
+       });
+       
+       // Validación para Año Fabricación (solo números, máximo 4 dígitos)
+       $j('#anio_fabricacion').on('input', function() {
+           this.value = this.value.replace(/[^0-9]+/g,'');
+           if (this.value.length > 4) {
+               this.value = this.value.slice(0, 4);
+           }
+       });
+       
+       console.log('=== FIN CONFIGURACIÓN TSTC ===');
+   });
+   
+   // También probar con window.onload
+   window.onload = function() {
+       console.log('Window loaded TSTC');
+       console.log('jQuery en window.onload TSTC:', typeof $j !== 'undefined');
+   };
 </script>

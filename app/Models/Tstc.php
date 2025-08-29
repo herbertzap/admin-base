@@ -61,6 +61,14 @@ class Tstc extends Model
     }
 
     /**
+     * Relación con la aduana
+     */
+    public function aduana(): BelongsTo
+    {
+        return $this->belongsTo(AduanaChile::class, 'aduana_salida', 'codigo');
+    }
+
+    /**
      * Relación con el historial del TSTC
      */
     public function historial(): HasMany
@@ -74,6 +82,14 @@ class Tstc extends Model
     public function empresaTransportista(): BelongsTo
     {
         return $this->belongsTo(EmpresaTransportista::class, 'empresa_transportista_id');
+    }
+
+    /**
+     * Relación con las salidas
+     */
+    public function salidas(): HasMany
+    {
+        return $this->hasMany(Salida::class, 'tstc_id');
     }
 
     /**

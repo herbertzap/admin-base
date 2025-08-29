@@ -71,19 +71,53 @@ class Tatc extends Model
     }
 
     /**
-     * Relación con el historial del TATC
-     */
-    public function historial(): HasMany
-    {
-        return $this->hasMany(TatcHistorial::class)->orderBy('created_at', 'desc');
-    }
-
-    /**
      * Relación con la empresa transportista
      */
     public function empresaTransportista(): BelongsTo
     {
         return $this->belongsTo(EmpresaTransportista::class, 'empresa_transportista_id');
+    }
+
+    /**
+     * Relación con las salidas
+     */
+    public function salidas(): HasMany
+    {
+        return $this->hasMany(Salida::class, 'tatc_id');
+    }
+
+    /**
+     * Relación con la aduana
+     */
+    public function aduana(): BelongsTo
+    {
+        return $this->belongsTo(AduanaChile::class, 'aduana_ingreso', 'codigo');
+    }
+
+    /**
+     * Verificar si el TATC puede ser modificado
+     */
+    public function puedeSerModificado(): bool
+    {
+        // Si el estado es "Con Salida", no se puede modificar
+        if ($this->estado === 'Con Salida') {
+            return false;
+        }
+        
+        // Si tiene salidas aprobadas, no se puede modificar
+        $salidasAprobadas = $this->salidas()
+            ->where('estado', 'Aprobado')
+            ->count();
+            
+        return $salidasAprobadas === 0;
+    }
+
+    /**
+     * Obtener el estado formateado
+     */
+    public function getEstadoFormateadoAttribute()
+    {
+        return ucfirst($this->estado);
     }
 
     public function scopePendientes($query)

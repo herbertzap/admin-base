@@ -1,0 +1,137 @@
+/* Colores personalizados para Sistema Hermes */
+
+:root {
+    --primary-color: #e75034;
+    --primary-dark: #c73e2a;
+    --background-dark: #0f1b2a;
+    --text-white: #ffffff;
+    --text-light: #f8f9fa;
+}
+
+/* Botones principales */
+.btn-primary,
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-white) !important;
+}
+
+.btn-primary:hover,
+.bg-gradient-primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #a83224 100%) !important;
+    border-color: var(--primary-dark) !important;
+}
+
+/* Sidebar activo */
+.nav-link.active,
+.nav-link.active:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+    color: var(--text-white) !important;
+}
+
+/* Cards con fondo oscuro */
+.card {
+    background-color: var(--background-dark) !important;
+    border: 1px solid rgba(231, 80, 52, 0.3) !important;
+}
+
+.card-header {
+    background-color: var(--background-dark) !important;
+    border-bottom: 1px solid rgba(231, 80, 52, 0.3) !important;
+}
+
+/* Iconos con color principal */
+.icon-shape {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+}
+
+/* Texto en cards */
+.card .text-white {
+    color: var(--text-white) !important;
+}
+
+/* Enlaces con color principal */
+a.text-primary,
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+/* Badges con color principal */
+.badge.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+}
+
+/* Formularios */
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(231, 80, 52, 0.25) !important;
+}
+
+/* Dropdown activo */
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: var(--primary-color) !important;
+    color: var(--text-white) !important;
+}
+
+/* Paginación */
+.page-link {
+    color: var(--primary-color) !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Alertas */
+.alert-primary {
+    background-color: rgba(231, 80, 52, 0.1) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Progress bars */
+.progress-bar {
+    background-color: var(--primary-color) !important;
+}
+
+/* Tabs activos */
+.nav-tabs .nav-link.active {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-white) !important;
+}
+
+/* Modal headers */
+.modal-header {
+    background-color: var(--background-dark) !important;
+    border-bottom: 1px solid rgba(231, 80, 52, 0.3) !important;
+}
+
+.modal-title {
+    color: var(--text-white) !important;
+}
+
+/* Table headers */
+.table thead th {
+    background-color: var(--background-dark) !important;
+    color: var(--text-white) !important;
+    border-color: rgba(231, 80, 52, 0.3) !important;
+}
+
+/* Sidebar general */
+.sidenav {
+    background-color: var(--background-dark) !important;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--background-dark) !important;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--background-dark) !important;
+    color: var(--text-white) !important;
+}

@@ -24,6 +24,9 @@ use App\Http\Controllers\LogisticaController;
 use App\Http\Controllers\TatcController;
 use App\Http\Controllers\TstcController;
 use App\Http\Controllers\SalidaController;
+use App\Http\Controllers\ControlPlazosController;
+use App\Http\Controllers\ControlInventariosController;
+use App\Http\Controllers\ControlFiscalizacionController;
 
 
 
@@ -111,4 +114,31 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('salidas-exportar', [SalidaController::class, 'exportar'])->name('salidas.exportar');
     Route::post('salidas-exportar', [SalidaController::class, 'procesarExportacion'])->name('salidas.procesar-exportacion');
     Route::post('salidas/obtener-tatcs-vigentes', [SalidaController::class, 'obtenerTatcsVigentes'])->name('salidas.obtener-tatcs-vigentes');
+    Route::get('salidas/registrar/{tatc}', [SalidaController::class, 'registrarSalida'])->name('salidas.registrar');
+});
+
+// Rutas de Control de Plazos
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('control-plazos/plazos-vigencia', [ControlPlazosController::class, 'plazosVigencia'])->name('control-plazos.plazos-vigencia');
+    Route::get('control-plazos/registro-cancelacion', [ControlPlazosController::class, 'registroCancelacion'])->name('control-plazos.registro-cancelacion');
+    Route::get('control-plazos/registro-prorrogas', [ControlPlazosController::class, 'registroProrrogas'])->name('control-plazos.registro-prorrogas');
+    Route::get('control-plazos/registro-traspaso', [ControlPlazosController::class, 'registroTraspaso'])->name('control-plazos.registro-traspaso');
+    Route::get('control-plazos/{tipo}/{id}', [ControlPlazosController::class, 'show'])->name('control-plazos.show');
+    Route::get('control-plazos/buscar', [ControlPlazosController::class, 'buscar'])->name('control-plazos.buscar');
+    Route::post('control-plazos/exportar', [ControlPlazosController::class, 'exportar'])->name('control-plazos.exportar');
+});
+
+// Rutas de Control de Inventarios
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('control-inventarios', [ControlInventariosController::class, 'index'])->name('control-inventarios.index');
+    Route::post('control-inventarios/exportar', [ControlInventariosController::class, 'exportar'])->name('control-inventarios.exportar');
+});
+
+// Rutas de Control de Fiscalización
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('control-fiscalizacion/informe-movimientos', [ControlFiscalizacionController::class, 'informeMovimientos'])->name('control-fiscalizacion.informe-movimientos');
+    Route::post('control-fiscalizacion/informe-movimientos', [ControlFiscalizacionController::class, 'informeMovimientos']);
+    Route::get('control-fiscalizacion/busqueda-extraccion', [ControlFiscalizacionController::class, 'busquedaExtraccion'])->name('control-fiscalizacion.busqueda-extraccion');
+    Route::post('control-fiscalizacion/busqueda-extraccion', [ControlFiscalizacionController::class, 'busquedaExtraccion']);
+    Route::post('control-fiscalizacion/exportar', [ControlFiscalizacionController::class, 'exportar'])->name('control-fiscalizacion.exportar');
 });

@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('tatc.exportar') }}" id="formExportar">
+                            <form method="POST" action="{{ route('tatc.procesar-exportacion') }}" id="formExportar">
                                 @csrf
                                 <div class="row">
                                     <!-- Filtros de fecha -->
@@ -187,112 +187,154 @@
     <x-footers.auth></x-footers.auth>
 </x-layout>
 
+<!-- JavaScript para Exportar TATC -->
 <script>
-// Configurar DateRangePicker
-$(document).ready(function() {
-    // Configurar rango de fechas
-    $('#rango_fechas').daterangepicker({
-        "autoApply": true,
-        "locale": { 
-            format: "DD/MM/YYYY",
-            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            firstDay: 1,
-            cancelLabel: 'Cancelar',
-            applyLabel: 'Cambiar'
-        } 			    
-    });
-    
-    $('#rango_fechas').on('apply.daterangepicker', function(ev, picker) {
-        $("#fecha_desde").val(picker.startDate.format('YYYY-MM-DD'));
-        $("#fecha_hasta").val(picker.endDate.format('YYYY-MM-DD'));
-    });
+   // Esperar a que el DOM esté listo
+   document.addEventListener('DOMContentLoaded', function() {
+       console.log('DOM Content Loaded - Exportar TATC');
+       
+       // Verificar jQuery después del DOM
+       if (typeof $j === 'undefined') {
+           console.error('ERROR: $j no está disponible después del DOM');
+           return;
+       }
+       
+       // Configurar DateRangePicker para rango de fechas
+       if ($j('#rango_fechas').length) {
+           console.log('Configurando DateRangePicker para rango de fechas...');
+           $j('#rango_fechas').daterangepicker({
+               "autoApply": true,
+               "locale": { 
+                   format: "DD/MM/YYYY",
+                   daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
+                   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                   firstDay: 1,
+                   cancelLabel: 'Cancelar',
+                   applyLabel: 'Cambiar'
+               } 			    
+           });
+           
+           $j('#rango_fechas').on('apply.daterangepicker', function(ev, picker) {
+               $j("#fecha_desde").val(picker.startDate.format('YYYY-MM-DD'));
+               $j("#fecha_hasta").val(picker.endDate.format('YYYY-MM-DD'));
+               console.log('Rango de fechas seleccionado:', picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+           });
+       }
 
-    // Configurar fecha desde individual
-    $('#fecha_desde_individual').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoApply: true,
-        locale: {
-            format: 'DD/MM/YYYY',
-            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            firstDay: 1,
-            cancelLabel: 'Cancelar',
-            applyLabel: 'Cambiar'
-        }
-    });
+       // Configurar DateRangePicker para fecha desde individual
+       if ($j('#fecha_desde_individual').length) {
+           console.log('Configurando DateRangePicker para fecha desde...');
+           $j('#fecha_desde_individual').daterangepicker({
+               singleDatePicker: true,
+               showDropdowns: true,
+               autoApply: true,
+               locale: {
+                   format: 'DD/MM/YYYY',
+                   daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
+                   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                   firstDay: 1,
+                   cancelLabel: 'Cancelar',
+                   applyLabel: 'Cambiar'
+               }
+           });
+       }
 
-    // Configurar fecha hasta individual
-    $('#fecha_hasta_individual').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoApply: true,
-        locale: {
-            format: 'DD/MM/YYYY',
-            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            firstDay: 1,
-            cancelLabel: 'Cancelar',
-            applyLabel: 'Cambiar'
-        }
-    });
+       // Configurar DateRangePicker para fecha hasta individual
+       if ($j('#fecha_hasta_individual').length) {
+           console.log('Configurando DateRangePicker para fecha hasta...');
+           $j('#fecha_hasta_individual').daterangepicker({
+               singleDatePicker: true,
+               showDropdowns: true,
+               autoApply: true,
+               locale: {
+                   format: 'DD/MM/YYYY',
+                   daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
+                   monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                   firstDay: 1,
+                   cancelLabel: 'Cancelar',
+                   applyLabel: 'Cambiar'
+               }
+           });
+       }
 
-    // Sincronizar fechas individuales con el rango
-    $('#fecha_desde_individual').on('apply.daterangepicker', function(ev, picker) {
-        var fechaDesde = picker.startDate.format('DD/MM/YYYY');
-        var fechaHasta = $('#fecha_hasta_individual').val();
-        
-        if (fechaHasta) {
-            $('#rango_fechas').val(fechaDesde + ' - ' + fechaHasta);
-            $("#fecha_desde").val(picker.startDate.format('YYYY-MM-DD'));
-        }
-    });
+       // Sincronizar fechas individuales con el rango
+       $j('#fecha_desde_individual').on('apply.daterangepicker', function(ev, picker) {
+           var fechaDesde = picker.startDate.format('DD/MM/YYYY');
+           var fechaHasta = $j('#fecha_hasta_individual').val();
+           
+           if (fechaHasta) {
+               $j('#rango_fechas').val(fechaDesde + ' - ' + fechaHasta);
+               $j("#fecha_desde").val(picker.startDate.format('YYYY-MM-DD'));
+               console.log('Fecha desde sincronizada:', fechaDesde);
+           }
+       });
 
-    $('#fecha_hasta_individual').on('apply.daterangepicker', function(ev, picker) {
-        var fechaDesde = $('#fecha_desde_individual').val();
-        var fechaHasta = picker.startDate.format('DD/MM/YYYY');
-        
-        if (fechaDesde) {
-            $('#rango_fechas').val(fechaDesde + ' - ' + fechaHasta);
-            $("#fecha_hasta").val(picker.startDate.format('YYYY-MM-DD'));
-        }
-    });
+       $j('#fecha_hasta_individual').on('apply.daterangepicker', function(ev, picker) {
+           var fechaDesde = $j('#fecha_desde_individual').val();
+           var fechaHasta = picker.startDate.format('DD/MM/YYYY');
+           
+           if (fechaDesde) {
+               $j('#rango_fechas').val(fechaDesde + ' - ' + fechaHasta);
+               $j("#fecha_hasta").val(picker.startDate.format('YYYY-MM-DD'));
+               console.log('Fecha hasta sincronizada:', fechaHasta);
+           }
+       });
 
-    // Sincronizar rango con fechas individuales
-    $('#rango_fechas').on('apply.daterangepicker', function(ev, picker) {
-        $('#fecha_desde_individual').val(picker.startDate.format('DD/MM/YYYY'));
-        $('#fecha_hasta_individual').val(picker.endDate.format('DD/MM/YYYY'));
-    });
-});
+       // Sincronizar rango con fechas individuales
+       $j('#rango_fechas').on('apply.daterangepicker', function(ev, picker) {
+           $j('#fecha_desde_individual').val(picker.startDate.format('DD/MM/YYYY'));
+           $j('#fecha_hasta_individual').val(picker.endDate.format('DD/MM/YYYY'));
+           console.log('Rango sincronizado con fechas individuales');
+       });
+       
+       console.log('=== FIN CONFIGURACIÓN EXPORTAR TATC ===');
+   });
+   
+   // También probar con window.onload
+   window.onload = function() {
+       console.log('Window loaded - Exportar TATC');
+       console.log('jQuery en window.onload:', typeof $j !== 'undefined');
+   };
+   
+   // Función para limpiar formulario
+   function limpiarFormulario() {
+       document.getElementById('formExportar').reset();
+       if (typeof $j !== 'undefined') {
+           $j('#rango_fechas').val('');
+           $j('#fecha_desde').val('');
+           $j('#fecha_hasta').val('');
+           $j('#fecha_desde_individual').val('');
+           $j('#fecha_hasta_individual').val('');
+       }
+       console.log('Formulario limpiado');
+   }
 
-function limpiarFormulario() {
-    document.getElementById('formExportar').reset();
-    $('#rango_fechas').val('');
-    $('#fecha_desde').val('');
-    $('#fecha_hasta').val('');
-    $('#fecha_desde_individual').val('');
-    $('#fecha_hasta_individual').val('');
-}
+   // Validar que al menos un campo esté seleccionado
+   document.getElementById('formExportar').addEventListener('submit', function(e) {
+       const camposSeleccionados = document.querySelectorAll('input[name="campos[]"]:checked');
+       if (camposSeleccionados.length === 0) {
+           e.preventDefault();
+           alert('Debe seleccionar al menos un campo para exportar.');
+           return false;
+       }
 
-// Validar que al menos un campo esté seleccionado
-document.getElementById('formExportar').addEventListener('submit', function(e) {
-    const camposSeleccionados = document.querySelectorAll('input[name="campos[]"]:checked');
-    if (camposSeleccionados.length === 0) {
-        e.preventDefault();
-        alert('Debe seleccionar al menos un campo para exportar.');
-        return false;
-    }
+       // Validar que se haya seleccionado al menos un tipo de fecha
+       let rangoFechas = '';
+       let fechaDesdeIndividual = '';
+       let fechaHastaIndividual = '';
+       
+       if (typeof $j !== 'undefined') {
+           rangoFechas = $j('#rango_fechas').val();
+           fechaDesdeIndividual = $j('#fecha_desde_individual').val();
+           fechaHastaIndividual = $j('#fecha_hasta_individual').val();
+       }
 
-    // Validar que se haya seleccionado al menos un tipo de fecha
-    const rangoFechas = $('#rango_fechas').val();
-    const fechaDesdeIndividual = $('#fecha_desde_individual').val();
-    const fechaHastaIndividual = $('#fecha_hasta_individual').val();
-
-    if (!rangoFechas && !fechaDesdeIndividual && !fechaHastaIndividual) {
-        e.preventDefault();
-        alert('Debe seleccionar al menos un rango de fechas para exportar.');
-        return false;
-    }
-});
+       if (!rangoFechas && !fechaDesdeIndividual && !fechaHastaIndividual) {
+           e.preventDefault();
+           alert('Debe seleccionar al menos un rango de fechas para exportar.');
+           return false;
+       }
+       
+       console.log('Formulario validado correctamente');
+   });
 </script>

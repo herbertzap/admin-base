@@ -442,100 +442,130 @@
    </script>
 </x-layout>
 <!-- JavaScript para TATC -->
-<script>
-   // Esperar a que el DOM esté listo
-   document.addEventListener('DOMContentLoaded', function() {
-       console.log('DOM Content Loaded');
-       
-       // Verificar jQuery después del DOM
-       if (typeof $j === 'undefined') {
-           console.error('ERROR: $j no está disponible después del DOM');
-           return;
-       }
-       
-       // Función simple para probar
-       function testFunction() {
-           console.log('Función de prueba ejecutada');
-           alert('JavaScript funciona!');
-       }
-       
-       // Probar inputmask
-       if ($j("#numero_contenedor").length) {
-           console.log('Configurando inputmask para contenedor...');
-           try {
-               // Aplicar inputmask exactamente como en Mitac
-               $j("#numero_contenedor").inputmask("AAAA999999-9");
-               console.log('Inputmask aplicado exitosamente');
-               
-               // Agregar validación al perder el foco (blur) como en Mitac
-               $j("#numero_contenedor").blur(function() {
-                   var nn = $j(this).val().replace("_","");
-                   
-                   if (nn.length != 12) {
-                       $j(this).css("background-color", "#FD7F83");
-                       console.log('Contenedor inválido - longitud incorrecta');
-                   } else {
-                       $j(this).css("background-color", "#FFFFFF");
-                       console.log('Contenedor válido');
-                   }
-               });
-               
-           } catch (error) {
-               console.error('Error aplicando inputmask:', error);
-           }
-       }
-       
-       // Probar cálculo CIF
-       if ($j("#valor_fob").length) {
-           console.log('Configurando cálculo CIF...');
-           $j('#valor_fob').on('input', function() {
-               console.log('Valor FOB cambiado:', $j(this).val());
-               var valorFob = parseFloat($j(this).val()) || 0;
-               var valorCif = valorFob * 1.07;
-               $j('#valor_cif').val(valorCif.toFixed(2));
-               console.log('CIF calculado:', valorCif);
-           });
-       }
-       
-       // Probar generación TATC
-       if ($j("#aduana_ingreso").length) {
-           console.log('Configurando generación TATC...');
-           $j('#aduana_ingreso').on('change', function() {
-               console.log('Aduana cambiada:', $j(this).val());
-               var aduana = $j(this).val();
-               if (aduana) {
-                   // Llamar al endpoint AJAX para generar el número TATC
-                   $j.ajax({
-                       url: '{{ route("tatc.generar-numero") }}',
-                       method: 'POST',
-                       data: {
-                           aduana_ingreso: aduana,
-                           _token: '{{ csrf_token() }}'
-                       },
-                       success: function(response) {
-                           if (response.success) {
-                               $j("#numero_tatc").val(response.numero_tatc);
-                               console.log('TATC generado via AJAX:', response.numero_tatc);
-                           } else {
-                               console.error('Error generando TATC:', response.error);
-                               alert('Error generando número TATC: ' + response.error);
-                           }
-                       },
-                       error: function(xhr, status, error) {
-                           console.error('Error en la petición AJAX:', error);
-                           alert('Error en la comunicación con el servidor');
-                       }
-                   });
-               }
-           });
-       }
-       
-       console.log('=== FIN CONFIGURACIÓN ===');
-   });
-   
-   // También probar con window.onload
-   window.onload = function() {
-       console.log('Window loaded');
-       console.log('jQuery en window.onload:', typeof $j !== 'undefined');
-   };
-</script>
+   <script>
+      // Esperar a que el DOM esté listo
+      document.addEventListener('DOMContentLoaded', function() {
+          console.log('DOM Content Loaded');
+          
+          // Verificar jQuery después del DOM
+          if (typeof $j === 'undefined') {
+              console.error('ERROR: $j no está disponible después del DOM');
+              return;
+          }
+          
+          // Probar inputmask
+          if ($j("#numero_contenedor").length) {
+              console.log('Configurando inputmask para contenedor...');
+              try {
+                  // Aplicar inputmask exactamente como en Mitac
+                  $j("#numero_contenedor").inputmask("AAAA999999-9");
+                  console.log('Inputmask aplicado exitosamente');
+                  
+                  // Agregar validación al perder el foco (blur) como en Mitac
+                  $j("#numero_contenedor").blur(function() {
+                      var nn = $j(this).val().replace("_","");
+                      
+                      if (nn.length != 12) {
+                          $j(this).css("background-color", "#FD7F83");
+                          console.log('Contenedor inválido - longitud incorrecta');
+                      } else {
+                          $j(this).css("background-color", "#FFFFFF");
+                          console.log('Contenedor válido');
+                      }
+                  });
+                  
+              } catch (error) {
+                  console.error('Error aplicando inputmask:', error);
+              }
+          }
+          
+          // Probar cálculo CIF
+          if ($j("#valor_fob").length) {
+              console.log('Configurando cálculo CIF...');
+              $j('#valor_fob').on('input', function() {
+                  console.log('Valor FOB cambiado:', $j(this).val());
+                  var valorFob = parseFloat($j(this).val()) || 0;
+                  var valorCif = valorFob * 1.07;
+                  $j('#valor_cif').val(valorCif.toFixed(2));
+                  console.log('CIF calculado:', valorCif);
+              });
+          }
+          
+          // Probar generación TATC
+          if ($j("#aduana_ingreso").length) {
+              console.log('Configurando generación TATC...');
+              $j('#aduana_ingreso').on('change', function() {
+                  console.log('Aduana cambiada:', $j(this).val());
+                  var aduana = $j(this).val();
+                  if (aduana) {
+                      // Llamar al endpoint AJAX para generar el número TATC
+                      $j.ajax({
+                          url: '{{ route("tatc.generar-numero") }}',
+                          method: 'POST',
+                          data: {
+                              aduana_ingreso: aduana,
+                              _token: '{{ csrf_token() }}'
+                          },
+                          success: function(response) {
+                              if (response.success) {
+                                  $j("#numero_tatc").val(response.numero_tatc);
+                                  console.log('TATC generado via AJAX:', response.numero_tatc);
+                              } else {
+                                  console.error('Error generando TATC:', response.error);
+                                  alert('Error generando número TATC: ' + response.error);
+                              }
+                          },
+                          error: function(xhr, status, error) {
+                              console.error('Error en la petición AJAX:', error);
+                              alert('Error en la comunicación con el servidor');
+                          }
+                      });
+                  }
+              });
+          }
+          
+          // Sincronizar fechas automáticamente
+          if ($j("#ingreso_pais").length && $j("#ingreso_deposito").length) {
+              console.log('Configurando sincronización de fechas...');
+              
+              // Cuando cambie la fecha de ingreso al país, actualizar la fecha de ingreso al depósito
+              $j('#ingreso_pais').on('change', function() {
+                  var fechaIngresoPais = $j(this).val();
+                  if (fechaIngresoPais) {
+                      // Convertir la fecha de ingreso al país a formato de ingreso al depósito
+                      var fecha = new Date(fechaIngresoPais.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoPais.split(' ')[1]);
+                      var fechaDeposito = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+                      $j('#ingreso_deposito').val(fechaDeposito);
+                      console.log('Fecha de depósito actualizada:', fechaDeposito);
+                  }
+              });
+              
+              // Validación de fechas en el formulario (flexible para datos históricos)
+              $j('#formulario').on('submit', function(e) {
+                  var fechaIngresoPais = $j('#ingreso_pais').val();
+                  var fechaIngresoDeposito = $j('#ingreso_deposito').val();
+                  
+                  if (fechaIngresoPais && fechaIngresoDeposito) {
+                      var fechaPais = new Date(fechaIngresoPais.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoPais.split(' ')[1]);
+                      var fechaDeposito = new Date(fechaIngresoDeposito.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoDeposito.split(' ')[1]);
+                      
+                      if (fechaDeposito < fechaPais) {
+                          // Para datos históricos, mostrar confirmación en lugar de bloquear
+                          if (!confirm('Advertencia: La fecha de ingreso al depósito es anterior a la fecha de ingreso al país.\n\nEsto es normal para datos históricos de Mitac.\n\n¿Desea continuar con el registro?')) {
+                              e.preventDefault();
+                              return false;
+                          }
+                      }
+                  }
+              });
+          }
+          
+          console.log('=== FIN CONFIGURACIÓN ===');
+      });
+      
+      // También probar con window.onload
+      window.onload = function() {
+          console.log('Window loaded');
+          console.log('jQuery en window.onload:', typeof $j !== 'undefined');
+      };
+   </script>

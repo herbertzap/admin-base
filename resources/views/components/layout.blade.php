@@ -37,6 +37,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets') }}/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+    <!-- Custom Colors CSS -->
+    <link href="{{ asset('assets') }}/css/custom-colors.css" rel="stylesheet" />
 </head>
 <body class="dark-version {{ $bodyClass ?? '' }}">
     {{ $slot }}

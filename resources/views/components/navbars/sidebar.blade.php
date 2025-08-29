@@ -227,36 +227,72 @@
 
             <!-- Control de Plazos -->
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'control-plazos' ? ' active bg-gradient-primary' : '' }} " href="#">
+                <a class="nav-link text-white {{ in_array($activePage, ['plazos-vigencia', 'registro-cancelacion', 'registro-prorrogas', 'registro-traspaso']) ? ' active bg-gradient-primary' : '' }} " data-bs-toggle="collapse" href="#controlPlazosMenu" role="button" aria-expanded="{{ in_array($activePage, ['plazos-vigencia', 'registro-cancelacion', 'registro-prorrogas', 'registro-traspaso']) ? 'true' : 'false' }}" aria-controls="controlPlazosMenu">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">schedule</i>
                     </div>
-                    <span class="nav-link-text ms-1">Gestión de Plazos</span>
+                    <span class="nav-link-text ms-1">Control de Plazos</span>
                 </a>
+                <div class="collapse {{ in_array($activePage, ['plazos-vigencia', 'registro-cancelacion', 'registro-prorrogas', 'registro-traspaso']) ? 'show' : '' }}" id="controlPlazosMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'plazos-vigencia' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-plazos.plazos-vigencia') }}">
+                                <span class="nav-link-text ms-1">Plazos de Vigencia</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'registro-cancelacion' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-plazos.registro-cancelacion') }}">
+                                <span class="nav-link-text ms-1">Registro de Cancelación</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'registro-prorrogas' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-plazos.registro-prorrogas') }}">
+                                <span class="nav-link-text ms-1">Registro de Prórrogas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'registro-traspaso' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-plazos.registro-traspaso') }}">
+                                <span class="nav-link-text ms-1">Registro de Traspaso</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <!-- Fin Control de Plazos -->
 
             <!-- Control de Inventarios -->
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'inventarios' ? ' active bg-gradient-primary' : '' }} " href="#">
+                <a class="nav-link text-white {{ $activePage == 'control-inventarios' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-inventarios.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">inventory</i>
                     </div>
-                    <span class="nav-link-text ms-1">Gestión de Inventarios</span>
+                    <span class="nav-link-text ms-1">Control de Inventarios</span>
                 </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white {{ in_array($activePage, ['control-fiscalizacion', 'informe-movimientos', 'busqueda-extraccion']) ? ' active bg-gradient-primary' : '' }} " data-bs-toggle="collapse" href="#controlFiscalizacionMenu" role="button" aria-expanded="{{ in_array($activePage, ['control-fiscalizacion', 'informe-movimientos', 'busqueda-extraccion']) ? 'true' : 'false' }}" aria-controls="controlFiscalizacionMenu">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">search</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Control de Fiscalización</span>
+                </a>
+                <div class="collapse {{ in_array($activePage, ['control-fiscalizacion', 'informe-movimientos', 'busqueda-extraccion']) ? 'show' : '' }}" id="controlFiscalizacionMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'informe-movimientos' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-fiscalizacion.informe-movimientos') }}">
+                                <span class="nav-link-text ms-1">Informe de Movimientos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ $activePage == 'busqueda-extraccion' ? ' active bg-gradient-primary' : '' }} " href="{{ route('control-fiscalizacion.busqueda-extraccion') }}">
+                                <span class="nav-link-text ms-1">Búsqueda y Extracción</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <!-- Fin Control de Inventarios -->
-
-            <!-- Control de Fiscalización -->
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'fiscalizacion' ? ' active bg-gradient-primary' : '' }} " href="#">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">security</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Fiscalización</span>
-                </a>
-            </li>
-            <!-- Fin Control de Fiscalización -->
 
             <!-- Tickets Soporte -->
             <li class="nav-item">
