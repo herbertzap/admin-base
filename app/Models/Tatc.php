@@ -95,12 +95,20 @@ class Tatc extends Model
     }
 
     /**
+     * Relación con el historial de importación del Excel
+     */
+    public function historialImportacion(): HasMany
+    {
+        return $this->hasMany(TatcImportHistorial::class);
+    }
+
+    /**
      * Verificar si el TATC puede ser modificado
      */
     public function puedeSerModificado(): bool
     {
-        // Si el estado es "Con Salida", no se puede modificar
-        if ($this->estado === 'Con Salida') {
+        // Si el estado es "finalizado" o "Con Salida", no se puede modificar
+        if (in_array($this->estado, ['finalizado', 'Con Salida'])) {
             return false;
         }
         

@@ -406,110 +406,190 @@
                                         
                                         <!-- Tab Historial -->
                                         <div class="tab-pane fade" id="historial" role="tabpanel" aria-labelledby="historial-tab">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Fecha</th>
-                                                            <th>Usuario</th>
-                                                            <th>Acción</th>
-                                                            <th>Detalles</th>
-                                                            <th>Estado</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @forelse($tatc->historial ?? [] as $registro)
-                                                            <tr>
-                                                                <td>
-                                                                    <small class="text-muted">{{ $registro->created_at->format('d/m/Y') }}</small><br>
-                                                                    <strong>{{ $registro->created_at->format('H:i:s') }}</strong>
-                                                                </td>
-                                                                <td>
-                                                                    <span class="badge bg-info">{{ $registro->user->name }}</span>
-                                                                </td>
-                                                                <td>
-                                                                    @if($registro->accion == 'Creación del Registro')
-                                                                        <span class="badge bg-success">{{ $registro->accion }}</span>
-                                                                    @elseif($registro->accion == 'Modificación del Registro')
-                                                                        <span class="badge bg-warning">{{ $registro->accion }}</span>
-                                                                    @else
-                                                                        <span class="badge bg-secondary">{{ $registro->accion }}</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <small>{{ $registro->detalles }}</small>
-                                                                    @if($registro->datos_anteriores && $registro->datos_nuevos)
-                                                                        <button class="btn btn-sm btn-outline-info ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#detalles-{{ $registro->id }}" aria-expanded="false">
-                                                                            <i class="fas fa-eye"></i> Ver Cambios
-                                                                        </button>
-                                                                        <div class="collapse mt-2" id="detalles-{{ $registro->id }}">
-                                                                            <div class="card card-body">
-                                                                                <h6>Cambios Detallados:</h6>
-                                                                                <ul class="list-unstyled">
-                                                                                    @php
-                                                                                        $camposImportantes = [
-                                                                                            'numero_contenedor' => 'Número de Contenedor',
-                                                                                            'tipo_contenedor' => 'Tipo de Contenedor',
-                                                                                            'tipo_ingreso' => 'Tipo de Ingreso',
-                                                                                            'ingreso_pais' => 'Ingreso al País',
-                                                                                            'ingreso_deposito' => 'Ingreso al Depósito',
-                                                                                            'tatc_origen' => 'TATC Origen',
-                                                                                            'tatc_destino' => 'TATC Destino',
-                                                                                            'fecha_traspaso' => 'Fecha de Traspaso',
-                                                                                            'tara_contenedor' => 'Tara del Contenedor',
-                                                                                            'tipo_bulto' => 'Tipo de Bulto',
-                                                                                            'valor_fob' => 'Valor FOB',
-                                                                                            'valor_cif' => 'Valor CIF',
-                                                                                            'aduana_ingreso' => 'Aduana de Ingreso',
-                                                                                            'puerto_ingreso' => 'Puerto de Ingreso',
-                                                                                            'estado_contenedor' => 'Estado del Contenedor',
-                                                                                            'ubicacion_fisica' => 'Ubicación Física',
-                                                                                            'empresa_transportista_id' => 'Empresa Transportista',
-                                                                                            'rut_chofer' => 'RUT del Chofer',
-                                                                                            'patente_camion' => 'Patente del Camión',
-                                                                                            'comentario' => 'Comentario'
-                                                                                        ];
-                                                                                    @endphp
-                                                                                    @foreach($camposImportantes as $campo => $nombre)
-                                                                                        @php
-                                                                                            $valorAnterior = $registro->datos_anteriores[$campo] ?? null;
-                                                                                            $valorNuevo = $registro->datos_nuevos[$campo] ?? null;
-                                                                                        @endphp
-                                                                                        @if($valorAnterior !== $valorNuevo)
-                                                                                            <li class="mb-2">
-                                                                                                <strong>{{ $nombre }}:</strong><br>
-                                                                                                <span class="text-danger">Antes: {{ $valorAnterior ?: 'Vacío' }}</span><br>
-                                                                                                <span class="text-success">Después: {{ $valorNuevo ?: 'Vacío' }}</span>
-                                                                                            </li>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    @if($registro->estado_anterior && $registro->estado_nuevo)
-                                                                        <span class="badge bg-secondary">{{ $registro->estado_anterior }}</span>
-                                                                        <i class="fas fa-arrow-right mx-1"></i>
-                                                                        <span class="badge bg-primary">{{ $registro->estado_nuevo }}</span>
-                                                                    @elseif($registro->estado_nuevo)
-                                                                        <span class="badge bg-primary">{{ $registro->estado_nuevo }}</span>
-                                                                    @else
-                                                                        <span class="text-muted">-</span>
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                        @empty
-                                                            <tr>
-                                                                <td colspan="5" class="text-center">
-                                                                    <i class="fas fa-history fa-2x text-muted mb-2"></i>
-                                                                    <p class="text-muted">No hay historial disponible</p>
-                                                                </td>
-                                                            </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
+                                            
+                                            <!-- Historial de Importación del Excel -->
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <h6 class="mb-0">
+                                                        <i class="fas fa-file-excel text-success"></i> 
+                                                        Historial de Importación del Excel
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    @if($tatc->historialImportacion && $tatc->historialImportacion->count() > 0)
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Archivo</th>
+                                                                        <th>Operador</th>
+                                                                        <th>Tipo Ingreso</th>
+                                                                        <th>Fechas</th>
+                                                                        <th>Contenedor</th>
+                                                                        <th>Aduana</th>
+                                                                        <th>Valor CIF</th>
+                                                                        <th>Estado</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach($tatc->historialImportacion as $registro)
+                                                                        <tr>
+                                                                            <td>
+                                                                                <small class="text-muted">{{ $registro->archivo_origen }}</small>
+                                                                            </td>
+                                                                            <td>{{ $registro->operador ?: 'N/A' }}</td>
+                                                                            <td>{{ $registro->tipo_ingreso ?: 'N/A' }}</td>
+                                                                            <td>
+                                                                                <small>
+                                                                                    <strong>País:</strong> {{ $registro->fecha_ingreso_pais ? $registro->fecha_ingreso_pais->format('d/m/Y') : 'N/A' }}<br>
+                                                                                    <strong>Depósito:</strong> {{ $registro->fecha_ingreso_deposito ? $registro->fecha_ingreso_deposito->format('d/m/Y') : 'N/A' }}<br>
+                                                                                    <strong>Traspaso:</strong> {{ $registro->fecha_traspaso ? $registro->fecha_traspaso->format('d/m/Y') : 'N/A' }}
+                                                                                </small>
+                                                                            </td>
+                                                                            <td>
+                                                                                <strong>{{ $registro->numero_contenedor ?: 'N/A' }}</strong><br>
+                                                                                <small>{{ $registro->tipo_contenedor ?: 'N/A' }} / {{ $registro->tamano_contenedor ?: 'N/A' }}</small>
+                                                                            </td>
+                                                                            <td>{{ $registro->aduana ?: 'N/A' }}</td>
+                                                                            <td>{{ $registro->valor_cif ? '$' . number_format($registro->valor_cif, 0, ',', '.') : 'N/A' }}</td>
+                                                                            <td>
+                                                                                @if($registro->estado)
+                                                                                    <span class="badge bg-{{ $registro->estado == 'finalizado' ? 'danger' : ($registro->estado == 'cancelado' ? 'warning' : 'success') }}">
+                                                                                        {{ ucfirst($registro->estado) }}
+                                                                                    </span>
+                                                                                @else
+                                                                                    <span class="text-muted">N/A</span>
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center text-muted">
+                                                            <i class="fas fa-file-excel fa-2x mb-2"></i>
+                                                            <p>No hay historial de importación del Excel disponible</p>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <!-- Historial del Sistema -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h6 class="mb-0">
+                                                        <i class="fas fa-history text-info"></i> 
+                                                        Historial del Sistema
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Fecha</th>
+                                                                    <th>Usuario</th>
+                                                                    <th>Acción</th>
+                                                                    <th>Detalles</th>
+                                                                    <th>Estado</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @forelse($tatc->historial ?? [] as $registro)
+                                                                    <tr>
+                                                                        <td>
+                                                                            <small class="text-muted">{{ $registro->created_at->format('d/m/Y') }}</small><br>
+                                                                            <strong>{{ $registro->created_at->format('H:i:s') }}</strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge bg-info">{{ $registro->user->name }}</span>
+                                                                        </td>
+                                                                        <td>
+                                                                            @if($registro->accion == 'Creación del Registro')
+                                                                                <span class="badge bg-success">{{ $registro->accion }}</span>
+                                                                            @elseif($registro->accion == 'Modificación del Registro')
+                                                                                <span class="badge bg-warning">{{ $registro->accion }}</span>
+                                                                            @else
+                                                                                <span class="badge bg-secondary">{{ $registro->accion }}</span>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            <small>{{ $registro->detalles }}</small>
+                                                                            @if($registro->datos_anteriores && $registro->datos_nuevos)
+                                                                                <button class="btn btn-sm btn-outline-info ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#detalles-{{ $registro->id }}" aria-expanded="false">
+                                                                                    <i class="fas fa-eye"></i> Ver Cambios
+                                                                                </button>
+                                                                                <div class="collapse mt-2" id="detalles-{{ $registro->id }}">
+                                                                                    <div class="card card-body">
+                                                                                        <h6>Cambios Detallados:</h6>
+                                                                                        <ul class="list-unstyled">
+                                                                                            @php
+                                                                                                $camposImportantes = [
+                                                                                                    'numero_contenedor' => 'Número de Contenedor',
+                                                                                                    'tipo_contenedor' => 'Tipo de Contenedor',
+                                                                                                    'tipo_ingreso' => 'Tipo de Ingreso',
+                                                                                                    'ingreso_pais' => 'Ingreso al País',
+                                                                                                    'ingreso_deposito' => 'Ingreso al Depósito',
+                                                                                                    'tatc_origen' => 'TATC Origen',
+                                                                                                    'tatc_destino' => 'TATC Destino',
+                                                                                                    'fecha_traspaso' => 'Fecha de Traspaso',
+                                                                                                    'tara_contenedor' => 'Tara del Contenedor',
+                                                                                                    'tipo_bulto' => 'Tipo de Bulto',
+                                                                                                    'valor_fob' => 'Valor FOB',
+                                                                                                    'valor_cif' => 'Valor CIF',
+                                                                                                    'aduana_ingreso' => 'Aduana de Ingreso',
+                                                                                                    'puerto_ingreso' => 'Puerto de Ingreso',
+                                                                                                    'estado_contenedor' => 'Estado del Contenedor',
+                                                                                                    'ubicacion_fisica' => 'Ubicación Física',
+                                                                                                    'empresa_transportista_id' => 'Empresa Transportista',
+                                                                                                    'rut_chofer' => 'RUT del Chofer',
+                                                                                                    'patente_camion' => 'Patente del Camión',
+                                                                                                    'comentario' => 'Comentario'
+                                                                                                ];
+                                                                                            @endphp
+                                                                                            @foreach($camposImportantes as $campo => $nombre)
+                                                                                                @php
+                                                                                                    $valorAnterior = $registro->datos_anteriores[$campo] ?? null;
+                                                                                                    $valorNuevo = $registro->datos_nuevos[$campo] ?? null;
+                                                                                                @endphp
+                                                                                                @if($valorAnterior !== $valorNuevo)
+                                                                                                    <li class="mb-2">
+                                                                                                        <strong>{{ $nombre }}:</strong><br>
+                                                                                                        <span class="text-danger">Antes: {{ $valorAnterior ?: 'Vacío' }}</span><br>
+                                                                                                        <span class="text-success">Después: {{ $valorNuevo ?: 'Vacío' }}</span>
+                                                                                                    </li>
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if($registro->estado_anterior && $registro->estado_nuevo)
+                                                                                <span class="badge bg-secondary">{{ $registro->estado_anterior }}</span>
+                                                                                <i class="fas fa-arrow-right mx-1"></i>
+                                                                                <span class="badge bg-primary">{{ $registro->estado_nuevo }}</span>
+                                                                            @elseif($registro->estado_nuevo)
+                                                                                <span class="badge bg-primary">{{ $registro->estado_nuevo }}</span>
+                                                                            @else
+                                                                                <span class="text-muted">-</span>
+                                                                            @endif
+                                                                        </td>
+                                                                    </tr>
+                                                                @empty
+                                                                    <tr>
+                                                                        <td colspan="5" class="text-center">
+                                                                            <i class="fas fa-history fa-2x text-muted mb-2"></i>
+                                                                            <p class="text-muted">No hay historial del sistema disponible</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforelse
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
