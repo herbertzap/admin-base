@@ -292,6 +292,37 @@
                     </ul>
                 </div>
             </li>
+
+            <!-- HERMES -->
+            <li class="nav-item">
+                <a class="nav-link {{ in_array($activePage, ['hermes-monitor', 'hermes-historial']) ? 'active' : '' }}" 
+                   data-bs-toggle="collapse" 
+                   href="#hermes" 
+                   role="button" 
+                   aria-expanded="{{ in_array($activePage, ['hermes-monitor', 'hermes-historial']) ? 'true' : 'false' }}" 
+                   aria-controls="hermes">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">HERMES</span>
+                </a>
+                <div class="collapse {{ in_array($activePage, ['hermes-monitor', 'hermes-historial']) ? 'show' : '' }}" id="hermes">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $activePage == 'hermes-monitor' ? 'active' : '' }}" href="{{ route('hermes.monitor') }}">
+                                <span class="sidenav-mini-icon">M</span>
+                                <span class="sidenav-normal">Monitor</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ $activePage == 'hermes-historial' ? 'active' : '' }}" href="{{ route('hermes.historial') }}">
+                                <span class="sidenav-mini-icon">H</span>
+                                <span class="sidenav-normal">Historial</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <!-- Fin Control de Inventarios -->
 
             <!-- Tickets Soporte -->

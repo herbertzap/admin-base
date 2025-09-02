@@ -142,3 +142,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('control-fiscalizacion/busqueda-extraccion', [ControlFiscalizacionController::class, 'busquedaExtraccion']);
     Route::post('control-fiscalizacion/exportar', [ControlFiscalizacionController::class, 'exportar'])->name('control-fiscalizacion.exportar');
 });
+
+// Rutas de HERMES
+Route::prefix('hermes')->name('hermes.')->middleware(['auth'])->group(function () {
+    Route::get('/monitor', [App\Http\Controllers\HermesMonitorController::class, 'index'])->name('monitor');
+    Route::get('/historial', [App\Http\Controllers\HermesMonitorController::class, 'historial'])->name('historial');
+    Route::get('/{id}', [App\Http\Controllers\HermesMonitorController::class, 'show'])->name('show');
+    Route::post('/reintentar', [App\Http\Controllers\HermesMonitorController::class, 'reintentar'])->name('reintentar');
+    Route::post('/enviar-tatc', [App\Http\Controllers\HermesMonitorController::class, 'enviarTatc'])->name('enviar-tatc');
+    Route::post('/enviar-tstc', [App\Http\Controllers\HermesMonitorController::class, 'enviarTstc'])->name('enviar-tstc');
+    Route::post('/enviar-salida', [App\Http\Controllers\HermesMonitorController::class, 'enviarSalida'])->name('enviar-salida');
+    Route::get('/estadisticas', [App\Http\Controllers\HermesMonitorController::class, 'estadisticas'])->name('estadisticas');
+});
