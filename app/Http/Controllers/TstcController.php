@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Tstc;
 use App\Models\Operador;
 use App\Models\TipoContenedor;
@@ -13,6 +14,8 @@ use App\Models\LugarDeposito;
 use App\Models\EmpresaTransportista;
 use App\Models\AduanaChile;
 use PDF;
+use App\Services\Hermes\HermesService;
+use App\Jobs\EnviarHermesJob;
 
 class TstcController extends Controller
 {
@@ -98,6 +101,8 @@ class TstcController extends Controller
         }
 
         try {
+            DB::beginTransaction();
+
             // Generar número TSTC automáticamente
             $userOperador = Auth::user()->operador;
             $numeroTstc = Tstc::generarNumeroTstc($userOperador, $data['aduana_salida']);
@@ -136,10 +141,25 @@ class TstcController extends Controller
                 'numero_tstc' => $tstc->numero_tstc
             ]);
 
+            // Enviar TSTC a HERMES automáticamente (asíncrono)
+            try {
+                EnviarHermesJob::dispatch('TSTC_CREACION', $tstc->id, 'Tstc');
+                session()->flash('success', 'TSTC creado exitosamente. Se enviará a HERMES en background.');
+            } catch (\Exception $e) {
+                session()->flash('warning', 'TSTC creado exitosamente pero hubo un problema al programar el envío a HERMES: ' . $e->getMessage());
+                Log::error('Error programando envío de TSTC a HERMES: ' . $e->getMessage(), [
+                    'tstc_id' => $tstc->id,
+                    'numero_tstc' => $tstc->numero_tstc
+                ]);
+            }
+
+            DB::commit();
+
             return redirect()->route('tstc.index')
                 ->with('success', 'TSTC registrado exitosamente. Número: ' . $tstc->numero_tstc);
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Error creating TSTC', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
@@ -231,6 +251,8 @@ class TstcController extends Controller
         }
 
         try {
+            DB::beginTransaction();
+
             // Actualizar el TSTC
             $tstc->update([
                 'numero_contenedor' => $data['numero_contenedor'],
@@ -263,10 +285,25 @@ class TstcController extends Controller
                 'numero_tstc' => $tstc->numero_tstc
             ]);
 
+            // Enviar TSTC a HERMES automáticamente (asíncrono)
+            try {
+                EnviarHermesJob::dispatch('TSTC_MODIFICACION', $tstc->id, 'Tstc');
+                session()->flash('success', 'TSTC actualizado exitosamente. Se enviará a HERMES en background.');
+            } catch (\Exception $e) {
+                session()->flash('warning', 'TSTC actualizado exitosamente pero hubo un problema al programar el envío a HERMES: ' . $e->getMessage());
+                Log::error('Error programando envío de TSTC a HERMES: ' . $e->getMessage(), [
+                    'tstc_id' => $tstc->id,
+                    'numero_tstc' => $tstc->numero_tstc
+                ]);
+            }
+
+            DB::commit();
+
             return redirect()->route('tstc.index')
                 ->with('success', 'TSTC actualizado exitosamente.');
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Error updating TSTC', [
                 'error' => $e->getMessage(),
                 'tstc_id' => $tstc->id

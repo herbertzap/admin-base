@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB; // Added DB facade
 use App\Models\Tatc;
 use App\Models\Operador;
 use App\Models\TipoContenedor;
@@ -13,6 +14,8 @@ use App\Models\LugarDeposito;
 use App\Models\EmpresaTransportista;
 use App\Models\AduanaChile;
 use PDF;
+use App\Services\Hermes\HermesService;
+use App\Jobs\EnviarHermesJob; // Added EnviarHermesJob
 
 class TatcController extends Controller
 {
@@ -105,6 +108,8 @@ class TatcController extends Controller
         }
 
         try {
+            DB::beginTransaction();
+
             // Generar número de TATC automáticamente
             $numeroTatc = $this->generarNumeroTatc($request->aduana_ingreso);
             
@@ -151,10 +156,31 @@ class TatcController extends Controller
                 'numero_tatc' => $tatc->numero_tatc
             ]);
 
+            // Enviar TATC a HERMES automáticamente
+            try {
+                $hermesService = app(HermesService::class);
+                $resultado = $hermesService->enviarTatc($tatc);
+                
+                if ($resultado['success']) {
+                    session()->flash('success', 'TATC creado exitosamente y enviado a HERMES');
+                } else {
+                    session()->flash('warning', 'TATC creado exitosamente pero hubo un problema al enviar a HERMES: ' . ($resultado['error'] ?? 'Error desconocido'));
+                }
+            } catch (\Exception $e) {
+                session()->flash('warning', 'TATC creado exitosamente pero hubo un problema al enviar a HERMES: ' . $e->getMessage());
+                Log::error('Error enviando TATC a HERMES: ' . $e->getMessage(), [
+                    'tatc_id' => $tatc->id,
+                    'numero_tatc' => $tatc->numero_tatc
+                ]);
+            }
+
+            DB::commit();
+
             return redirect()->route('tatc.index')
                 ->with('success', 'TATC ' . $numeroTatc . ' registrado exitosamente.');
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Error saving TATC', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
@@ -381,8 +407,19 @@ class TatcController extends Controller
                 'numero_tatc' => $tatc->numero_tatc
             ]);
 
-            return redirect()->route('tatc.index')
-                ->with('success', 'TATC ' . $tatc->numero_tatc . ' actualizado exitosamente.');
+            // Enviar modificación de TATC a HERMES automáticamente (asíncrono)
+            try {
+                EnviarHermesJob::dispatch('TATC_MODIFICACION', $tatc->id, 'Tatc');
+                session()->flash('success', 'TATC modificado exitosamente. Se enviará a HERMES en background.');
+            } catch (\Exception $e) {
+                session()->flash('warning', 'TATC modificado exitosamente pero hubo un problema al programar el envío a HERMES: ' . $e->getMessage());
+                Log::error('Error programando envío de modificación de TATC a HERMES: ' . $e->getMessage(), [
+                    'tatc_id' => $tatc->id,
+                    'numero_tatc' => $tatc->numero_tatc
+                ]);
+            }
+
+            return redirect()->route('tatc.index')->with('success', 'TATC ' . $tatc->numero_tatc . ' actualizado exitosamente.');
 
         } catch (\Exception $e) {
             Log::error('Error updating TATC', [

@@ -167,4 +167,131 @@ class Tatc extends Model
     {
         return $this->hermes_status === 'Aprobado';
     }
+
+    /**
+     * Obtener código de operador según resolución HERMES 2024
+     */
+    private static function obtenerCodigoOperador($operador = null)
+    {
+        if ($operador) {
+            // Buscar código en la tabla de operadores
+            $codigo = Operador::where('id', $operador->id)->value('codigo_hermes');
+            if ($codigo) {
+                return (int) $codigo;
+            }
+        }
+        
+        // Código por defecto para S46 (Contenedores Tomás Dagnino)
+        return 246;
+    }
+
+    /**
+     * Generar número de TATC según nueva codificación HERMES 2024
+     * Formato: AAAA-AA-OOO-CCCCCCC (16 dígitos)
+     * AAAA = Año, AA = Aduana, OOO = Operador, CCCCCCC = Correlativo
+     */
+    public static function generarNumeroTatcHermes2024($aduanaIngreso, $operador = null)
+    {
+        // Obtener año actual
+        $anio = date('Y');
+        
+        // Obtener código de aduana (2 dígitos)
+        $codigoAduana = self::obtenerCodigoAduana($aduanaIngreso);
+        
+        // Obtener código de operador (3 dígitos)
+        $codigoOperador = self::obtenerCodigoOperador($operador);
+        
+        // Obtener correlativo anual (7 dígitos)
+        $correlativo = self::obtenerCorrelativoAnual($anio);
+        
+        // Formatear número completo
+        $numeroTatc = sprintf('%04d%02d%03d%07d', $anio, $codigoAduana, $codigoOperador, $correlativo);
+        
+        return $numeroTatc;
+    }
+    
+    /**
+     * Obtener código de aduana según resolución HERMES 2024
+     */
+    private static function obtenerCodigoAduana($aduanaIngreso)
+    {
+        // Mapeo de aduanas según anexo de la resolución
+        $codigosAduana = [
+            'Valparaíso' => 34,
+            'San Antonio' => 35,
+            'Arica' => 31,
+            'Iquique' => 32,
+            'Antofagasta' => 33,
+            'Coquimbo' => 36,
+            'Talcahuano' => 37,
+            'Coronel' => 38,
+            'Puerto Montt' => 39,
+            'Punta Arenas' => 40,
+            'Aeropuerto Arturo Merino Benítez' => 41,
+            'Aeropuerto La Araucanía' => 42,
+        ];
+        
+        return $codigosAduana[$aduanaIngreso] ?? 34; // Default: Valparaíso
+    }
+    
+    /**
+     * Obtener correlativo anual para el año especificado
+     */
+    private static function obtenerCorrelativoAnual($anio)
+    {
+        // Contar TATCs del año
+        $ultimoTatc = self::whereYear('created_at', $anio)
+            ->orderBy('id', 'desc')
+            ->first();
+        
+        if ($ultimoTatc) {
+            // Extraer correlativo del último TATC
+            $correlativo = (int) substr($ultimoTatc->numero_tatc, -7);
+            return $correlativo + 1;
+        }
+        
+        return 1; // Primer TATC del año
+    }
+    
+    /**
+     * Verificar si el TATC está próximo a vencer (HERMES 2024)
+     */
+    public function estaProximoAVencer()
+    {
+        $fechaLimite = $this->created_at->addDays(335); // 30 días antes del vencimiento
+        return now()->gte($fechaLimite);
+    }
+    
+    /**
+     * Verificar si el TATC puede solicitar prórroga (HERMES 2024)
+     */
+    public function puedeSolicitarProrroga()
+    {
+        // Solo se puede prorrogar una vez
+        $yaTieneProrroga = $this->prorrogas()->exists();
+        
+        // Debe estar próximo a vencer
+        $proximoAVencer = $this->estaProximoAVencer();
+        
+        // No debe haber vencido
+        $noVencido = $this->created_at->addYear()->gt(now());
+        
+        return !$yaTieneProrroga && $proximoAVencer && $noVencido;
+    }
+    
+    /**
+     * Obtener fecha de vencimiento según HERMES 2024
+     */
+    public function getFechaVencimientoAttribute()
+    {
+        return $this->created_at->addYear();
+    }
+    
+    /**
+     * Obtener días restantes hasta vencimiento
+     */
+    public function getDiasRestantesAttribute()
+    {
+        return now()->diffInDays($this->fecha_vencimiento, false);
+    }
 }

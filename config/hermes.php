@@ -14,7 +14,7 @@ return [
     'base_url' => env('HERMES_BASE_URL', 'https://api-hermes.aduana.cl'),
 
     // API Key para autenticación
-    'api_key' => env('HERMES_API_KEY', 'WW2Psa5F201ONZHSxuDif8M7smW12pE29tvups3l'),
+    'api_key' => env('HERMES_API_KEY', 'TOKEN_PRUEBA_PENDIENTE'), // WW2Psa5F201ONZHSxuDif8M7smW12pE29tvups3l
 
     // Timeout para las peticiones HTTP (en segundos)
     'timeout' => env('HERMES_TIMEOUT', 30),

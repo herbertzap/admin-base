@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Salida;
 use App\Models\Tatc;
 use App\Models\EmpresaTransportista;
 use App\Models\AduanaChile;
 use App\Models\Operador;
+use App\Services\Hermes\HermesService;
+use App\Jobs\EnviarHermesJob;
 
 class SalidaController extends Controller
 {
@@ -146,6 +149,8 @@ class SalidaController extends Controller
         }
 
         try {
+            DB::beginTransaction();
+
             // Obtener el TATC
             $tatc = Tatc::findOrFail($request->tatc_id);
 
@@ -189,18 +194,25 @@ class SalidaController extends Controller
                 'tipo_salida' => $tipoSalida
             ]);
 
-            return redirect()->route('salidas.index')
-                ->with('success', 'Salida registrada exitosamente. Número: ' . $salida->numero_salida);
+            // Enviar Salida a HERMES automáticamente (asíncrono)
+            try {
+                EnviarHermesJob::dispatch('SALIDA_CREACION', $salida->id, 'Salida');
+                session()->flash('success', 'Salida registrada exitosamente. Se enviará a HERMES en background.');
+            } catch (\Exception $e) {
+                session()->flash('warning', 'Salida registrada exitosamente pero hubo un problema al programar el envío a HERMES: ' . $e->getMessage());
+                Log::error('Error programando envío de Salida a HERMES: ' . $e->getMessage(), [
+                    'salida_id' => $salida->id,
+                    'tatc_id' => $salida->tatc_id
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('salidas.index')->with('success', 'Salida registrada exitosamente');
 
         } catch (\Exception $e) {
-            Log::error('Error creating Salida', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return redirect()->back()
-                ->with('error', 'Error al registrar la salida: ' . $e->getMessage())
-                ->withInput();
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors(['error' => 'Error al registrar salida: ' . $e->getMessage()]);
         }
     }
 
