@@ -131,14 +131,14 @@ class ImportarDatosHistoricosTact extends Command
         $primeraFila = $filas[0];
         
         try {
-            if ($this->procesarTatcDelArchivo($primeraFila, $archivo)) {
+            // Solo crear el historial de importación, no actualizar TATCs existentes
+            $tatc = Tatc::where('numero_tatc', $primeraFila[6])->first();
+            if ($tatc) {
+                $this->guardarHistorialImportacion($tatc, $filas, basename($archivo));
                 $procesados = 1; // Solo 1 TATC por archivo
-                
-                // Guardar TODAS las filas del Excel en el historial de importación
-                $tatc = Tatc::where('numero_tatc', $primeraFila[6])->first();
-                if ($tatc) {
-                    $this->guardarHistorialImportacion($tatc, $filas, basename($archivo));
-                }
+            } else {
+                $this->warn("⚠️  TATC no encontrado: " . $primeraFila[6]);
+                $errores++;
             }
         } catch (\Exception $e) {
             $errores++;

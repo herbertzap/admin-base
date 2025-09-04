@@ -154,3 +154,9 @@ Route::prefix('hermes')->name('hermes.')->middleware(['auth'])->group(function (
     Route::post('/enviar-salida', [App\Http\Controllers\HermesMonitorController::class, 'enviarSalida'])->name('enviar-salida');
     Route::get('/estadisticas', [App\Http\Controllers\HermesMonitorController::class, 'estadisticas'])->name('estadisticas');
 });
+
+// Rutas del Manual del Sistema
+Route::prefix('manual')->name('manual.')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\ManualController::class, 'index'])->name('index');
+    Route::get('/pdf', [App\Http\Controllers\ManualController::class, 'pdf'])->name('pdf');
+});

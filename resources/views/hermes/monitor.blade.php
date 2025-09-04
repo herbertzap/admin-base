@@ -1,22 +1,28 @@
 <x-layout>
-    <x-slot name="header">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="mb-0">
-                <i class="fas fa-satellite-dish text-primary"></i> 
-                Monitor HERMES
-            </h2>
-            <div>
-                <a href="{{ route('hermes.historial') }}" class="btn btn-outline-primary">
-                    <i class="fas fa-history"></i> Historial Completo
-                </a>
-                <button class="btn btn-warning" onclick="reintentarMensajes()">
-                    <i class="fas fa-redo"></i> Reintentar Fallidos
-                </button>
+    <x-navbars.sidebar activePage="hermes"></x-navbars.sidebar>
+    
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        <x-navbars.navs.auth titlePage="Monitor HERMES"></x-navbars.navs.auth>
+        
+        <div class="container-fluid py-4">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0">
+                            <i class="fas fa-satellite-dish text-primary"></i> 
+                            Monitor HERMES
+                        </h2>
+                        <div>
+                            <a href="{{ route('hermes.historial') }}" class="btn btn-outline-primary">
+                                <i class="fas fa-history"></i> Historial Completo
+                            </a>
+                            <button class="btn btn-warning" onclick="reintentarMensajes()">
+                                <i class="fas fa-redo"></i> Reintentar Fallidos
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </x-slot>
-
-    <div class="container-fluid px-4">
         <!-- Tarjetas de Estadísticas -->
         <div class="row mb-4">
             <div class="col-xl-3 col-md-6 mb-4">
@@ -324,6 +330,8 @@
                 </div>
             </div>
         </div>
+    </div>
+        </main>
     </div>
 
     @push('scripts')

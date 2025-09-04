@@ -231,6 +231,12 @@ class SalidaController extends Controller
      */
     public function edit(Salida $salida)
     {
+        // Verificar si la salida puede ser editada
+        if ($salida->estado === 'Aprobado') {
+            return redirect()->route('salidas.show', $salida)
+                ->with('warning', 'Las salidas aprobadas no pueden ser editadas para mantener la integridad de los datos.');
+        }
+
         $empresasTransportistas = EmpresaTransportista::where('estado', 'Activo')
             ->orderBy('nombre_empresa')
             ->get();
@@ -248,6 +254,12 @@ class SalidaController extends Controller
      */
     public function update(Request $request, Salida $salida)
     {
+        // Verificar si la salida puede ser editada
+        if ($salida->estado === 'Aprobado') {
+            return redirect()->route('salidas.show', $salida)
+                ->with('error', 'Las salidas aprobadas no pueden ser editadas para mantener la integridad de los datos.');
+        }
+
         // Log para debugging
         Log::info('Salida update request', [
             'salida_id' => $salida->id,

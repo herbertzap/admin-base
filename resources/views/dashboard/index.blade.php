@@ -222,7 +222,7 @@
                                                         <a href="#" class="text-white text-sm font-weight-bold mb-0">
                                                             {{ $usuario->name }}
                                                         </a>
-                                                        <p class="text-xs text-secondary mb-0">{{ $usuario->last_login_at ? \Carbon\Carbon::parse($usuario->last_login_at)->format('d/m/Y H:i:s') : 'Nunca' }}</p>
+                                                        <p class="text-xs text-secondary mb-0">{{ $usuario->ultimo_movimiento ? \Carbon\Carbon::parse($usuario->ultimo_movimiento)->format('d/m/Y H:i:s') : 'Nunca' }}</p>
                                                     </div>
                                                 </div>
                                             </td>

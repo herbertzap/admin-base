@@ -36,6 +36,7 @@ class ControlPlazosController extends Controller
     public function registroCancelacion()
     {
         $cancelaciones = Salida::with(['tatc.user.operador', 'tatc.aduana'])
+            ->where('tipo_salida', 'Cancelación')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -48,8 +49,9 @@ class ControlPlazosController extends Controller
      */
     public function registroProrrogas()
     {
-        // Por ahora, mostrar TATC/TSTC que han sido modificados (como prórrogas)
+        // Mostrar TATC/TSTC que han sido modificados (como prórrogas)
         $prorrogas = Tatc::with(['user.operador', 'aduana'])
+            ->where('updated_at', '>', 'created_at')
             ->orderBy('updated_at', 'desc')
             ->paginate(15);
 
@@ -63,6 +65,7 @@ class ControlPlazosController extends Controller
     public function registroTraspaso()
     {
         $traspasos = Salida::with(['tatc.user.operador', 'tatc.aduana'])
+            ->where('tipo_salida', 'Traspaso')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -76,7 +79,7 @@ class ControlPlazosController extends Controller
     public function show($tipo, $id)
     {
         if ($tipo === 'tatc') {
-            $registro = Tatc::with(['user.operador', 'aduana', 'historial', 'salidas'])->findOrFail($id);
+            $registro = Tatc::with(['user.operador', 'aduana', 'historialImportacion', 'salidas'])->findOrFail($id);
         } elseif ($tipo === 'tstc') {
             $registro = Tstc::with(['user.operador', 'aduana', 'historial', 'salidas'])->findOrFail($id);
         } else {

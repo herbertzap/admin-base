@@ -323,7 +323,19 @@
                     </ul>
                 </div>
             </li>
-            <!-- Fin Control de Inventarios -->
+            <!-- Fin HERMES -->
+
+            <!-- Manual del Sistema -->
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'manual' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('manual.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">book</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Manual del Sistema</span>
+                </a>
+            </li>
+            <!-- Fin Manual del Sistema -->
 
             <!-- Tickets Soporte -->
             <li class="nav-item">

@@ -42,7 +42,7 @@ class DashboardController extends Controller
             ->get();
 
         // Últimos usuarios conectados
-        $ultimosUsuarios = User::orderBy('last_login_at', 'desc')
+        $ultimosUsuarios = User::orderBy('ultimo_movimiento', 'desc')
             ->limit(5)
             ->get();
 

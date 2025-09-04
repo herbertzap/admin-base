@@ -132,6 +132,8 @@ a.text-primary,
 
 /* Footer */
 .footer {
-    background-color: var(--background-dark) !important;
+    background-color: transparent;
     color: var(--text-white) !important;
+    width: 85%;
+    float: right;
 }

@@ -15,37 +15,40 @@ return new class extends Migration
             // Agregar campos nuevos organizados por tabs
             
             // Datos Contenedor
-            $table->integer('tara_contenedor')->nullable()->after('tamano_contenedor');
-            $table->integer('anofab_contenedor')->nullable()->after('tara_contenedor');
-            $table->unsignedBigInteger('pais_id')->nullable()->after('anofab_contenedor');
-            $table->string('ingreso_doc')->nullable()->after('pais_id');
-            $table->text('comentario')->nullable()->after('ingreso_doc');
-            $table->date('fecha_ingreso')->nullable()->after('comentario');
-            $table->string('tatc', 12)->nullable()->after('fecha_ingreso');
-            $table->unsignedBigInteger('lugardeposito_id')->nullable()->after('tatc');
-            $table->unsignedBigInteger('aduana_ingreso_id')->nullable()->after('lugardeposito_id');
-            $table->unsignedBigInteger('operador_id')->nullable()->after('aduana_ingreso_id');
+            $table->integer('tara_contenedor')->nullable();
+            $table->integer('anofab_contenedor')->nullable();
+            $table->unsignedBigInteger('pais_id')->nullable();
+            $table->string('ingreso_doc')->nullable();
+            $table->text('comentario')->nullable();
+            $table->date('fecha_ingreso')->nullable();
+            $table->string('tatc', 12)->nullable();
+            $table->unsignedBigInteger('lugardeposito_id')->nullable();
+            $table->unsignedBigInteger('aduana_ingreso_id')->nullable();
+            $table->unsignedBigInteger('operador_id')->nullable();
             
             // Facturación
-            $table->string('rut_factura')->nullable()->after('operador_id');
-            $table->string('nombre_factura')->nullable()->after('rut_factura');
-            $table->string('direccion_factura')->nullable()->after('nombre_factura');
-            $table->string('giro_factura')->nullable()->after('direccion_factura');
-            $table->date('fecha_factura')->nullable()->after('giro_factura');
-            $table->string('orden_compra')->nullable()->after('fecha_factura');
-            $table->string('tipo_pago')->nullable()->after('orden_compra');
-            $table->integer('valor_factura')->nullable()->after('tipo_pago');
-            $table->string('reserva_nombre')->nullable()->after('valor_factura');
-            $table->text('comentario_facturacion')->nullable()->after('reserva_nombre');
+            $table->string('rut_factura')->nullable();
+            $table->string('nombre_factura')->nullable();
+            $table->string('direccion_factura')->nullable();
+            $table->string('giro_factura')->nullable();
+            $table->date('fecha_factura')->nullable();
+            $table->string('orden_compra')->nullable();
+            $table->string('tipo_pago')->nullable();
+            $table->integer('valor_factura')->nullable();
+            $table->string('reserva_nombre')->nullable();
+            $table->text('comentario_facturacion')->nullable();
             
             // Transporte
-            $table->unsignedBigInteger('empresa_transportista_id')->nullable()->after('comentario_facturacion');
-            $table->string('rut_chofer')->nullable()->after('empresa_transportista_id');
-            $table->string('patente_camion')->nullable()->after('rut_chofer');
-            $table->string('documento_transporte')->nullable()->after('patente_camion');
-            
-            // Foreign keys
-            $table->foreign('tipo_contenedor_id')->references('id')->on('tipo_contenedors')->onDelete('set null');
+            $table->unsignedBigInteger('empresa_transportista_id')->nullable();
+            $table->string('rut_chofer')->nullable();
+            $table->string('patente_camion')->nullable();
+            $table->string('documento_transporte')->nullable();
+        });
+        
+        // Agregar foreign keys después de crear las columnas
+        Schema::table('contenedors', function (Blueprint $table) {
+            // Comentado temporalmente - estas columnas no existen en la tabla actual
+            // $table->foreign('tipo_contenedor_id')->references('id')->on('tipo_contenedors')->onDelete('set null');
             $table->foreign('lugardeposito_id')->references('id')->on('lugar_depositos')->onDelete('set null');
             $table->foreign('empresa_transportista_id')->references('id')->on('empresa_transportistas')->onDelete('set null');
             $table->foreign('aduana_ingreso_id')->references('id')->on('aduana_chiles')->onDelete('set null');

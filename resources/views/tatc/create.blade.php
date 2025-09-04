@@ -47,8 +47,13 @@
                                  <!-- Columna Izquierda -->
                                  <div class="col-md-6">
                                     <div class="mb-3">
+                                       <label class="form-label">Fecha emisión del TATC</label>
+                                       <input type="text" name="fecha_emision_tatc" id="fecha_emision_tatc" class="form-control bg-light text-dark border" value="{{ date('d/m/Y') }}" readonly>
+                                       <small class="text-muted">Fecha automática de emisión del TATC</small>
+                                    </div>
+                                    <div class="mb-3">
                                        <label class="form-label">Operador</label>
-                                       <input type="text" name="operador" id="operador" class="form-control bg-white text-dark border" value="{{ Auth::user()->operador ? Auth::user()->operador->codigo . ' | ' . Auth::user()->operador->rut . ' | ' . Auth::user()->operador->nombre_operador : '' }}" readonly>
+                                       <input type="text" name="operador" id="operador" class="form-control bg-white text-dark border" value="{{ Auth::user()->operador ? Auth::user()->operador->codigo . ' | ' . Auth::user()->operador->rut_operador . ' | ' . Auth::user()->operador->nombre_operador : '' }}" readonly>
                                     </div>
                                     <div class="mb-3">
                                        <label class="form-label">Tipo de Ingreso</label>
@@ -64,9 +69,10 @@
                                     <div class="mb-3">
                                        <label class="form-label">Ingreso al País</label>
                                        <div class="input-group">
-                                          <input type="text" name="ingreso_pais" id="ingreso_pais" class="form-control bg-white text-dark border" value="{{ date('d/m/Y H:i') }}" required>
+                                          <input type="datetime-local" name="ingreso_pais" id="ingreso_pais" class="form-control bg-white text-dark border" value="{{ date('Y-m-d\TH:i') }}" required>
                                           <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                        </div>
+                                       <small class="text-muted">Seleccione fecha y hora de ingreso al país</small>
                                     </div>
                                     <div class="mb-3">
                                        <label class="form-label">Nº Contenedor</label>
@@ -110,9 +116,10 @@
                                     <div class="mb-3">
                                        <label class="form-label">Fecha Traspaso</label>
                                        <div class="input-group">
-                                          <input type="text" name="fecha_traspaso" id="fecha_traspaso" class="form-control bg-white text-dark border @error('fecha_traspaso') is-invalid @enderror" value="{{ old('fecha_traspaso', date('d/m/Y')) }}" required>
+                                          <input type="date" name="fecha_traspaso" id="fecha_traspaso" class="form-control bg-white text-dark border @error('fecha_traspaso') is-invalid @enderror" value="{{ old('fecha_traspaso', date('Y-m-d')) }}" required>
                                           <span class="input-group-text"><i class="material-icons">calendar_today</i></span>
                                        </div>
+                                       <small class="text-muted">Seleccione la fecha de traspaso</small>
                                        @error('fecha_traspaso')
                                        <div class="invalid-feedback">{{ $message }}</div>
                                        @enderror
@@ -216,9 +223,10 @@
                                     <div class="mb-3">
                                        <label class="form-label">Ingreso al Depósito</label>
                                        <div class="input-group">
-                                          <input type="text" name="ingreso_deposito" id="ingreso_deposito" class="form-control bg-white text-dark border @error('ingreso_deposito') is-invalid @enderror" value="{{ old('ingreso_deposito', date('d/m/Y H:i')) }}" required>
+                                          <input type="datetime-local" name="ingreso_deposito" id="ingreso_deposito" class="form-control bg-white text-dark border @error('ingreso_deposito') is-invalid @enderror" value="{{ old('ingreso_deposito', date('Y-m-d\TH:i')) }}" required>
                                           <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                        </div>
+                                       <small class="text-muted">Seleccione fecha y hora de ingreso al depósito</small>
                                        @error('ingreso_deposito')
                                        <div class="invalid-feedback">{{ $message }}</div>
                                        @enderror
@@ -286,8 +294,12 @@
                                     </div>
                                     <div class="mb-3">
                                        <label class="form-label">Año de Fabricación</label>
-                                       <input type="number" class="form-control bg-white text-dark border" id="anio_fabricacion" name="anio_fabricacion" 
-                                          value="{{ old('anio_fabricacion') }}" min="1900" max="{{ date('Y') + 1 }}" maxlength="4">
+                                       <div class="input-group">
+                                          <input type="number" class="form-control bg-white text-dark border" id="anio_fabricacion" name="anio_fabricacion" 
+                                             value="{{ old('anio_fabricacion') }}" min="1900" max="{{ date('Y') + 1 }}" maxlength="4" placeholder="Ej: 2020">
+                                          <span class="input-group-text"><i class="material-icons">date_range</i></span>
+                                       </div>
+                                       <small class="text-muted">Ingrese el año de fabricación del contenedor</small>
                                     </div>
                                     <div class="mb-3">
                                        <label class="form-label">Ubicación Física Contenedor</label>
@@ -532,11 +544,9 @@
               $j('#ingreso_pais').on('change', function() {
                   var fechaIngresoPais = $j(this).val();
                   if (fechaIngresoPais) {
-                      // Convertir la fecha de ingreso al país a formato de ingreso al depósito
-                      var fecha = new Date(fechaIngresoPais.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoPais.split(' ')[1]);
-                      var fechaDeposito = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
-                      $j('#ingreso_deposito').val(fechaDeposito);
-                      console.log('Fecha de depósito actualizada:', fechaDeposito);
+                      // Los date pickers HTML5 ya están en formato ISO, solo copiamos el valor
+                      $j('#ingreso_deposito').val(fechaIngresoPais);
+                      console.log('Fecha de depósito actualizada:', fechaIngresoPais);
                   }
               });
               
@@ -546,8 +556,8 @@
                   var fechaIngresoDeposito = $j('#ingreso_deposito').val();
                   
                   if (fechaIngresoPais && fechaIngresoDeposito) {
-                      var fechaPais = new Date(fechaIngresoPais.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoPais.split(' ')[1]);
-                      var fechaDeposito = new Date(fechaIngresoDeposito.split(' ')[0].split('/').reverse().join('-') + ' ' + fechaIngresoDeposito.split(' ')[1]);
+                      var fechaPais = new Date(fechaIngresoPais);
+                      var fechaDeposito = new Date(fechaIngresoDeposito);
                       
                       if (fechaDeposito < fechaPais) {
                           // Para datos históricos, mostrar confirmación en lugar de bloquear

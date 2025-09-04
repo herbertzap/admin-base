@@ -57,17 +57,20 @@ class TatcController extends Controller
             'data' => $request->all()
         ]);
 
-        // Convertir fechas de formato dd/mm/yyyy a yyyy-mm-dd
+        // Convertir fechas de formato HTML5 a yyyy-mm-dd
         $data = $request->all();
         if ($request->filled('ingreso_pais')) {
-            $data['ingreso_pais'] = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $request->ingreso_pais)->format('Y-m-d H:i:s');
+            $data['ingreso_pais'] = \Carbon\Carbon::parse($request->ingreso_pais)->format('Y-m-d H:i:s');
         }
         if ($request->filled('ingreso_deposito')) {
-            $data['ingreso_deposito'] = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $request->ingreso_deposito)->format('Y-m-d H:i:s');
+            $data['ingreso_deposito'] = \Carbon\Carbon::parse($request->ingreso_deposito)->format('Y-m-d H:i:s');
         }
         if ($request->filled('fecha_traspaso')) {
-            $data['fecha_traspaso'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_traspaso)->format('Y-m-d');
+            $data['fecha_traspaso'] = \Carbon\Carbon::parse($request->fecha_traspaso)->format('Y-m-d');
         }
+        
+        // Agregar fecha de emisión del TATC (fecha actual)
+        $data['fecha_emision_tatc'] = now()->format('Y-m-d');
 
         // Validaciones según la documentación de Mitac
         $validator = Validator::make($data, [
@@ -127,6 +130,7 @@ class TatcController extends Controller
             $tatc->tatc_destino = $request->tatc_destino;
             $tatc->documento_ingreso = $request->documento_ingreso;
             $tatc->fecha_traspaso = $data['fecha_traspaso'];
+            $tatc->fecha_emision_tatc = $data['fecha_emision_tatc'];
             $tatc->tara_contenedor = $request->tara_contenedor;
             $tatc->tipo_bulto = $request->tipo_bulto;
             $tatc->valor_fob = $request->valor_fob;

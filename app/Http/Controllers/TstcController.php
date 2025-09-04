@@ -58,16 +58,16 @@ class TstcController extends Controller
             'data' => $request->all()
         ]);
 
-        // Convertir fechas de formato dd/mm/yyyy a yyyy-mm-dd
+        // Convertir fechas de formato HTML5 a yyyy-mm-dd
         $data = $request->all();
         if ($request->filled('fecha_emision_tstc')) {
-            $data['fecha_emision_tstc'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_emision_tstc)->format('Y-m-d');
+            $data['fecha_emision_tstc'] = \Carbon\Carbon::parse($request->fecha_emision_tstc)->format('Y-m-d');
         }
         if ($request->filled('ingreso_deposito')) {
-            $data['ingreso_deposito'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->ingreso_deposito)->format('Y-m-d');
+            $data['ingreso_deposito'] = \Carbon\Carbon::parse($request->ingreso_deposito)->format('Y-m-d');
         }
         if ($request->filled('fecha_salida_pais')) {
-            $data['fecha_salida_pais'] = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $request->fecha_salida_pais)->format('Y-m-d H:i:s');
+            $data['fecha_salida_pais'] = \Carbon\Carbon::parse($request->fecha_salida_pais)->format('Y-m-d H:i:s');
         }
 
         // Validaciones según el formulario de Mitac

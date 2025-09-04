@@ -50,17 +50,13 @@
                                             <!-- Columna Izquierda -->
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Operador</label>
-                                                    <input type="text" class="form-control bg-white text-dark border" name="operador" value="{{ $userOperador->codigo }} | {{ $userOperador->rut_operador }} | {{ $userOperador->nombre_operador }}" readonly>
+                                                    <label class="form-label">Fecha emisión del TSTC</label>
+                                                    <input type="text" name="fecha_emision_tstc_display" id="fecha_emision_tstc_display" class="form-control bg-light text-dark border" value="{{ date('d/m/Y') }}" readonly>
+                                                    <small class="text-muted">Fecha automática de emisión del TSTC</small>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Fecha Emisión TSTC</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-clock-o"></i>
-                                                        </div>
-                                                        <input type="text" class="form-control bg-white text-dark border" name="fecha_emision_tstc" id="fecha_emision_tstc" value="{{ old('fecha_emision_tstc', date('d/m/Y')) }}" placeholder="dd/mm/yyyy" required>
-                                                    </div>
+                                                    <label class="form-label">Operador</label>
+                                                    <input type="text" class="form-control bg-white text-dark border" name="operador" value="{{ $userOperador->codigo }} | {{ $userOperador->rut_operador }} | {{ $userOperador->nombre_operador }}" readonly>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nº Contenedor</label>
@@ -103,13 +99,14 @@
                                             <!-- Columna Derecha -->
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Ingreso al Deposito</label>
+                                                    <label class="form-label">Ingreso al Depósito</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
-                                                            <i class="fa fa-clock-o"></i>
+                                                            <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control bg-white text-dark border" name="ingreso_deposito" id="ingreso_deposito" value="{{ old('ingreso_deposito', date('d/m/Y')) }}" placeholder="dd/mm/yyyy" required>
+                                                        <input type="date" class="form-control bg-white text-dark border" name="ingreso_deposito" id="ingreso_deposito" value="{{ old('ingreso_deposito', date('Y-m-d')) }}" required>
                                                     </div>
+                                                    <small class="text-muted">Seleccione la fecha de ingreso al depósito</small>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Aduana de Salida</label>
@@ -128,8 +125,9 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-clock-o"></i>
                                                         </div>
-                                                        <input type="text" class="form-control bg-white text-dark border" name="fecha_salida_pais" id="fecha_salida_pais" value="{{ old('fecha_salida_pais', date('d/m/Y H:i')) }}" placeholder="dd/mm/yyyy hh:mm" required>
+                                                        <input type="datetime-local" class="form-control bg-white text-dark border" name="fecha_salida_pais" id="fecha_salida_pais" value="{{ old('fecha_salida_pais', date('Y-m-d\TH:i')) }}" required>
                                                     </div>
+                                                    <small class="text-muted">Seleccione fecha y hora de salida del país</small>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Tamaño Contenedor</label>
@@ -227,7 +225,11 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Año Fabricación</label>
-                                                    <input type="number" class="form-control bg-white text-dark border" name="anio_fabricacion" id="anio_fabricacion" value="{{ old('anio_fabricacion') }}" placeholder="Ingrese año fabricación" min="1900" max="{{ date('Y') + 1 }}" maxlength="4">
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control bg-white text-dark border" name="anio_fabricacion" id="anio_fabricacion" value="{{ old('anio_fabricacion') }}" placeholder="Ej: 2020" min="1900" max="{{ date('Y') + 1 }}" maxlength="4">
+                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <small class="text-muted">Ingrese el año de fabricación del contenedor</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -305,9 +307,7 @@
            return;
        }
        
-       // Máscaras de fecha
-       $j('#fecha_emision_tstc, #ingreso_deposito').inputmask('dd/mm/yyyy');
-       $j('#fecha_salida_pais').inputmask('dd/mm/yyyy hh:mm');
+       // Los date pickers HTML5 manejan automáticamente el formato
        
        // Probar inputmask para contenedor (igual que TATC)
        if ($j("#numero_contenedor").length) {
