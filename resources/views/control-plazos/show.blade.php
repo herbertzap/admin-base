@@ -42,11 +42,53 @@
                                                 <td>{{ $registro->tipo_ingreso }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="fw-bold">Estado:</td>
+                                                <td class="fw-bold">Estado Interno:</td>
                                                 <td>
                                                     <span class="badge bg-{{ $registro->estado === 'Aprobado' ? 'success' : ($registro->estado === 'Pendiente' ? 'warning' : 'secondary') }}">
                                                         {{ $registro->estado }}
                                                     </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Estado HERMES:</td>
+                                                <td>
+                                                    @if($registro->hermes_sent_at)
+                                                        <span class="badge bg-{{ $registro->hermes_status === 'Aprobado' ? 'success' : ($registro->hermes_status === 'Error' ? 'danger' : 'info') }}">
+                                                            {{ $registro->hermes_status ?? 'Enviado' }}
+                                                        </span>
+                                                        <small class="text-muted d-block">
+                                                            Enviado: {{ $registro->hermes_sent_at->format('d/m/Y H:i') }}
+                                                        </small>
+                                                    @else
+                                                        <span class="badge bg-secondary">
+                                                            No enviado
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Vigencia:</td>
+                                                <td>
+                                                    @php
+                                                        $fechaVencimiento = $registro->created_at->addYear();
+                                                        $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+                                                        $estaVencido = $diasRestantes < 0;
+                                                        $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                    @endphp
+                                                    
+                                                    @if($estaVencido)
+                                                        <span class="badge bg-danger">
+                                                            <i class="fas fa-exclamation-triangle"></i> Vencido desde {{ $fechaVencimiento->format('d/m/Y') }}
+                                                        </span>
+                                                    @elseif($porVencer)
+                                                        <span class="badge bg-warning">
+                                                            <i class="fas fa-clock"></i> Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }} ({{ $diasRestantes }} días)
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-success">
+                                                            <i class="fas fa-check-circle"></i> Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }} ({{ $diasRestantes }} días)
+                                                        </span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         </table>
