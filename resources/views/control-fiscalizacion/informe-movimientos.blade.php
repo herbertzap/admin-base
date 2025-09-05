@@ -119,6 +119,46 @@
                                     </div>
                                 </div>
 
+                                <!-- Filtros Adicionales -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="numero_contenedor" class="form-label text-white">Número de Contenedor</label>
+                                            <input type="text" name="numero_contenedor" id="numero_contenedor" class="form-control" placeholder="Ingrese número de contenedor">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="numero_tatc" class="form-label text-white">Número TATC/TSTC</label>
+                                            <input type="text" name="numero_tatc" id="numero_tatc" class="form-control" placeholder="Ingrese número TATC o TSTC">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="tipo_contenedor" class="form-label text-white">Tipo de Contenedor</label>
+                                            <select name="tipo_contenedor" id="tipo_contenedor" class="form-control">
+                                                <option value="*">Todos</option>
+                                                <option value="20">20 pies</option>
+                                                <option value="40">40 pies</option>
+                                                <option value="45">45 pies</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="estado_contenedor" class="form-label text-white">Estado del Contenedor</label>
+                                            <select name="estado_contenedor" id="estado_contenedor" class="form-control">
+                                                <option value="*">Todos</option>
+                                                <option value="OP">OP - Operativo</option>
+                                                <option value="DM">DM - Dañado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="d-flex justify-content-start gap-3">

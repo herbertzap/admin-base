@@ -67,6 +67,18 @@ class ControlFiscalizacionController extends Controller
             ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
                 return $q->where('aduana_ingreso', $request->aduana_id);
             })
+            ->when($request->numero_contenedor, function($q) use ($request) {
+                return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+            })
+            ->when($request->numero_tatc, function($q) use ($request) {
+                return $q->where('numero_tatc', 'like', '%' . $request->numero_tatc . '%');
+            })
+            ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                return $q->where('tamano_contenedor', $request->tipo_contenedor);
+            })
+            ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                return $q->where('estado_contenedor', $request->estado_contenedor);
+            })
             ->when($request->filtro == '0', function($q) use ($request) {
                 // Filtro por fecha de ingreso
                 if ($request->fecdes && $request->fechas) {
@@ -110,6 +122,18 @@ class ControlFiscalizacionController extends Controller
             ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
                 return $q->where('aduana_salida', $request->aduana_id);
             })
+            ->when($request->numero_contenedor, function($q) use ($request) {
+                return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+            })
+            ->when($request->numero_tatc, function($q) use ($request) {
+                return $q->where('numero_tstc', 'like', '%' . $request->numero_tatc . '%');
+            })
+            ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                return $q->where('tamano_contenedor', $request->tipo_contenedor);
+            })
+            ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                return $q->where('estado_contenedor', $request->estado_contenedor);
+            })
             ->when($request->filtro == '0', function($q) use ($request) {
                 // Filtro por fecha de ingreso
                 if ($request->fecdes && $request->fechas) {
@@ -152,6 +176,26 @@ class ControlFiscalizacionController extends Controller
                     return $q->where('tipo_salida', $tiposSalida[$request->estado]);
                 }
                 return $q;
+            })
+            ->when($request->numero_contenedor, function($q) use ($request) {
+                return $q->whereHas('tatc', function($query) use ($request) {
+                    $query->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+                });
+            })
+            ->when($request->numero_tatc, function($q) use ($request) {
+                return $q->whereHas('tatc', function($query) use ($request) {
+                    $query->where('numero_tatc', 'like', '%' . $request->numero_tatc . '%');
+                });
+            })
+            ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                return $q->whereHas('tatc', function($query) use ($request) {
+                    $query->where('tamano_contenedor', $request->tipo_contenedor);
+                });
+            })
+            ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                return $q->whereHas('tatc', function($query) use ($request) {
+                    $query->where('estado_contenedor', $request->estado_contenedor);
+                });
             })
             ->when($request->filtro == '1', function($q) use ($request) {
                 // Filtro por fecha de salida
