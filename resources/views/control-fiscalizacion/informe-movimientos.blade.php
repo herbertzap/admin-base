@@ -165,7 +165,7 @@
                                             <button type="submit" class="btn btn-primary btn-lg px-4" style="background: linear-gradient(135deg, #e75034 0%, #c73e2a 100%); border: none;">
                                                 <i class="fas fa-search"></i> FILTRAR
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-lg px-4" onclick="limpiarFiltros()">
+                                            <button type="button" class="btn btn-secondary btn-lg px-4" id="btnLimpiarFiltros">
                                                 <i class="fas fa-eraser"></i> LIMPIAR FILTROS
                                             </button>
                                             <button type="button" class="btn btn-success btn-lg px-4" onclick="exportarResultados()">
@@ -509,9 +509,15 @@
         return $(row).children('td').eq(index).text();
     }
 
-    function limpiarFiltros() {
-        // Simplemente recargar la página sin parámetros para limpiar todos los filtros
-        window.location.href = window.location.pathname;
-    }
+    // Event listener para el botón limpiar filtros
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnLimpiarFiltros = document.getElementById('btnLimpiarFiltros');
+        if (btnLimpiarFiltros) {
+            btnLimpiarFiltros.addEventListener('click', function() {
+                // Simplemente recargar la página sin parámetros para limpiar todos los filtros
+                window.location.href = window.location.pathname;
+            });
+        }
+    });
 </script>
 @endpush
