@@ -200,112 +200,202 @@ class ControlFiscalizacionController extends Controller
      */
     private function procesarFiltrosBusqueda(Request $request)
     {
-        $query = collect();
+        $resultados = collect();
 
-        // Obtener TATCs con filtros adicionales
-        $tatcs = Tatc::with(['user', 'aduana', 'empresaTransportista'])
-            ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
-                if ($request->tipo == '2') {
-                    return $q->whereRaw('1 = 0'); // No mostrar TATCs si se selecciona TSTC
-                }
-                return $q->where('tipo_ingreso', $request->tipo);
-            })
-            ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
-                return $q->where('aduana_ingreso', $request->aduana_id);
-            })
-            ->when($request->numero_contenedor, function($q) use ($request) {
-                return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
-            })
-            ->when($request->numero_tatc, function($q) use ($request) {
-                return $q->where('numero_tatc', 'like', '%' . $request->numero_tatc . '%');
-            })
-            ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
-                return $q->where('tamano_contenedor', $request->tipo_contenedor);
-            })
-            ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
-                return $q->where('estado_contenedor', $request->estado_contenedor);
-            })
-            ->when($request->filtro == '0', function($q) use ($request) {
-                if ($request->fecdes && $request->fechas) {
-                    $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                    $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                    return $q->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
-                }
-                return $q;
-            })
-            ->get()
-            ->map(function($tatc) {
-                return [
-                    'numero_contenedor' => $tatc->numero_contenedor,
-                    'fecha_ingreso' => $tatc->ingreso_pais ? $tatc->ingreso_pais->format('d/m/Y') : '-',
-                    'aduana_ingreso' => $tatc->aduana_ingreso,
-                    'aduana_salida' => '-',
-                    'tipo_salida' => '-',
-                    'fecha_salida' => '-',
-                    'di_aduana_oper' => '-',
-                    'tipo' => 'TATC',
-                    'numero_tatc' => $tatc->numero_tatc,
-                    'tipo_contenedor' => $tatc->tipo_contenedor,
-                    'tamano_contenedor' => $tatc->tamano_contenedor,
-                    'lugar_deposito' => $tatc->ubicacion_fisica,
-                    'id' => $tatc->id,
-                    'modelo' => 'Tatc'
-                ];
-            });
+        // Si se selecciona "Salida por DI", "Salida por Cancelación" o "Salida por Traspaso"
+        // Mostrar TATCs que tienen esas salidas
+        if ($request->estado && $request->estado !== '*' && $request->estado !== '0') {
+            $tiposSalida = [
+                '1' => 'Declaración de Internación',
+                '2' => 'Cancelación',
+                '3' => 'Traspaso'
+            ];
+            
+            if (isset($tiposSalida[$request->estado])) {
+                $salidas = Salida::with(['tatc.user', 'tatc.aduana', 'tatc.empresaTransportista'])
+                    ->where('tipo_salida', $tiposSalida[$request->estado])
+                    ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
+                        if ($request->tipo == '2') {
+                            return $q->whereRaw('1 = 0'); // No mostrar salidas de TATCs si se selecciona TSTC
+                        }
+                        return $q;
+                    })
+                    ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
+                        return $q->whereHas('tatc', function($query) use ($request) {
+                            $query->where('aduana_ingreso', $request->aduana_id);
+                        });
+                    })
+                    ->when($request->numero_contenedor, function($q) use ($request) {
+                        return $q->whereHas('tatc', function($query) use ($request) {
+                            $query->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+                        });
+                    })
+                    ->when($request->numero_tatc, function($q) use ($request) {
+                        return $q->whereHas('tatc', function($query) use ($request) {
+                            $query->where('numero_tatc', 'like', '%' . $request->numero_tatc . '%');
+                        });
+                    })
+                    ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                        return $q->whereHas('tatc', function($query) use ($request) {
+                            $query->where('tamano_contenedor', $request->tipo_contenedor);
+                        });
+                    })
+                    ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                        return $q->whereHas('tatc', function($query) use ($request) {
+                            $query->where('estado_contenedor', $request->estado_contenedor);
+                        });
+                    })
+                    ->when($request->filtro == '0', function($q) use ($request) {
+                        if ($request->fecdes && $request->fechas) {
+                            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
+                            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
+                            return $q->whereHas('tatc', function($query) use ($fechaInicio, $fechaFin) {
+                                $query->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
+                            });
+                        }
+                        return $q;
+                    })
+                    ->when($request->filtro == '1', function($q) use ($request) {
+                        if ($request->fecdes && $request->fechas) {
+                            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
+                            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
+                            return $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+                        }
+                        return $q;
+                    })
+                    ->get()
+                    ->map(function($salida) {
+                        return [
+                            'numero_contenedor' => $salida->tatc->numero_contenedor ?? '-',
+                            'fecha_ingreso' => $salida->tatc->ingreso_pais ? $salida->tatc->ingreso_pais->format('d/m/Y') : '-',
+                            'aduana_ingreso' => $salida->tatc->aduana_ingreso ?? '-',
+                            'aduana_salida' => $salida->aduana_salida ?? '-',
+                            'tipo_salida' => ucfirst($salida->tipo_salida),
+                            'fecha_salida' => $salida->created_at ? $salida->created_at->format('d/m/Y') : '-',
+                            'di_aduana_oper' => $this->obtenerDIAduanaOper($salida),
+                            'tipo' => 'TATC',
+                            'numero_tatc' => $salida->tatc->numero_tatc ?? '-',
+                            'tipo_contenedor' => $salida->tatc->tipo_contenedor ?? '-',
+                            'tamano_contenedor' => $salida->tatc->tamano_contenedor ?? '-',
+                            'lugar_deposito' => $salida->tatc->ubicacion_fisica ?? '-',
+                            'id' => $salida->tatc->id,
+                            'modelo' => 'Tatc'
+                        ];
+                    });
+                
+                $resultados = $resultados->concat($salidas);
+            }
+        } else {
+            // Si se selecciona "Ingresados" o "Todos", mostrar TATCs sin salidas
+            $tatcs = Tatc::with(['user', 'aduana', 'empresaTransportista'])
+                ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
+                    if ($request->tipo == '2') {
+                        return $q->whereRaw('1 = 0'); // No mostrar TATCs si se selecciona TSTC
+                    }
+                    return $q->where('tipo_ingreso', $request->tipo);
+                })
+                ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
+                    return $q->where('aduana_ingreso', $request->aduana_id);
+                })
+                ->when($request->numero_contenedor, function($q) use ($request) {
+                    return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+                })
+                ->when($request->numero_tatc, function($q) use ($request) {
+                    return $q->where('numero_tatc', 'like', '%' . $request->numero_tatc . '%');
+                })
+                ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                    return $q->where('tamano_contenedor', $request->tipo_contenedor);
+                })
+                ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                    return $q->where('estado_contenedor', $request->estado_contenedor);
+                })
+                ->when($request->filtro == '0', function($q) use ($request) {
+                    if ($request->fecdes && $request->fechas) {
+                        $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
+                        $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
+                        return $q->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
+                    }
+                    return $q;
+                })
+                ->when($request->estado == '0', function($q) {
+                    // Solo TATCs sin salidas (ingresados)
+                    return $q->whereDoesntHave('salidas');
+                })
+                ->get()
+                ->map(function($tatc) {
+                    return [
+                        'numero_contenedor' => $tatc->numero_contenedor,
+                        'fecha_ingreso' => $tatc->ingreso_pais ? $tatc->ingreso_pais->format('d/m/Y') : '-',
+                        'aduana_ingreso' => $tatc->aduana_ingreso,
+                        'aduana_salida' => '-',
+                        'tipo_salida' => '-',
+                        'fecha_salida' => '-',
+                        'di_aduana_oper' => '-',
+                        'tipo' => 'TATC',
+                        'numero_tatc' => $tatc->numero_tatc,
+                        'tipo_contenedor' => $tatc->tipo_contenedor,
+                        'tamano_contenedor' => $tatc->tamano_contenedor,
+                        'lugar_deposito' => $tatc->ubicacion_fisica,
+                        'id' => $tatc->id,
+                        'modelo' => 'Tatc'
+                    ];
+                });
 
-        // Obtener TSTCs con filtros adicionales
-        $tstcs = Tstc::with(['user', 'aduana', 'empresaTransportista'])
-            ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
-                if ($request->tipo == '1') {
-                    return $q->whereRaw('1 = 0'); // No mostrar TSTCs si se selecciona TATC
-                }
-                return $q;
-            })
-            ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
-                return $q->where('aduana_salida', $request->aduana_id);
-            })
-            ->when($request->numero_contenedor, function($q) use ($request) {
-                return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
-            })
-            ->when($request->numero_tatc, function($q) use ($request) {
-                return $q->where('numero_tstc', 'like', '%' . $request->numero_tatc . '%');
-            })
-            ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
-                return $q->where('tamano_contenedor', $request->tipo_contenedor);
-            })
-            ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
-                return $q->where('estado_contenedor', $request->estado_contenedor);
-            })
-            ->when($request->filtro == '0', function($q) use ($request) {
-                if ($request->fecdes && $request->fechas) {
-                    $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                    $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                    return $q->whereBetween('fecha_emision_tstc', [$fechaInicio, $fechaFin]);
-                }
-                return $q;
-            })
-            ->get()
-            ->map(function($tstc) {
-                return [
-                    'numero_contenedor' => $tstc->numero_contenedor,
-                    'fecha_ingreso' => $tstc->fecha_emision_tstc ? $tstc->fecha_emision_tstc->format('d/m/Y') : '-',
-                    'aduana_ingreso' => '-',
-                    'aduana_salida' => $tstc->aduana_salida,
-                    'tipo_salida' => '-',
-                    'fecha_salida' => '-',
-                    'di_aduana_oper' => '-',
-                    'tipo' => 'TSTC',
-                    'numero_tatc' => $tstc->numero_tstc,
-                    'tipo_contenedor' => $tstc->tipo_contenedor,
-                    'tamano_contenedor' => $tstc->tamano_contenedor,
-                    'lugar_deposito' => $tstc->destino_contenedor,
-                    'id' => $tstc->id,
-                    'modelo' => 'Tstc'
-                ];
-            });
+            $resultados = $resultados->concat($tatcs);
 
-        // Combinar todos los resultados
-        $resultados = $tatcs->concat($tstcs);
+            // Obtener TSTCs con filtros adicionales
+            $tstcs = Tstc::with(['user', 'aduana', 'empresaTransportista'])
+                ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
+                    if ($request->tipo == '1') {
+                        return $q->whereRaw('1 = 0'); // No mostrar TSTCs si se selecciona TATC
+                    }
+                    return $q;
+                })
+                ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
+                    return $q->where('aduana_salida', $request->aduana_id);
+                })
+                ->when($request->numero_contenedor, function($q) use ($request) {
+                    return $q->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
+                })
+                ->when($request->numero_tatc, function($q) use ($request) {
+                    return $q->where('numero_tstc', 'like', '%' . $request->numero_tatc . '%');
+                })
+                ->when($request->tipo_contenedor && $request->tipo_contenedor !== '*', function($q) use ($request) {
+                    return $q->where('tamano_contenedor', $request->tipo_contenedor);
+                })
+                ->when($request->estado_contenedor && $request->estado_contenedor !== '*', function($q) use ($request) {
+                    return $q->where('estado_contenedor', $request->estado_contenedor);
+                })
+                ->when($request->filtro == '0', function($q) use ($request) {
+                    if ($request->fecdes && $request->fechas) {
+                        $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
+                        $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
+                        return $q->whereBetween('fecha_emision_tstc', [$fechaInicio, $fechaFin]);
+                    }
+                    return $q;
+                })
+                ->get()
+                ->map(function($tstc) {
+                    return [
+                        'numero_contenedor' => $tstc->numero_contenedor,
+                        'fecha_ingreso' => $tstc->fecha_emision_tstc ? $tstc->fecha_emision_tstc->format('d/m/Y') : '-',
+                        'aduana_ingreso' => '-',
+                        'aduana_salida' => $tstc->aduana_salida,
+                        'tipo_salida' => '-',
+                        'fecha_salida' => '-',
+                        'di_aduana_oper' => '-',
+                        'tipo' => 'TSTC',
+                        'numero_tatc' => $tstc->numero_tstc,
+                        'tipo_contenedor' => $tstc->tipo_contenedor,
+                        'tamano_contenedor' => $tstc->tamano_contenedor,
+                        'lugar_deposito' => $tstc->destino_contenedor,
+                        'id' => $tstc->id,
+                        'modelo' => 'Tstc'
+                    ];
+                });
+
+            $resultados = $resultados->concat($tstcs);
+        }
 
         // Aplicar filtro de lugar de depósito si se especificó
         if ($request->lugardeposito_id && $request->lugardeposito_id !== '*') {
