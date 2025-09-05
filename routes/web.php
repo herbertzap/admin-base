@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('control-plazos/{tipo}/{id}', [ControlPlazosController::class, 'show'])->name('control-plazos.show');
     Route::get('control-plazos/buscar', [ControlPlazosController::class, 'buscar'])->name('control-plazos.buscar');
     Route::get('control-plazos/exportar', [ControlPlazosController::class, 'exportar'])->name('control-plazos.exportar');
+    Route::post('control-plazos/solicitar-prorroga', [ControlPlazosController::class, 'solicitarProrroga'])->name('control-plazos.solicitar-prorroga');
 });
 
 // Rutas de Control de Inventarios

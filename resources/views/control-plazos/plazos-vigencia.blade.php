@@ -38,6 +38,11 @@
                                         <i class="fas fa-download"></i> Exportar TSTCs
                                     </a>
                                 </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#solicitarProrrogaModal">
+                                        <i class="fas fa-clock"></i> Solicitar Prórroga
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Tabs para TATC y TSTC -->
@@ -315,5 +320,63 @@
             </div>
         </div>
     </main>
+    
+    <!-- Modal para Solicitar Prórroga -->
+    <div class="modal fade" id="solicitarProrrogaModal" tabindex="-1" aria-labelledby="solicitarProrrogaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="solicitarProrrogaModalLabel">
+                        <i class="fas fa-clock text-warning"></i> Solicitar Prórroga de Vigencia
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('control-plazos.solicitar-prorroga') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tatc_id" class="form-label">Seleccionar TATC</label>
+                                    <select name="tatc_id" id="tatc_id" class="form-control" required>
+                                        <option value="">Seleccione un TATC</option>
+                                        @foreach($tatcsVigentes as $tatc)
+                                            @if(!$tatc->prorrogas()->where('estado', 'Aprobado')->exists())
+                                                <option value="{{ $tatc->id }}">
+                                                    {{ $tatc->numero_tatc }} - {{ $tatc->numero_contenedor }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_solicitud" class="form-label">Fecha de Solicitud</label>
+                                    <input type="date" name="fecha_solicitud" id="fecha_solicitud" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="motivo" class="form-label">Motivo de la Prórroga</label>
+                            <textarea name="motivo" id="motivo" class="form-control" rows="4" placeholder="Describa el motivo por el cual solicita la prórroga de vigencia..." required></textarea>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Información:</strong> La solicitud de prórroga será enviada a HERMES para su aprobación. 
+                            Una vez aprobada, el TATC tendrá vigencia extendida según los términos establecidos.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-paper-plane"></i> Enviar Solicitud a HERMES
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <x-plugins></x-plugins>
 </x-layout>

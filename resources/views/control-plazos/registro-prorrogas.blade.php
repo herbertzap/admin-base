@@ -102,7 +102,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="badge badge-sm bg-gradient-{{ $prorroga->estado === 'Aprobado' ? 'success' : ($prorroga->estado === 'Pendiente' ? 'warning' : 'danger') }}">
-                                                        {{ $prorroga->estado }}
+                                                        {{ $prorroga->estado === 'Aprobado' ? 'Prórroga Aprobada' : $prorroga->estado }}
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
@@ -113,13 +113,6 @@
                                                            data-bs-placement="top" 
                                                            title="Ver Detalles">
                                                             <i class="fas fa-eye text-xs"></i>
-                                                        </a>
-                                                        <a href="{{ route($prorroga->numero_tatc ? 'tatc.edit' : 'tstc.edit', $prorroga->id) }}" 
-                                                           class="btn btn-link text-secondary mb-0" 
-                                                           data-bs-toggle="tooltip" 
-                                                           data-bs-placement="top" 
-                                                           title="Editar">
-                                                            <i class="fas fa-edit text-xs"></i>
                                                         </a>
                                                     </div>
                                                 </td>

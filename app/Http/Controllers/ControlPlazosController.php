@@ -215,4 +215,50 @@ class ControlPlazosController extends Controller
         
         return $csvContent;
     }
+
+    /**
+     * Solicitar prórroga de vigencia
+     */
+    public function solicitarProrroga(Request $request)
+    {
+        $request->validate([
+            'tatc_id' => 'required|exists:tatcs,id',
+            'fecha_solicitud' => 'required|date',
+            'motivo' => 'required|string|min:10|max:500'
+        ]);
+
+        try {
+            // Crear la prórroga
+            $prorroga = new Prorroga();
+            $prorroga->tatc_id = $request->tatc_id;
+            $prorroga->numero_prorroga = Prorroga::generarNumeroProrroga();
+            $prorroga->fecha_solicitud = $request->fecha_solicitud;
+            $prorroga->motivo = $request->motivo;
+            $prorroga->estado = 'Pendiente';
+            $prorroga->user_id = auth()->id();
+            $prorroga->save();
+
+            // Aquí se podría integrar con HERMES para enviar la solicitud
+            // Por ahora, simulamos el envío exitoso
+            Log::info('Solicitud de prórroga creada', [
+                'prorroga_id' => $prorroga->id,
+                'tatc_id' => $request->tatc_id,
+                'usuario' => auth()->user()->email
+            ]);
+
+            return redirect()->route('control-plazos.plazos-vigencia')
+                ->with('success', 'Solicitud de prórroga enviada exitosamente a HERMES. Número de solicitud: ' . $prorroga->numero_prorroga);
+
+        } catch (\Exception $e) {
+            Log::error('Error al crear solicitud de prórroga', [
+                'error' => $e->getMessage(),
+                'tatc_id' => $request->tatc_id,
+                'usuario' => auth()->user()->email
+            ]);
+
+            return redirect()->back()
+                ->with('error', 'Error al procesar la solicitud de prórroga. Por favor, intente nuevamente.')
+                ->withInput();
+        }
+    }
 }

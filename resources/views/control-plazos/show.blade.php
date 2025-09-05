@@ -75,6 +75,10 @@
                                                         $tieneInternacion = $registro->salidas()->where('tipo_salida', 'Declaración de Internación')->where('estado', 'Aprobado')->exists();
                                                         $tieneTraspaso = $registro->salidas()->where('tipo_salida', 'Traspaso')->where('estado', 'Aprobado')->exists();
                                                         
+                                                        // Verificar si tiene prórroga aprobada
+                                                        $tieneProrroga = $registro->prorrogas()->where('estado', 'Aprobado')->exists();
+                                                        $prorrogaAprobada = $registro->prorrogas()->where('estado', 'Aprobado')->first();
+                                                        
                                                         if ($tieneCancelacion) {
                                                             $estadoVigencia = 'Cancelado';
                                                             $claseBadge = 'bg-danger';
@@ -90,8 +94,16 @@
                                                             $claseBadge = 'bg-warning';
                                                             $icono = 'fas fa-exchange-alt';
                                                             $textoVigencia = 'Traspasado';
+                                                        } elseif ($tieneProrroga) {
+                                                            // Tiene prórroga aprobada
+                                                            $fechaVencimiento = $registro->created_at->addYear();
+                                                            $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
+                                                            $estadoVigencia = 'Vigente con Prórroga';
+                                                            $claseBadge = 'bg-success';
+                                                            $icono = 'fas fa-clock';
+                                                            $textoVigencia = 'Vigente con prórroga hasta ' . $fechaVencimiento->format('d/m/Y') . ' (' . $diasRestantes . ' días)';
                                                         } else {
-                                                            // Solo calcular vigencia si no tiene salidas
+                                                            // Solo calcular vigencia si no tiene salidas ni prórrogas
                                                             $fechaVencimiento = $registro->created_at->addYear();
                                                             $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
                                                             $estaVencido = $diasRestantes < 0;
