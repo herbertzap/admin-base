@@ -32,19 +32,25 @@
                                                     <th>Operador</th>
                                                     <td>{{ $tatc->user->operador->nombre_operador ?? 'N/A' }}</td>
                                                     <th>Aduana de Ingreso</th>
-                                                    <td>{{ $tatc->aduana_ingreso }}</td>
+                                                    <td>{{ $tatc->aduana_ingreso }} - {{ $tatc->aduana->nombre_aduana ?? 'N/A' }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Fecha de Ingreso</th>
-                                                    <td>{{ \Carbon\Carbon::parse($tatc->fecha_ingreso)->format('d/m/Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($tatc->ingreso_pais)->format('d/m/Y H:i') }}</td>
                                                     <th>Ubicación Física</th>
                                                     <td>{{ $tatc->ubicacion_fisica }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Tipo de Contenedor</th>
-                                                    <td>{{ $tatc->tipo_contenedor }}</td>
+                                                    <td>{{ $tatc->tipo_contenedor }} - {{ $tatc->tipoContenedor->descripcion ?? 'N/A' }}</td>
+                                                    <th>Tamaño del Contenedor</th>
+                                                    <td>{{ $tatc->tamano_contenedor ?? 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <th>Estado</th>
                                                     <td><span class="badge bg-success">Vigente</span></td>
+                                                    <th>Lugar de Depósito</th>
+                                                    <td>{{ $tatc->ubicacion_fisica ?? 'N/A' }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -175,7 +181,7 @@
                                             <div class="form-group">
                                                 <label for="fecha_traspaso">Fecha Traspaso</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="fecha_traspaso" name="fecha_traspaso" placeholder="dd/mm/yyyy">
+                                                    <input type="date" class="form-control" id="fecha_traspaso" name="fecha_traspaso" value="{{ date('Y-m-d') }}">
                                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
@@ -191,7 +197,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="lugar_deposito_origen">Lugar de Depósito Origen</label>
-                                                <input type="text" class="form-control" id="lugar_deposito_origen" name="lugar_deposito_origen" placeholder="Ingrese Lugar de Depósito Origen">
+                                                <input type="text" class="form-control bg-light" id="lugar_deposito_origen" name="lugar_deposito_origen" value="{{ $tatc->ubicacion_fisica ?? '' }}" readonly>
+                                                <small class="text-muted">Se llena automáticamente desde el TATC</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -211,7 +218,69 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tipo_bulto_traspaso">Tipo de Bulto</label>
-                                                <input type="text" class="form-control" id="tipo_bulto_traspaso" name="tipo_bulto_traspaso" placeholder="Ingrese Tipo de Bulto">
+                                                <select name="tipo_bulto_traspaso" id="tipo_bulto_traspaso" class="form-control bg-white text-dark border" required>
+                                                    <option value="">Seleccione tipo de bulto</option>
+                                                    <option value="01">01 · Granel Solido, Particulas Finas (Polvo)</option>
+                                                    <option value="02">02 · Granel Solido, Particulas Granulares (Granos)</option>
+                                                    <option value="03">03 · Granel Solido, Particulas Grandes (Nodulos)</option>
+                                                    <option value="04">04 · Granel Liquido</option>
+                                                    <option value="05">05 · Granel Gaseoso</option>
+                                                    <option value="10">10 · Piezas</option>
+                                                    <option value="11">11 · Tubos</option>
+                                                    <option value="12">12 · Cilindro</option>
+                                                    <option value="13">13 · Rollos</option>
+                                                    <option value="16">16 · Barras</option>
+                                                    <option value="17">17 · Lingotes</option>
+                                                    <option value="18">18 · Troncos</option>
+                                                    <option value="19">19 · Bloque</option>
+                                                    <option value="20">20 · Rollizo</option>
+                                                    <option value="21">21 · Cajon</option>
+                                                    <option value="22">22 · Cajas De Carton</option>
+                                                    <option value="23">23 · Fardo</option>
+                                                    <option value="24">24 · Baul</option>
+                                                    <option value="25">25 · Cofre</option>
+                                                    <option value="26">26 · Armazon</option>
+                                                    <option value="27">27 · Bandeja</option>
+                                                    <option value="28">28 · Caja De Madera</option>
+                                                    <option value="29">29 · Cajas De Lata</option>
+                                                    <option value="31">31 · Botella De Gas</option>
+                                                    <option value="32">32 · Botella</option>
+                                                    <option value="33">33 · Jaulas</option>
+                                                    <option value="34">34 · Bidon</option>
+                                                    <option value="35">35 · Jabas</option>
+                                                    <option value="36">36 · Cestas</option>
+                                                    <option value="37">37 · Barrilete</option>
+                                                    <option value="38">38 · Tonel</option>
+                                                    <option value="39">39 · Pipas</option>
+                                                    <option value="40">40 · Cajas No Especificadas</option>
+                                                    <option value="41">41 · Jarro</option>
+                                                    <option value="42">42 · Frasco</option>
+                                                    <option value="43">43 · Damajuana</option>
+                                                    <option value="44">44 · Barril</option>
+                                                    <option value="45">45 · Tambor</option>
+                                                    <option value="46">46 · Cuñetes</option>
+                                                    <option value="47">47 · Tarros</option>
+                                                    <option value="51">51 · Cubo</option>
+                                                    <option value="61">61 · Paquete</option>
+                                                    <option value="62">62 · Sacos</option>
+                                                    <option value="63">63 · Maleta</option>
+                                                    <option value="64">64 · Bolsa</option>
+                                                    <option value="65">65 · Bala</option>
+                                                    <option value="66">66 · Red</option>
+                                                    <option value="67">67 · Sobres</option>
+                                                    <option value="73">73 · Contenedor De 20 Pies Dry</option>
+                                                    <option value="74">74 · Contenedor De 40 Pies Dry</option>
+                                                    <option value="75">75 · Contenedor Refrigerado 20 Pies</option>
+                                                    <option value="76">76 · Contenedor Refrigerado 40 Pies</option>
+                                                    <option value="77">77 · Estanque (No Utilizar Para Contenedor Tank)</option>
+                                                    <option value="78">78 · Contenedor No Especificado (Open Top, Tank, Flat Rack, Etc.)</option>
+                                                    <option value="80">80 · Pallet</option>
+                                                    <option value="81">81 · Tablero</option>
+                                                    <option value="82">82 · Laminas</option>
+                                                    <option value="83">83 · Carrete</option>
+                                                    <option value="85">85 · Automotor</option>
+                                                    <option value="86">86 · Ataud</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

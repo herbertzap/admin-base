@@ -97,6 +97,14 @@ class Tatc extends Model
     }
 
     /**
+     * Relación con el tipo de contenedor
+     */
+    public function tipoContenedor(): BelongsTo
+    {
+        return $this->belongsTo(TipoContenedor::class, 'tipo_contenedor', 'codigo');
+    }
+
+    /**
      * Relación con el historial de importación del Excel
      */
     public function historialImportacion(): HasMany

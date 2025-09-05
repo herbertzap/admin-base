@@ -40,7 +40,7 @@ class SalidaController extends Controller
             ->orWhereHas('salidas', function($query) {
                 $query->where('estado', 'Cancelado');
             })
-            ->with('user.operador')
+            ->with(['user.operador', 'aduana', 'tipoContenedor'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -61,6 +61,9 @@ class SalidaController extends Controller
      */
     public function registrarSalida(Tatc $tatc)
     {
+        // Cargar relaciones necesarias para mostrar información completa
+        $tatc->load(['user.operador', 'aduana', 'tipoContenedor']);
+        
         // Verificar que el TATC no tenga salidas vigentes
         $salidaVigente = $tatc->salidas()->where('estado', '!=', 'Cancelado')->first();
         if ($salidaVigente) {
@@ -168,15 +171,15 @@ class SalidaController extends Controller
 
             // Agregar campos específicos según tipo
             if ($tipoSalida === 'internacion') {
-                $datosSalida['fecha_salida'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_internacion)->format('Y-m-d');
+                $datosSalida['fecha_salida'] = \Carbon\Carbon::parse($request->fecha_internacion)->format('Y-m-d');
                 $datosSalida['declaracion_internacion'] = $request->declaracion_internacion;
                 $datosSalida['comentario_internacion'] = $request->comentario_internacion;
             } elseif ($tipoSalida === 'cancelacion') {
-                $datosSalida['fecha_salida'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_cancelacion)->format('Y-m-d');
+                $datosSalida['fecha_salida'] = \Carbon\Carbon::parse($request->fecha_cancelacion)->format('Y-m-d');
                 $datosSalida['aduana_ingreso_cancelacion'] = $request->aduana_ingreso_cancelacion;
                 $datosSalida['documento_cancelacion'] = $request->documento_cancelacion;
             } elseif ($tipoSalida === 'traspaso') {
-                $datosSalida['fecha_salida'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_traspaso)->format('Y-m-d');
+                $datosSalida['fecha_salida'] = \Carbon\Carbon::parse($request->fecha_traspaso)->format('Y-m-d');
                 $datosSalida['tatc_destino'] = $request->tatc_destino;
                 $datosSalida['operador_destino'] = $request->operador_destino;
                 $datosSalida['lugar_deposito_origen'] = $request->lugar_deposito_origen;
@@ -270,7 +273,7 @@ class SalidaController extends Controller
         // Convertir fechas de formato dd/mm/yyyy a yyyy-mm-dd
         $data = $request->all();
         if ($request->filled('fecha_salida')) {
-            $data['fecha_salida'] = \Carbon\Carbon::createFromFormat('d/m/Y', $request->fecha_salida)->format('Y-m-d');
+            $data['fecha_salida'] = \Carbon\Carbon::parse($request->fecha_salida)->format('Y-m-d');
         }
 
         // Validaciones
