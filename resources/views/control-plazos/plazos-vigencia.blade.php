@@ -108,9 +108,26 @@
                                                             </p>
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-sm bg-gradient-success">
-                                                                Vigente
-                                                            </span>
+                                                            @php
+                                                                $fechaVencimiento = $tatc->created_at->addYear();
+                                                                $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+                                                                $estaVencido = $diasRestantes < 0;
+                                                                $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                            @endphp
+                                                            
+                                                            @if($estaVencido)
+                                                                <span class="badge badge-sm bg-gradient-danger">
+                                                                    Vencido desde {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @elseif($porVencer)
+                                                                <span class="badge badge-sm bg-gradient-warning">
+                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge badge-sm bg-gradient-success">
+                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @endif
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="btn-group" role="group">
@@ -206,9 +223,26 @@
                                                             </p>
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-sm bg-gradient-success">
-                                                                Vigente
-                                                            </span>
+                                                            @php
+                                                                $fechaVencimiento = $tstc->created_at->addYear();
+                                                                $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+                                                                $estaVencido = $diasRestantes < 0;
+                                                                $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                            @endphp
+                                                            
+                                                            @if($estaVencido)
+                                                                <span class="badge badge-sm bg-gradient-danger">
+                                                                    Vencido desde {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @elseif($porVencer)
+                                                                <span class="badge badge-sm bg-gradient-warning">
+                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge badge-sm bg-gradient-success">
+                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
+                                                                </span>
+                                                            @endif
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="btn-group" role="group">

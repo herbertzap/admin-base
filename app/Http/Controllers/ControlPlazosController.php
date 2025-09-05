@@ -18,11 +18,19 @@ class ControlPlazosController extends Controller
      */
     public function plazosVigencia()
     {
+        // Solo TATCs que NO tienen salidas registradas (realmente vigentes)
         $tatcsVigentes = Tatc::with(['user.operador', 'aduana'])
+            ->whereDoesntHave('salidas', function($query) {
+                $query->where('estado', '!=', 'Cancelado');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
+        // Solo TSTCs que NO tienen salidas registradas (realmente vigentes)
         $tstcsVigentes = Tstc::with(['user.operador', 'aduana'])
+            ->whereDoesntHave('salidas', function($query) {
+                $query->where('estado', '!=', 'Cancelado');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
