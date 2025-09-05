@@ -168,6 +168,9 @@
                                             <button type="submit" class="btn btn-primary btn-lg px-4" style="background: linear-gradient(135deg, #e75034 0%, #c73e2a 100%); border: none;">
                                                 <i class="fas fa-search"></i> BUSCAR
                                             </button>
+                                            <button type="button" class="btn btn-secondary btn-lg px-4" onclick="limpiarFiltros()">
+                                                <i class="fas fa-eraser"></i> LIMPIAR FILTROS
+                                            </button>
                                             <button type="button" class="btn btn-success btn-lg px-4" onclick="exportarResultados()">
                                                 <i class="fas fa-file-excel"></i> EXPORTAR
                                             </button>
@@ -505,6 +508,39 @@
 
     function getCellValue(row, index) {
         return $(row).children('td').eq(index).text();
+    }
+
+    function limpiarFiltros() {
+        // Limpiar todos los campos del formulario
+        document.getElementById('formList').reset();
+        
+        // Restablecer valores por defecto
+        document.getElementById('tipo').value = '*';
+        document.getElementById('estado').value = '*';
+        document.getElementById('filtro_fechaIngreso').checked = true;
+        document.getElementById('filtro_fechaSalida').checked = false;
+        document.getElementById('aduana_id').value = '*';
+        document.getElementById('salida_cancelacion_aduana_id').value = '*';
+        document.getElementById('lugardeposito_id').value = '*';
+        document.getElementById('numero_contenedor').value = '';
+        document.getElementById('numero_tatc').value = '';
+        document.getElementById('tipo_contenedor').value = '*';
+        document.getElementById('estado_contenedor').value = '*';
+        
+        // Restablecer fechas por defecto
+        document.getElementById('rango-fechas').value = '01/01/2019 - 31/12/2025';
+        document.getElementById('fecdes').value = '01/01/2019';
+        document.getElementById('fechas').value = '31/12/2025';
+        
+        // Actualizar el DateRangePicker
+        $('#rango-fechas').data('daterangepicker').setStartDate(moment('01/01/2019', 'DD/MM/YYYY'));
+        $('#rango-fechas').data('daterangepicker').setEndDate(moment('31/12/2025', 'DD/MM/YYYY'));
+        
+        // Limpiar resultados
+        var resultadosDiv = document.querySelector('.box.box-solid');
+        if (resultadosDiv) {
+            resultadosDiv.remove();
+        }
     }
 </script>
 @endpush

@@ -231,9 +231,13 @@ class ControlFiscalizacionController extends Controller
 
         // Aplicar filtro de lugar de depósito si se especificó
         if ($request->lugardeposito_id && $request->lugardeposito_id !== '*') {
-            $resultados = $resultados->filter(function($item) use ($request) {
-                return $item['lugar_deposito'] == $request->lugardeposito_id;
-            });
+            // Obtener el nombre del lugar de depósito por su ID
+            $lugarDeposito = \App\Models\LugarDeposito::find($request->lugardeposito_id);
+            if ($lugarDeposito) {
+                $resultados = $resultados->filter(function($item) use ($lugarDeposito) {
+                    return $item['lugar_deposito'] == $lugarDeposito->nombre_deposito;
+                });
+            }
         }
 
         return $resultados;
@@ -443,9 +447,13 @@ class ControlFiscalizacionController extends Controller
 
         // Aplicar filtro de lugar de depósito si se especificó
         if ($request->lugardeposito_id && $request->lugardeposito_id !== '*') {
-            $resultados = $resultados->filter(function($item) use ($request) {
-                return $item['lugar_deposito'] == $request->lugardeposito_id;
-            });
+            // Obtener el nombre del lugar de depósito por su ID
+            $lugarDeposito = \App\Models\LugarDeposito::find($request->lugardeposito_id);
+            if ($lugarDeposito) {
+                $resultados = $resultados->filter(function($item) use ($lugarDeposito) {
+                    return $item['lugar_deposito'] == $lugarDeposito->nombre_deposito;
+                });
+            }
         }
 
         return $resultados;
