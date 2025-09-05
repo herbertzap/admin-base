@@ -89,6 +89,14 @@ class Tatc extends Model
     }
 
     /**
+     * Relación con las prórrogas
+     */
+    public function prorrogas(): HasMany
+    {
+        return $this->hasMany(Prorroga::class);
+    }
+
+    /**
      * Relación con la aduana
      */
     public function aduana(): BelongsTo

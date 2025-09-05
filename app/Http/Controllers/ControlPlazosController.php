@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Tatc;
 use App\Models\Tstc;
 use App\Models\Salida;
+use App\Models\Prorroga;
 use App\Models\AduanaChile;
 use App\Models\Operador;
 
@@ -55,10 +56,9 @@ class ControlPlazosController extends Controller
      */
     public function registroProrrogas()
     {
-        // Mostrar TATC/TSTC que han sido modificados (como prórrogas)
-        $prorrogas = Tatc::with(['user.operador', 'aduana'])
-            ->where('updated_at', '>', 'created_at')
-            ->orderBy('updated_at', 'desc')
+        // Mostrar prórrogas de la tabla prorrogas
+        $prorrogas = Prorroga::with(['tatc.user.operador', 'tatc.aduana', 'user'])
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
 
         return view('control-plazos.registro-prorrogas', compact('prorrogas'))

@@ -72,42 +72,42 @@
                                                 <td>
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $prorroga->numero_tatc ?? $prorroga->numero_tstc ?? 'N/A' }}</h6>
-                                                            <small class="text-muted">{{ $prorroga->numero_tatc ? 'TATC' : 'TSTC' }}</small>
+                                                            <h6 class="mb-0 text-sm">{{ $prorroga->tatc->numero_tatc ?? 'N/A' }}</h6>
+                                                            <small class="text-muted">TATC</small>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <p class="text-xs font-weight-bold mb-0">{{ $prorroga->numero_contenedor }}</p>
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $prorroga->tatc->numero_contenedor ?? 'N/A' }}</p>
                                                 </td>
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
-                                                        {{ $prorroga->user->operador->nombre_operador ?? 'N/A' }}
+                                                        {{ $prorroga->tatc->user->operador->nombre_operador ?? 'N/A' }}
                                                     </p>
                                                 </td>
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
-                                                        {{ $prorroga->updated_at ? \Carbon\Carbon::parse($prorroga->updated_at)->format('d/m/Y') : 'N/A' }}
+                                                        {{ $prorroga->fecha_solicitud ? $prorroga->fecha_solicitud->format('d/m/Y') : 'N/A' }}
                                                     </p>
                                                 </td>
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
-                                                        {{ $prorroga->aduana->nombre_aduana ?? 'N/A' }}
+                                                        {{ $prorroga->tatc->aduana->nombre_aduana ?? 'N/A' }}
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    <p class="text-xs font-weight-bold mb-0">
-                                                        Prórroga de vigencia
+                                                    <p class="text-xs font-weight-bold mb-0" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                        {{ $prorroga->motivo ?? 'N/A' }}
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-sm bg-gradient-warning">
-                                                        Con Prórroga
+                                                    <span class="badge badge-sm bg-gradient-{{ $prorroga->estado === 'Aprobado' ? 'success' : ($prorroga->estado === 'Pendiente' ? 'warning' : 'danger') }}">
+                                                        {{ $prorroga->estado }}
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="btn-group" role="group">
-                                                        <a href="{{ route('control-plazos.show', ['tipo' => $prorroga->numero_tatc ? 'tatc' : 'tstc', 'id' => $prorroga->id]) }}" 
+                                                        <a href="{{ route('control-plazos.show', ['tipo' => 'tatc', 'id' => $prorroga->tatc->id]) }}" 
                                                            class="btn btn-link text-secondary mb-0" 
                                                            data-bs-toggle="tooltip" 
                                                            data-bs-placement="top" 
