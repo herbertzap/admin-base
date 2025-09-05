@@ -10,7 +10,7 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-6">
-                            <h4 class="mb-0">📚 Manual del Sistema Contenedores.Pricer</h4>
+                            <h4 class="mb-0">Manual del Sistema Contenedores.Pricer</h4>
                             <p class="text-sm mb-0">Sistema de Administración de Contenedores</p>
                             <p class="text-xs text-muted">Versión 2.0 | {{ now()->format('d/m/Y') }}</p>
                         </div>
@@ -53,23 +53,23 @@
             <!-- 1. Presentación del Sistema -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">1. 📖 Presentación del Sistema</h5>
+                    <h5 class="mb-0">1. Presentación del Sistema</h5>
                 </div>
                 <div class="card-body">
                     <p><strong>Contenedores.Pricer</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
                     
                     <h6>Características Principales:</h6>
                     <ul>
-                        <li>✅ <strong>Fácil de manejar e intuitiva</strong> - Funciona bajo el navegador web</li>
-                        <li>✅ <strong>Multiplataforma</strong> - Soporte para Tablet y dispositivos móviles</li>
-                        <li>✅ <strong>Sin limitaciones</strong> - No tiene limitación de tiempo ni ubicación</li>
-                        <li>✅ <strong>Único requerimiento</strong> - Conexión a internet</li>
-                        <li>✅ <strong>Sistema modular</strong> - Adaptado según requerimientos específicos de cada operador</li>
-                        <li>✅ <strong>Integración HERMES</strong> - Comunicación automática con el sistema aduanero</li>
+                        <li><strong>Fácil de manejar e intuitiva</strong> - Funciona bajo el navegador web</li>
+                        <li><strong>Multiplataforma</strong> - Soporte para Tablet y dispositivos móviles</li>
+                        <li><strong>Sin limitaciones</strong> - No tiene limitación de tiempo ni ubicación</li>
+                        <li><strong>Único requerimiento</strong> - Conexión a internet</li>
+                        <li><strong>Sistema modular</strong> - Adaptado según requerimientos específicos de cada operador</li>
+                        <li><strong>Integración HERMES</strong> - Comunicación automática con el sistema aduanero</li>
                     </ul>
 
                     <div class="alert alert-info">
-                        <strong>💡 Recomendación:</strong> Use el sistema de Ticket incluido en el sistema para reportar problemas o solicitar mejoras. Con esto estaremos en contacto en tiempo real y tendremos un historial de sus solicitudes.
+                        <strong>Recomendación:</strong> Use el sistema de Ticket incluido en el sistema para reportar problemas o solicitar mejoras. Con esto estaremos en contacto en tiempo real y tendremos un historial de sus solicitudes.
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <!-- 2. Control de Acceso -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">2. 🔐 Control de Acceso</h5>
+                    <h5 class="mb-0">2. Control de Acceso</h5>
                 </div>
                 <div class="card-body">
                     <p>Es la pantalla inicial del sistema, ésta brinda el control y la seguridad que necesita la información de cada operador. Se utiliza para validar el acceso a los usuarios autorizados al sistema.</p>
@@ -89,7 +89,7 @@
                     </ul>
 
                     <div class="alert alert-warning">
-                        <strong>⚠️ Importante:</strong> Para ingresar al sistema, debe digitar su correo electrónico y la contraseña correspondiente. El sistema también incluye la opción "Recordarme" para mantener la sesión activa.
+                        <strong>Importante:</strong> Para ingresar al sistema, debe digitar su correo electrónico y la contraseña correspondiente. El sistema también incluye la opción "Recordarme" para mantener la sesión activa.
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
             <!-- 3. Recuperación de Contraseña -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">3. 🔑 Recuperación de Contraseña</h5>
+                    <h5 class="mb-0">3. Recuperación de Contraseña</h5>
                 </div>
                 <div class="card-body">
                     <p>En caso de olvidar su contraseña puede iniciar el proceso de recuperación, con el cual podremos validar su acceso y enviar las indicaciones para obtener una nueva contraseña a su correo electrónico registrado en el sistema.</p>
@@ -117,22 +117,22 @@
             <!-- 4. Pantalla Principal -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">4. 🏠 Pantalla Principal y Navegación</h5>
+                    <h5 class="mb-0">4. Pantalla Principal y Navegación</h5>
                 </div>
                 <div class="card-body">
                     <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de Contenedores.Pricer, la que se compone de varias opciones:</p>
                     
                     <div class="row">
                         <div class="col-md-4">
-                            <h6>📋 Menú Principal</h6>
+                            <h6>Menú Principal</h6>
                             <p>En la parte izquierda de la pantalla el sistema muestra los módulos y menús que tiene acceso con su clave.</p>
                         </div>
                         <div class="col-md-4">
-                            <h6>👤 Menú Usuario</h6>
+                            <h6>Menú Usuario</h6>
                             <p>En la parte superior derecha, en el lugar que sale su nombre, podrá encontrar un menú con diferentes opciones, como actualizar sus datos, crear tickets o solicitar ayuda.</p>
                         </div>
                         <div class="col-md-4">
-                            <h6>📊 Mi Panel</h6>
+                            <h6>Mi Panel</h6>
                             <p>El sistema incluye un panel con información útil de cada módulo que compone el sistema. Al pasar el puntero del mouse por cada opción el sistema le mostrará información sobre ese contenido.</p>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
             <!-- 5. Gestión de TATCs -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">5. 📦 Gestión de TATCs</h5>
+                    <h5 class="mb-0">5. Gestión de TATCs</h5>
                 </div>
                 <div class="card-body">
                     <p>Los TATCs (Títulos de Admisión Temporal de Contenedores) son el núcleo del sistema. Aquí podrá gestionar todos los aspectos relacionados con estos documentos aduaneros.</p>
@@ -185,7 +185,7 @@
             <!-- 6. Gestión de TSTCs -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">6. 📤 Gestión de TSTCs</h5>
+                    <h5 class="mb-0">6.  Gestión de TSTCs</h5>
                 </div>
                 <div class="card-body">
                     <p>Los TSTCs (Títulos de Salida Temporal de Contenedores) permiten gestionar las salidas de contenedores del depósito hacia el exterior del país.</p>
@@ -219,7 +219,7 @@
             <!-- 7. Registro de Salidas -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">7. 🚪 Registro de Salidas</h5>
+                    <h5 class="mb-0">7.  Registro de Salidas</h5>
                 </div>
                 <div class="card-body">
                     <p>En este módulo podrá realizar salidas a los TATC registrados. El sistema integra la opción de generar salidas por Declaración de Internación, por Cancelación y Salidas por Traspaso, cada una con la información solicitada por la Aduana.</p>
@@ -261,7 +261,7 @@
             <!-- 8. Control de Plazos -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">8. ⏰ Control de Plazos</h5>
+                    <h5 class="mb-0">8.  Control de Plazos</h5>
                 </div>
                 <div class="card-body">
                     <p>En este módulo se registran las fechas de emisión de los respectivos títulos asociando y calculando las fechas de vencimiento según la normativa aduanera.</p>
@@ -294,7 +294,7 @@
             <!-- 9. Control de Fiscalización -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">9. 📊 Control de Fiscalización</h5>
+                    <h5 class="mb-0">9.  Control de Fiscalización</h5>
                 </div>
                 <div class="card-body">
                     <p>El módulo de Control de Fiscalización proporciona herramientas avanzadas para generar reportes y análisis de movimientos de contenedores, facilitando la supervisión y auditoría de las operaciones.</p>
@@ -382,7 +382,7 @@
                     </ol>
 
                     <div class="alert alert-info">
-                        <strong>💡 Consejo:</strong> Los filtros se mantienen activos entre búsquedas, permitiendo ajustar criterios sin perder la configuración anterior. Use el selector de fechas para rangos rápidos o ingrese fechas específicas manualmente.
+                        <strong> Consejo:</strong> Los filtros se mantienen activos entre búsquedas, permitiendo ajustar criterios sin perder la configuración anterior. Use el selector de fechas para rangos rápidos o ingrese fechas específicas manualmente.
                     </div>
                 </div>
             </div>
@@ -390,7 +390,7 @@
             <!-- 10. Sistema de Tickets -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">10. 🎫 Sistema de Tickets</h5>
+                    <h5 class="mb-0">10.  Sistema de Tickets</h5>
                 </div>
                 <div class="card-body">
                     <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de Contenedores.Pricer a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
@@ -419,7 +419,7 @@
                     </ul>
 
                     <div class="alert alert-info">
-                        <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con Contenedores.Pricer, el cual se compone de dos opciones: costo mensual o costo por ticket.
+                        <strong> Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con Contenedores.Pricer, el cual se compone de dos opciones: costo mensual o costo por ticket.
                     </div>
                 </div>
             </div>
@@ -427,7 +427,7 @@
             <!-- 11. Integración HERMES -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">11. 🌐 Integración HERMES</h5>
+                    <h5 class="mb-0">11.  Integración HERMES</h5>
                 </div>
                 <div class="card-body">
                     <p>El sistema se integra automáticamente con HERMES, el sistema oficial de la Aduana de Chile, enviando mensajes en tiempo real para todas las operaciones.</p>
@@ -462,7 +462,7 @@
             <!-- 12. Procedimientos de Respaldo -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">12. 💾 Procedimientos de Respaldo</h5>
+                    <h5 class="mb-0">12.  Procedimientos de Respaldo</h5>
                 </div>
                 <div class="card-body">
                     <p>Contenedores.Pricer se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
@@ -498,7 +498,7 @@
             <!-- 13. Información Técnica -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">13. ⚙️ Información Técnica</h5>
+                    <h5 class="mb-0">13.  Información Técnica</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -537,7 +537,7 @@
                         <li>Logs de auditoría completos</li>
                     </ul>
 
-                    <h6>📊 Características del Sistema:</h6>
+                    <h6> Características del Sistema:</h6>
                     <ul>
                         <li>Arquitectura modular y escalable</li>
                         <li>API RESTful para integraciones</li>
@@ -552,7 +552,7 @@
             <!-- Contacto y Soporte -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">📞 Contacto y Soporte</h5>
+                    <h5 class="mb-0"> Contacto y Soporte</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -562,7 +562,7 @@
                             Email: herbert.zapata19@gmail.com</p>
                         </div>
                         <div class="col-md-6">
-                            <h6>🏢 Empresa</h6>
+                            <h6> Empresa</h6>
                             <p><strong>Contenedores Tomás Dagnino Vicencio E.I.R.L</strong><br>
                             RUT: 76666087-8<br>
                             Código HERMES: S46</p>
@@ -570,7 +570,7 @@
                     </div>
                     
                     <div class="alert alert-info">
-                        <strong>💡 Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
+                        <strong> Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
                     </div>
                 </div>
             </div>

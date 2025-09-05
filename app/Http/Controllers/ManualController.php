@@ -20,6 +20,6 @@ class ManualController extends Controller
     public function pdf()
     {
         $pdf = \PDF::loadView('manual.pdf');
-        return $pdf->download('manual-sistema-mitac.pdf');
+        return $pdf->download('Manual_Sistema_Contenedores_Pricer_' . now()->format('Y-m-d') . '.pdf');
     }
 }

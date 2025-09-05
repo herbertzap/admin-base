@@ -10,7 +10,7 @@
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-6">
-                                    <h4 class="mb-0">💾 Procedimientos de Respaldo</h4>
+                                    <h4 class="mb-0"> Procedimientos de Respaldo</h4>
                                     <p class="text-sm mb-0">Sistema de Administración de Contenedores.Pricer</p>
                                     <p class="text-xs text-muted">Versión 2.0 | {{ now()->format('d/m/Y') }}</p>
                                 </div>
@@ -29,7 +29,7 @@
                     <!-- Información General -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">1. 📖 Presentación del Sistema</h5>
+                            <h5 class="mb-0">1.  Presentación del Sistema</h5>
                         </div>
                         <div class="card-body">
                             <p><strong>Contenedores.Pricer</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
@@ -43,7 +43,7 @@
                     <!-- Procedimientos de Respaldo -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">2. 🔄 Procedimientos de Respaldo</h5>
+                            <h5 class="mb-0">2.  Procedimientos de Respaldo</h5>
                         </div>
                         <div class="card-body">
                             <p><strong>Contenedores.Pricer</strong> se ejecuta en un ambiente AWS (Amazon Web Services), utilizando servicios de alta disponibilidad y escalabilidad. El sistema implementa múltiples capas de seguridad y respaldo automático para garantizar la integridad y disponibilidad de los datos.</p>
@@ -62,7 +62,7 @@
                                 <div class="col-md-4">
                                     <div class="card bg-light">
                                         <div class="card-body text-center">
-                                            <h6 class="card-title">📅 Respaldos Diarios</h6>
+                                            <h6 class="card-title"> Respaldos Diarios</h6>
                                             <p class="card-text">Martes, jueves y sábados</p>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                 <div class="col-md-4">
                                     <div class="card bg-light">
                                         <div class="card-body text-center">
-                                            <h6 class="card-title">📊 Respaldo Semanal</h6>
+                                            <h6 class="card-title"> Respaldo Semanal</h6>
                                             <p class="card-text">Día lunes (respaldo global)</p>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                 <div class="col-md-4">
                                     <div class="card bg-light">
                                         <div class="card-body text-center">
-                                            <h6 class="card-title">🗓️ Respaldo Mensual</h6>
+                                            <h6 class="card-title"> Respaldo Mensual</h6>
                                             <p class="card-text">Primer día del mes (respaldo global)</p>
                                         </div>
                                     </div>
@@ -94,7 +94,7 @@
                             </ol>
 
                             <div class="alert alert-success">
-                                <strong>✅ Garantía de Seguridad:</strong> Toda la información de archivos y bases de datos está respaldada en múltiples ubicaciones AWS con el fin de no perder ni un kb de información de los clientes.
+                                <strong> Garantía de Seguridad:</strong> Toda la información de archivos y bases de datos está respaldada en múltiples ubicaciones AWS con el fin de no perder ni un kb de información de los clientes.
                             </div>
                         </div>
                     </div>
@@ -102,14 +102,14 @@
                     <!-- Herramientas de Respaldo -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">3. 🛠️ Herramientas de Respaldo</h5>
+                            <h5 class="mb-0">3.  Herramientas de Respaldo</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h6 class="card-title">🗄️ Respaldo de Base de Datos</h6>
+                                            <h6 class="card-title"> Respaldo de Base de Datos</h6>
                                             <p class="card-text">Crear respaldo manual de la base de datos MySQL</p>
                                             <button class="btn btn-primary" onclick="respaldarBaseDatos()">
                                                 <i class="fas fa-database"></i> Crear Respaldo DB
@@ -120,7 +120,7 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h6 class="card-title">📁 Respaldo de Archivos</h6>
+                                            <h6 class="card-title"> Respaldo de Archivos</h6>
                                             <p class="card-text">Crear respaldo manual de archivos del sistema</p>
                                             <button class="btn btn-info" onclick="respaldarArchivos()">
                                                 <i class="fas fa-folder"></i> Crear Respaldo Archivos
@@ -135,7 +135,7 @@
                     <!-- Lista de Respaldos -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">4. 📋 Respaldos Disponibles</h5>
+                            <h5 class="mb-0">4.  Respaldos Disponibles</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -166,7 +166,7 @@
                     <!-- Procedimientos de Recuperación -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">5. 🔧 Procedimientos para Recuperar la Información</h5>
+                            <h5 class="mb-0">5.  Procedimientos para Recuperar la Información</h5>
                         </div>
                         <div class="card-body">
                             <p>Desde el panel de administración AWS, podemos restaurar una copia de los respaldos almacenados. Este proceso toma algunos minutos, una vez terminado el sistema queda en óptimas condiciones de funcionamiento.</p>
@@ -189,7 +189,7 @@
                             </ul>
 
                             <div class="alert alert-warning">
-                                <strong>⚠️ Importante:</strong> En caso de una pérdida del servidor, podemos restaurar la información desde los respaldos automáticos de AWS, respaldos locales o desde el almacenamiento S3 con versionado.
+                                <strong> Importante:</strong> En caso de una pérdida del servidor, podemos restaurar la información desde los respaldos automáticos de AWS, respaldos locales o desde el almacenamiento S3 con versionado.
                             </div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
                     <!-- Monitoreo y Alertas -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">6. 📊 Monitoreo y Alertas</h5>
+                            <h5 class="mb-0">6.  Monitoreo y Alertas</h5>
                         </div>
                         <div class="card-body">
                             <p>El sistema implementa monitoreo continuo y alertas automáticas para garantizar la integridad de los respaldos y la disponibilidad del sistema.</p>
@@ -224,17 +224,17 @@
                     <!-- Contacto y Soporte -->
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="mb-0">📞 Contacto y Soporte</h5>
+                            <h5 class="mb-0"> Contacto y Soporte</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h6>👨‍💻 Desarrollador</h6>
+                                    <h6> Desarrollador</h6>
                                     <p><strong>Herbert Zapata</strong><br>
                                     Email: herbert.zapata19@gmail.com</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <h6>🏢 Empresa</h6>
+                                    <h6> Empresa</h6>
                                     <p><strong>Contenedores Tomás Dagnino Vicencio E.I.R.L</strong><br>
                                     RUT: 76666087-8<br>
                                     Código HERMES: S46</p>
@@ -242,7 +242,7 @@
                             </div>
                             
                             <div class="alert alert-info">
-                                <strong>💡 Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
+                                <strong> Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
                             </div>
                         </div>
                     </div>
