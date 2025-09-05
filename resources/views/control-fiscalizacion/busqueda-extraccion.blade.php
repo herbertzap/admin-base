@@ -545,8 +545,8 @@
                 resultadosDiv.remove();
             }
             
-            // Recargar la página para limpiar completamente
-            window.location.href = window.location.pathname;
+            // Enviar formulario con valores por defecto para limpiar la búsqueda
+            document.getElementById('formList').submit();
             
         } catch (error) {
             console.error('Error al limpiar filtros:', error);
