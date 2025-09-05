@@ -370,6 +370,37 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         transition: all 0.3s ease;
     }
+    
+    /* Asegurar que todas las columnas sean visibles */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table {
+        min-width: 1200px; /* Ancho mínimo para todas las columnas */
+    }
+    
+    .table th,
+    .table td {
+        white-space: nowrap;
+        min-width: 100px;
+    }
+    
+    /* Columnas específicas con ancho fijo */
+    .table th:nth-child(1), .table td:nth-child(1) { min-width: 150px; } /* Nro Contenedor */
+    .table th:nth-child(2), .table td:nth-child(2) { min-width: 120px; } /* Fecha Ingreso */
+    .table th:nth-child(3), .table td:nth-child(3) { min-width: 100px; } /* Aduana Ingreso */
+    .table th:nth-child(4), .table td:nth-child(4) { min-width: 100px; } /* Aduana Salida */
+    .table th:nth-child(5), .table td:nth-child(5) { min-width: 120px; } /* Tipo Salida */
+    .table th:nth-child(6), .table td:nth-child(6) { min-width: 120px; } /* Fecha Salida */
+    .table th:nth-child(7), .table td:nth-child(7) { min-width: 150px; } /* DI / Aduana / Oper */
+    .table th:nth-child(8), .table td:nth-child(8) { min-width: 80px; }  /* Tipo */
+    .table th:nth-child(9), .table td:nth-child(9) { min-width: 150px; } /* TATC / TSTC */
+    .table th:nth-child(10), .table td:nth-child(10) { min-width: 120px; } /* Tipo Contenedor */
+    .table th:nth-child(11), .table td:nth-child(11) { min-width: 80px; }  /* Tamaño */
+    .table th:nth-child(12), .table td:nth-child(12) { min-width: 150px; } /* Lugar de Depósito */
+    .table th:nth-child(13), .table td:nth-child(13) { min-width: 100px; } /* Ver Detalle */
 </style>
 @endpush
 
