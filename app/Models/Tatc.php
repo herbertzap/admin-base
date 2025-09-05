@@ -180,29 +180,37 @@ class Tatc extends Model
 
     /**
      * Obtener código de operador según resolución HERMES 2024
+     * Convierte código alfanumérico (S46) a set numérico (246) según Anexo 51-36
      */
     private static function obtenerCodigoOperador($operador = null)
     {
+        // Mapeo de códigos alfanuméricos a set numérico según Anexo 51-36
+        $codigosOperador = [
+            'S46' => 246, // CONTENEDORES TOMAS DAGNINO VICENCIO E.I.R.L.
+            // Agregar más operadores según sea necesario
+        ];
+        
         if ($operador) {
-            // Buscar código en la tabla de operadores
-            $codigo = Operador::where('id', $operador->id)->value('codigo_hermes');
-            if ($codigo) {
-                return (int) $codigo;
+            // Buscar código alfanumérico en la tabla de operadores
+            $codigoAlfanumerico = Operador::where('id', $operador->id)->value('codigo');
+            if ($codigoAlfanumerico && isset($codigosOperador[$codigoAlfanumerico])) {
+                return $codigosOperador[$codigoAlfanumerico];
             }
         }
         
-        // Código por defecto para S46 (Contenedores Tomás Dagnino)
+        // Código por defecto para S46 (Contenedores Tomás Dagnino) = 246
         return 246;
     }
 
     /**
      * Generar número de TATC según nueva codificación HERMES 2024
      * Formato: AAAA-AA-OOO-CCCCCCC (16 dígitos)
-     * AAAA = Año, AA = Aduana, OOO = Operador, CCCCCCC = Correlativo
+     * AAAA = Año (4 dígitos), AA = Aduana (2 dígitos), OOO = Operador (3 dígitos), CCCCCCC = Correlativo (7 dígitos)
+     * Ejemplo: 2025341170000001
      */
     public static function generarNumeroTatcHermes2024($aduanaIngreso, $operador = null)
     {
-        // Obtener año actual
+        // Obtener año actual (4 dígitos)
         $anio = date('Y');
         
         // Obtener código de aduana (2 dígitos)
@@ -211,10 +219,10 @@ class Tatc extends Model
         // Obtener código de operador (3 dígitos)
         $codigoOperador = self::obtenerCodigoOperador($operador);
         
-        // Obtener correlativo anual (7 dígitos)
-        $correlativo = self::obtenerCorrelativoAnual($anio);
+        // Obtener correlativo anual por aduana y operador (7 dígitos)
+        $correlativo = self::obtenerCorrelativoAnualPorAduanaOperador($anio, $codigoAduana, $codigoOperador);
         
-        // Formatear número completo
+        // Formatear número completo según HERMES 2024
         $numeroTatc = sprintf('%04d%02d%03d%07d', $anio, $codigoAduana, $codigoOperador, $correlativo);
         
         return $numeroTatc;
@@ -245,7 +253,7 @@ class Tatc extends Model
     }
     
     /**
-     * Obtener correlativo anual para el año especificado
+     * Obtener correlativo anual para el año especificado (método legacy)
      */
     private static function obtenerCorrelativoAnual($anio)
     {
@@ -261,6 +269,40 @@ class Tatc extends Model
         }
         
         return 1; // Primer TATC del año
+    }
+
+    /**
+     * Obtener correlativo anual por aduana y operador según HERMES 2024
+     * Considera tanto TATCs con formato nuevo como formato antiguo
+     */
+    private static function obtenerCorrelativoAnualPorAduanaOperador($anio, $codigoAduana, $codigoOperador)
+    {
+        // Buscar el último TATC del año con la misma aduana y operador (formato nuevo HERMES 2024)
+        $ultimoTatcNuevo = self::whereYear('created_at', $anio)
+            ->where('numero_tatc', 'like', $anio . sprintf('%02d%03d', $codigoAduana, $codigoOperador) . '%')
+            ->orderBy('numero_tatc', 'desc')
+            ->first();
+        
+        // Buscar TATCs antiguos de la misma aduana (formato antiguo)
+        $tatcsAntiguos = self::where('aduana_ingreso', $codigoAduana)
+            ->whereYear('created_at', $anio)
+            ->get();
+        
+        $correlativoNuevo = 0;
+        $correlativoAntiguo = 0;
+        
+        // Obtener correlativo del formato nuevo
+        if ($ultimoTatcNuevo) {
+            $correlativoNuevo = (int) substr($ultimoTatcNuevo->numero_tatc, -7);
+        }
+        
+        // Obtener correlativo del formato antiguo (contar TATCs existentes)
+        $correlativoAntiguo = $tatcsAntiguos->count();
+        
+        // Usar el mayor correlativo + 1
+        $correlativo = max($correlativoNuevo, $correlativoAntiguo) + 1;
+        
+        return $correlativo;
     }
     
     /**

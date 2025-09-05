@@ -196,35 +196,19 @@ class TatcController extends Controller
     }
 
     /**
-     * Genera automáticamente el número de TATC
-     * Formato: [Código Aduana][Operador][Código Operador][Número Secuencial]
-     * Ejemplo: 342460000010 (34=Aduana Valparaíso, 2=Operador, 46=Código Operador, 0000010=Número)
+     * Genera automáticamente el número de TATC según formato HERMES 2024
+     * Formato: AAAA-AA-OOO-CCCCCCC (16 dígitos)
+     * AAAA = Año (4 dígitos), AA = Aduana (2 dígitos), OOO = Operador (3 dígitos), CCCCCCC = Correlativo (7 dígitos)
+     * Ejemplo: 2025341170000001
      */
     public function generarNumeroTatc($aduanaIngreso)
     {
-        // Usar directamente el código de aduana que viene del formulario
-        $codigoAduana = $aduanaIngreso;
+        // Obtener el operador del usuario autenticado
+        $user = Auth::user();
+        $operador = $user ? $user->operador : null;
         
-        // Obtener código del operador del usuario autenticado
-        $codigoOperador = $this->obtenerCodigoOperador();
-        
-        // Obtener el último número secuencial para este operador en esta aduana
-        $ultimoTatc = Tatc::where('numero_tatc', 'LIKE', $codigoAduana . '2' . $codigoOperador . '%')
-            ->orderBy('numero_tatc', 'desc')
-            ->first();
-        
-        $numeroSecuencial = 1;
-        if ($ultimoTatc) {
-            // Extraer el número secuencial del último TATC (últimos 6 dígitos)
-            $ultimoNumero = substr($ultimoTatc->numero_tatc, -6);
-            $numeroSecuencial = intval($ultimoNumero) + 1;
-        }
-        
-        // Formatear el número secuencial con ceros a la izquierda (6 dígitos)
-        $numeroSecuencialFormateado = str_pad($numeroSecuencial, 6, '0', STR_PAD_LEFT);
-        
-        // Formato: código aduana + operador + código operador + número secuencial
-        return $codigoAduana . '2' . $codigoOperador . $numeroSecuencialFormateado;
+        // Usar la nueva función HERMES 2024
+        return Tatc::generarNumeroTatcHermes2024($aduanaIngreso, $operador);
     }
 
     /**
