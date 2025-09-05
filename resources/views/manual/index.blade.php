@@ -41,10 +41,11 @@
                         <li><strong>6. Gestión de TSTCs</strong></li>
                         <li><strong>7. Registro de Salidas</strong></li>
                         <li><strong>8. Control de Plazos</strong></li>
-                        <li><strong>9. Sistema de Tickets</strong></li>
-                        <li><strong>10. Integración HERMES</strong></li>
-                        <li><strong>11. Procedimientos de Respaldo</strong></li>
-                        <li><strong>12. Información Técnica</strong></li>
+                        <li><strong>9. Control de Fiscalización</strong></li>
+                        <li><strong>10. Sistema de Tickets</strong></li>
+                        <li><strong>11. Integración HERMES</strong></li>
+                        <li><strong>12. Procedimientos de Respaldo</strong></li>
+                        <li><strong>13. Información Técnica</strong></li>
                     </ol>
                 </div>
             </div>
@@ -290,10 +291,106 @@
                 </div>
             </div>
 
-            <!-- 9. Sistema de Tickets -->
+            <!-- 9. Control de Fiscalización -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">9. 🎫 Sistema de Tickets</h5>
+                    <h5 class="mb-0">9. 📊 Control de Fiscalización</h5>
+                </div>
+                <div class="card-body">
+                    <p>El módulo de Control de Fiscalización proporciona herramientas avanzadas para generar reportes y análisis de movimientos de contenedores, facilitando la supervisión y auditoría de las operaciones.</p>
+                    
+                    <h6>Módulos de Fiscalización:</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>📈 Informe de Movimientos</h6>
+                            <p>Genera reportes detallados de todos los movimientos de contenedores con filtros avanzados y opciones de exportación.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>🔍 Búsqueda y Extracción</h6>
+                            <p>Herramienta de búsqueda avanzada para localizar contenedores específicos y extraer información detallada.</p>
+                        </div>
+                    </div>
+
+                    <h6>Funcionalidades del Informe de Movimientos:</h6>
+                    <ul>
+                        <li><strong>Filtros Avanzados:</strong>
+                            <ul>
+                                <li>Tipos de Títulos (TATC/TSTC/Todos)</li>
+                                <li>Tipos de Movimiento (Ingresados/Salidas por DI/Cancelación/Traspaso)</li>
+                                <li>Filtro por Fechas (Ingreso o Salida)</li>
+                                <li>Selector de Rango de Fechas con opciones predefinidas</li>
+                                <li>Aduana de Ingreso y Salida</li>
+                                <li>Lugar de Depósito</li>
+                                <li>Número de Contenedor (búsqueda parcial)</li>
+                                <li>Número TATC/TSTC (búsqueda específica)</li>
+                                <li>Tipo de Contenedor (20, 40, 45 pies)</li>
+                                <li>Estado del Contenedor (OP - Operativo, DM - Dañado)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Visualización de Datos:</strong>
+                            <ul>
+                                <li>Tabla ordenable por columnas (clic en encabezados)</li>
+                                <li>Indicadores visuales de ordenamiento (ascendente/descendente)</li>
+                                <li>Información completa de cada movimiento</li>
+                                <li>Enlaces directos a detalles de TATC/TSTC/Salidas</li>
+                            </ul>
+                        </li>
+                        <li><strong>Opciones de Exportación:</strong>
+                            <ul>
+                                <li><strong>Exportar a Excel:</strong> Descarga archivo CSV con todos los datos filtrados</li>
+                                <li><strong>Imprimir PDF:</strong> Genera reporte en formato PDF listo para impresión</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h6>Funcionalidades de Búsqueda y Extracción:</h6>
+                    <ul>
+                        <li><strong>Filtros Específicos:</strong>
+                            <ul>
+                                <li>Búsqueda por número de contenedor</li>
+                                <li>Búsqueda por número TATC/TSTC</li>
+                                <li>Filtro por tipo y estado de contenedor</li>
+                                <li>Filtro por aduanas y fechas</li>
+                            </ul>
+                        </li>
+                        <li><strong>Resultados Inteligentes:</strong>
+                            <ul>
+                                <li>Botón "Ver" que redirige al detalle apropiado según el estado</li>
+                                <li>Acceso directo a información de vigencia, salidas y prórrogas</li>
+                                <li>Exportación de resultados filtrados</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h6>Características Técnicas:</h6>
+                    <ul>
+                        <li><strong>Persistencia de Filtros:</strong> Los filtros aplicados se mantienen después de cada búsqueda</li>
+                        <li><strong>Selector de Fechas Inteligente:</strong> DateRangePicker con opciones predefinidas (Hoy, Ayer, Últimos 7 días, etc.)</li>
+                        <li><strong>Ordenamiento Dinámico:</strong> Clic en encabezados para ordenar ascendente/descendente</li>
+                        <li><strong>Exportación Completa:</strong> Incluye todos los filtros aplicados en el archivo exportado</li>
+                        <li><strong>Interfaz Responsiva:</strong> Optimizada para dispositivos móviles y tablets</li>
+                    </ul>
+
+                    <h6>Proceso de Uso:</h6>
+                    <ol>
+                        <li>Ir a "Control de Fiscalización" → "Informe de Movimientos"</li>
+                        <li>Seleccionar filtros deseados (tipo, fechas, aduanas, etc.)</li>
+                        <li>Hacer clic en "FILTRAR" para aplicar filtros</li>
+                        <li>Revisar resultados en la tabla ordenable</li>
+                        <li>Usar "EXPORTAR" para descargar Excel o "IMPRIMIR" para PDF</li>
+                        <li>Hacer clic en "Ver" para acceder a detalles específicos</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Consejo:</strong> Los filtros se mantienen activos entre búsquedas, permitiendo ajustar criterios sin perder la configuración anterior. Use el selector de fechas para rangos rápidos o ingrese fechas específicas manualmente.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Sistema de Tickets -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">10. 🎫 Sistema de Tickets</h5>
                 </div>
                 <div class="card-body">
                     <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de MITATC a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
@@ -327,10 +424,10 @@
                 </div>
             </div>
 
-            <!-- 10. Integración HERMES -->
+            <!-- 11. Integración HERMES -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">10. 🌐 Integración HERMES</h5>
+                    <h5 class="mb-0">11. 🌐 Integración HERMES</h5>
                 </div>
                 <div class="card-body">
                     <p>El sistema se integra automáticamente con HERMES, el sistema oficial de la Aduana de Chile, enviando mensajes en tiempo real para todas las operaciones.</p>
@@ -362,10 +459,10 @@
                 </div>
             </div>
 
-            <!-- 11. Procedimientos de Respaldo -->
+            <!-- 12. Procedimientos de Respaldo -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">11. 💾 Procedimientos de Respaldo</h5>
+                    <h5 class="mb-0">12. 💾 Procedimientos de Respaldo</h5>
                 </div>
                 <div class="card-body">
                     <p>MITATC se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
@@ -398,10 +495,10 @@
                 </div>
             </div>
 
-            <!-- 12. Información Técnica -->
+            <!-- 13. Información Técnica -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">12. ⚙️ Información Técnica</h5>
+                    <h5 class="mb-0">13. ⚙️ Información Técnica</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
