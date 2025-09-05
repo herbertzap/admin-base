@@ -31,8 +31,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="{{ route('control-plazos.exportar') }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-download"></i> Exportar
+                                    <a href="{{ route('control-plazos.exportar', ['tipo' => 'tatc']) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-download"></i> Exportar Prórrogas
                                     </a>
                                 </div>
                             </div>

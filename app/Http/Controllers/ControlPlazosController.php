@@ -129,21 +129,90 @@ class ControlPlazosController extends Controller
     }
 
     /**
-     * Exportar registros
+     * Exportar registros a Excel
      */
     public function exportar(Request $request)
     {
         $tipo = $request->get('tipo', 'tatc');
-        $formato = $request->get('formato', 'excel');
-
+        $fecha = now()->format('Y-m-d_H-i-s');
+        
         if ($tipo === 'tatc') {
             $registros = Tatc::with(['user.operador', 'aduana'])->get();
+            $filename = "TATCs_Export_{$fecha}.csv";
+            $headers = [
+                'Número TATC',
+                'Contenedor',
+                'Operador',
+                'Fecha Ingreso',
+                'Aduana',
+                'Estado',
+                'Vigencia'
+            ];
         } else {
             $registros = Tstc::with(['user.operador', 'aduana'])->get();
+            $filename = "TSTCs_Export_{$fecha}.csv";
+            $headers = [
+                'Número TSTC',
+                'Contenedor',
+                'Operador',
+                'Fecha Ingreso',
+                'Aduana',
+                'Estado',
+                'Vigencia'
+            ];
         }
 
-        // Lógica de exportación (placeholder)
-        return redirect()->back()
-            ->with('info', 'Funcionalidad de exportación en desarrollo para ' . strtoupper($tipo));
+        // Crear contenido CSV
+        $csvContent = $this->generarContenidoCSV($registros, $tipo, $headers);
+        
+        // Configurar headers para descarga
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
+        ];
+
+        return response($csvContent, 200, $headers);
+    }
+
+    /**
+     * Generar contenido CSV para exportación
+     */
+    private function generarContenidoCSV($registros, $tipo, $headers)
+    {
+        $output = fopen('php://temp', 'r+');
+        
+        // Agregar BOM para UTF-8 (para que Excel abra correctamente los caracteres especiales)
+        fwrite($output, "\xEF\xBB\xBF");
+        
+        // Escribir headers
+        fputcsv($output, $headers, ';');
+        
+        // Escribir datos
+        foreach ($registros as $registro) {
+            $fechaVencimiento = $registro->created_at->addYear();
+            $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+            $vigencia = $diasRestantes < 0 ? 'Vencido' : ($diasRestantes <= 30 ? 'Por vencer' : 'Vigente');
+            
+            $row = [
+                $tipo === 'tatc' ? $registro->numero_tatc : $registro->numero_tstc,
+                $registro->numero_contenedor ?? 'N/A',
+                $registro->user->operador->nombre_operador ?? 'N/A',
+                $registro->created_at->format('d/m/Y H:i'),
+                $registro->aduana->nombre_aduana ?? 'N/A',
+                $registro->estado ?? 'N/A',
+                $vigencia . ' (' . $fechaVencimiento->format('d/m/Y') . ')'
+            ];
+            
+            fputcsv($output, $row, ';');
+        }
+        
+        rewind($output);
+        $csvContent = stream_get_contents($output);
+        fclose($output);
+        
+        return $csvContent;
     }
 }

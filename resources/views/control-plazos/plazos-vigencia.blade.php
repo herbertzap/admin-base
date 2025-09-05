@@ -31,8 +31,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="{{ route('control-plazos.exportar') }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-download"></i> Exportar
+                                    <a href="{{ route('control-plazos.exportar', ['tipo' => 'tatc']) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-download"></i> Exportar TATCs
+                                    </a>
+                                    <a href="{{ route('control-plazos.exportar', ['tipo' => 'tstc']) }}" class="btn btn-success btn-sm ms-1">
+                                        <i class="fas fa-download"></i> Exportar TSTCs
                                     </a>
                                 </div>
                             </div>
