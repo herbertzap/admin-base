@@ -1,7 +1,7 @@
 <x-layout bodyClass="g-sidenav-show  bg-gray-200">
     <x-navbars.sidebar activePage='manual'></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <x-navbars.navs.auth titlePage="Manual del Sistema MITATC"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Manual del Sistema Contenedores.Pricer"></x-navbars.navs.auth>
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
@@ -10,7 +10,7 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-6">
-                            <h4 class="mb-0">📚 Manual del Sistema MITATC</h4>
+                            <h4 class="mb-0">📚 Manual del Sistema Contenedores.Pricer</h4>
                             <p class="text-sm mb-0">Sistema de Administración de Contenedores</p>
                             <p class="text-xs text-muted">Versión 2.0 | {{ now()->format('d/m/Y') }}</p>
                         </div>
@@ -56,7 +56,7 @@
                     <h5 class="mb-0">1. 📖 Presentación del Sistema</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>MITATC</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
+                    <p><strong>Contenedores.Pricer</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
                     
                     <h6>Características Principales:</h6>
                     <ul>
@@ -120,7 +120,7 @@
                     <h5 class="mb-0">4. 🏠 Pantalla Principal y Navegación</h5>
                 </div>
                 <div class="card-body">
-                    <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de MITATC, la que se compone de varias opciones:</p>
+                    <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de Contenedores.Pricer, la que se compone de varias opciones:</p>
                     
                     <div class="row">
                         <div class="col-md-4">
@@ -393,7 +393,7 @@
                     <h5 class="mb-0">10. 🎫 Sistema de Tickets</h5>
                 </div>
                 <div class="card-body">
-                    <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de MITATC a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
+                    <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de Contenedores.Pricer a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
                     
                     <h6>Características del Sistema de Tickets:</h6>
                     <ul>
@@ -419,7 +419,7 @@
                     </ul>
 
                     <div class="alert alert-info">
-                        <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con MITATC, el cual se compone de dos opciones: costo mensual o costo por ticket.
+                        <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con Contenedores.Pricer, el cual se compone de dos opciones: costo mensual o costo por ticket.
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@
                     <h5 class="mb-0">12. 💾 Procedimientos de Respaldo</h5>
                 </div>
                 <div class="card-body">
-                    <p>MITATC se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
+                    <p>Contenedores.Pricer se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
                     
                     <h6>Sistema de Respaldos Automáticos:</h6>
                     <ul>
@@ -579,7 +579,7 @@
             <div class="card print-footer">
                 <div class="card-body text-center">
                     <p class="mb-0">
-                        <strong>Manual del Sistema MITATC</strong><br>
+                        <strong>Manual del Sistema Contenedores.Pricer</strong><br>
                         Versión: 2.0 | Fecha: {{ now()->format('d/m/Y') }}<br>
                         Sistema de Administración de Contenedores con Integración HERMES<br>
                         <small class="text-muted">Basado en la Resolución Exenta Nº 5660 del 20 de diciembre de 2018</small>
