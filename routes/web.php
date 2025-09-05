@@ -142,6 +142,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('control-fiscalizacion/busqueda-extraccion', [ControlFiscalizacionController::class, 'busquedaExtraccion'])->name('control-fiscalizacion.busqueda-extraccion');
     Route::post('control-fiscalizacion/busqueda-extraccion', [ControlFiscalizacionController::class, 'busquedaExtraccion']);
     Route::post('control-fiscalizacion/exportar', [ControlFiscalizacionController::class, 'exportar'])->name('control-fiscalizacion.exportar');
+    Route::post('control-fiscalizacion/imprimir', [ControlFiscalizacionController::class, 'imprimir'])->name('control-fiscalizacion.imprimir');
 });
 
 // Rutas de HERMES

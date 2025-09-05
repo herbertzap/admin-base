@@ -120,10 +120,18 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5" style="background: linear-gradient(135deg, #e75034 0%, #c73e2a 100%); border: none;">
-                                            <i class="fas fa-search"></i> FILTRAR
-                                        </button>
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-start gap-3">
+                                            <button type="submit" class="btn btn-primary btn-lg px-4" style="background: linear-gradient(135deg, #e75034 0%, #c73e2a 100%); border: none;">
+                                                <i class="fas fa-search"></i> FILTRAR
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-lg px-4" onclick="exportarResultados()">
+                                                <i class="fas fa-file-excel"></i> EXPORTAR
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-lg px-4" onclick="imprimirResultados()">
+                                                <i class="fas fa-print"></i> IMPRIMIR
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -224,9 +232,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-6 text-center help-block">
-                                                <button type="button" class="btn btn-success" onclick="exportarResultados()">
-                                                    <i class="fas fa-download"></i> Exportar
-                                                </button>
+                                                <!-- Botón de exportar movido arriba -->
                                             </div>
                                             <div class="col-xs-12 col-sm-3 col-md-3">
                                             </div>
@@ -303,6 +309,26 @@
         font-size: 1.1rem;
         border-radius: 0.5rem;
     }
+    
+    .gap-3 {
+        gap: 1rem;
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+    }
+    
+    .btn-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        border: none;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
 </style>
 @endpush
 
@@ -344,8 +370,65 @@
     });
 
     function exportarResultados() {
-        // Implementar exportación
-        alert('Función de exportación en desarrollo');
+        // Obtener los datos del formulario
+        var formData = new FormData(document.getElementById('formList'));
+        
+        // Crear un formulario temporal para enviar los datos
+        var tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = '{{ route("control-fiscalizacion.exportar") }}';
+        tempForm.style.display = 'none';
+        
+        // Agregar el token CSRF
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        tempForm.appendChild(csrfToken);
+        
+        // Agregar todos los campos del formulario
+        for (var pair of formData.entries()) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = pair[0];
+            input.value = pair[1];
+            tempForm.appendChild(input);
+        }
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+        document.body.removeChild(tempForm);
+    }
+    
+    function imprimirResultados() {
+        // Obtener los datos del formulario
+        var formData = new FormData(document.getElementById('formList'));
+        
+        // Crear un formulario temporal para enviar los datos
+        var tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = '{{ route("control-fiscalizacion.imprimir") }}';
+        tempForm.style.display = 'none';
+        
+        // Agregar el token CSRF
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        tempForm.appendChild(csrfToken);
+        
+        // Agregar todos los campos del formulario
+        for (var pair of formData.entries()) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = pair[0];
+            input.value = pair[1];
+            tempForm.appendChild(input);
+        }
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+        document.body.removeChild(tempForm);
     }
 
     // Funcionalidad de ordenamiento de tabla
