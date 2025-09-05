@@ -125,7 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('control-plazos/registro-traspaso', [ControlPlazosController::class, 'registroTraspaso'])->name('control-plazos.registro-traspaso');
     Route::get('control-plazos/{tipo}/{id}', [ControlPlazosController::class, 'show'])->name('control-plazos.show');
     Route::get('control-plazos/buscar', [ControlPlazosController::class, 'buscar'])->name('control-plazos.buscar');
-    Route::post('control-plazos/exportar', [ControlPlazosController::class, 'exportar'])->name('control-plazos.exportar');
+    Route::get('control-plazos/exportar', [ControlPlazosController::class, 'exportar'])->name('control-plazos.exportar');
 });
 
 // Rutas de Control de Inventarios

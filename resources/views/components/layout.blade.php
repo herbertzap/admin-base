@@ -76,6 +76,40 @@
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
 
+    // Debugging para el sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM cargado completamente');
+        
+        // Verificar si el sidebar existe
+        var sidebar = document.getElementById('sidenav-main');
+        if (sidebar) {
+            console.log('Sidebar encontrado:', sidebar);
+            console.log('Clases del sidebar:', sidebar.className);
+            console.log('Estilos del sidebar:', window.getComputedStyle(sidebar));
+        } else {
+            console.error('Sidebar NO encontrado - ID: sidenav-main');
+        }
+        
+        // Verificar si hay errores de JavaScript
+        window.addEventListener('error', function(e) {
+            console.error('Error de JavaScript:', e.error);
+        });
+        
+        // Verificar Bootstrap
+        if (typeof bootstrap !== 'undefined') {
+            console.log('Bootstrap cargado correctamente');
+        } else {
+            console.error('Bootstrap NO cargado');
+        }
+        
+        // Verificar jQuery
+        if (typeof $ !== 'undefined') {
+            console.log('jQuery cargado correctamente');
+        } else {
+            console.error('jQuery NO cargado');
+        }
+    });
+
 </script>
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
