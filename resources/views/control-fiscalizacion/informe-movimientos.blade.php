@@ -32,9 +32,9 @@
                                         <div class="form-group mb-3">
                                             <label for="tipo" class="form-label text-white">Tipos de Títulos</label>
                                             <select name="tipo" id="tipo" class="form-control">
-                                                <option value="*">Todos</option>
-                                                <option value="1">TATC</option>
-                                                <option value="2">TSTC</option>
+                                                <option value="*" {{ (request('tipo') == '*' || !request('tipo')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="1" {{ request('tipo') == '1' ? 'selected' : '' }}>TATC</option>
+                                                <option value="2" {{ request('tipo') == '2' ? 'selected' : '' }}>TSTC</option>
                                             </select>
                                         </div>
                                     </div>
@@ -42,11 +42,11 @@
                                         <div class="form-group mb-3">
                                             <label for="estado" class="form-label text-white">Tipos de Movimiento</label>
                                             <select name="estado" id="estado" class="form-control">
-                                                <option value="*">Todos</option>
-                                                <option value="0">Ingresados</option>
-                                                <option value="1">Salida por DI</option>
-                                                <option value="2">Salida por Cancelación</option>
-                                                <option value="3">Salida por Traspaso</option>
+                                                <option value="*" {{ (request('estado') == '*' || !request('estado')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="0" {{ request('estado') == '0' ? 'selected' : '' }}>Ingresados</option>
+                                                <option value="1" {{ request('estado') == '1' ? 'selected' : '' }}>Salida por DI</option>
+                                                <option value="2" {{ request('estado') == '2' ? 'selected' : '' }}>Salida por Cancelación</option>
+                                                <option value="3" {{ request('estado') == '3' ? 'selected' : '' }}>Salida por Traspaso</option>
                                             </select>
                                         </div>
                                     </div>
@@ -58,11 +58,11 @@
                                             <label class="form-label text-white">Filtrar Por</label>
                                             <div class="mt-2">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="filtro" id="filtro_fechaIngreso" value="0" checked>
+                                                    <input class="form-check-input" type="radio" name="filtro" id="filtro_fechaIngreso" value="0" {{ (request('filtro') == '0' || !request('filtro')) ? 'checked' : '' }}>
                                                     <label class="form-check-label text-white" for="filtro_fechaIngreso">Fecha de Ingreso</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="filtro" id="filtro_fechaSalida" value="1">
+                                                    <input class="form-check-input" type="radio" name="filtro" id="filtro_fechaSalida" value="1" {{ request('filtro') == '1' ? 'checked' : '' }}>
                                                     <label class="form-check-label text-white" for="filtro_fechaSalida">Por Fecha de Salida</label>
                                                 </div>
                                             </div>
@@ -75,9 +75,9 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="rango-fechas" name="rango-fechas" autocomplete="off" value="01/01/2025 - 29/08/2025" required />
-                                                <input type="hidden" class="form-control" name="fecdes" id="fecdes" value="01/01/2025" required>
-                                                <input type="hidden" class="form-control" name="fechas" id="fechas" value="29/08/2025" required>
+                                                <input type="text" class="form-control" id="rango-fechas" name="rango-fechas" autocomplete="off" value="{{ request('rango-fechas', '01/01/2025 - 29/08/2025') }}" required />
+                                                <input type="hidden" class="form-control" name="fecdes" id="fecdes" value="{{ request('fecdes', '01/01/2025') }}" required>
+                                                <input type="hidden" class="form-control" name="fechas" id="fechas" value="{{ request('fechas', '29/08/2025') }}" required>
                                             </div>
                                         </div>
                                     </div>
@@ -88,9 +88,9 @@
                                         <div class="form-group mb-3">
                                             <label for="aduana_id" class="form-label text-white">Aduana de Ingreso</label>
                                             <select name="aduana_id" id="aduana_id" class="form-control">
-                                                <option value="*">Todas</option>
+                                                <option value="*" {{ (request('aduana_id') == '*' || !request('aduana_id')) ? 'selected' : '' }}>Todas</option>
                                                 @foreach($aduanas as $aduana)
-                                                    <option value="{{ $aduana->codigo }}">{{ $aduana->codigo }} - {{ $aduana->nombre_aduana }}</option>
+                                                    <option value="{{ $aduana->codigo }}" {{ request('aduana_id') == $aduana->codigo ? 'selected' : '' }}>{{ $aduana->codigo }} - {{ $aduana->nombre_aduana }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -99,9 +99,9 @@
                                         <div class="form-group mb-3">
                                             <label for="salida_cancelacion_aduana_id" class="form-label text-white">Aduana de Salida</label>
                                             <select name="salida_cancelacion_aduana_id" id="salida_cancelacion_aduana_id" class="form-control">
-                                                <option value="*">Todas</option>
+                                                <option value="*" {{ (request('salida_cancelacion_aduana_id') == '*' || !request('salida_cancelacion_aduana_id')) ? 'selected' : '' }}>Todas</option>
                                                 @foreach($aduanas as $aduana)
-                                                    <option value="{{ $aduana->codigo }}">{{ $aduana->codigo }} - {{ $aduana->nombre_aduana }}</option>
+                                                    <option value="{{ $aduana->codigo }}" {{ request('salida_cancelacion_aduana_id') == $aduana->codigo ? 'selected' : '' }}>{{ $aduana->codigo }} - {{ $aduana->nombre_aduana }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -110,9 +110,9 @@
                                         <div class="form-group mb-3">
                                             <label for="lugardeposito_id" class="form-label text-white">Lugar de Depósito</label>
                                             <select name="lugardeposito_id" id="lugardeposito_id" class="form-control">
-                                                <option value="*">Todos</option>
+                                                <option value="*" {{ (request('lugardeposito_id') == '*' || !request('lugardeposito_id')) ? 'selected' : '' }}>Todos</option>
                                                 @foreach($lugaresDeposito as $lugar)
-                                                    <option value="{{ $lugar->id }}">{{ $lugar->nombre_deposito }}</option>
+                                                    <option value="{{ $lugar->id }}" {{ request('lugardeposito_id') == $lugar->id ? 'selected' : '' }}>{{ $lugar->nombre_deposito }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -124,13 +124,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="numero_contenedor" class="form-label text-white">Número de Contenedor</label>
-                                            <input type="text" name="numero_contenedor" id="numero_contenedor" class="form-control" placeholder="Ingrese número de contenedor">
+                                            <input type="text" name="numero_contenedor" id="numero_contenedor" class="form-control" placeholder="Ingrese número de contenedor" value="{{ request('numero_contenedor') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="numero_tatc" class="form-label text-white">Número TATC/TSTC</label>
-                                            <input type="text" name="numero_tatc" id="numero_tatc" class="form-control" placeholder="Ingrese número TATC o TSTC">
+                                            <input type="text" name="numero_tatc" id="numero_tatc" class="form-control" placeholder="Ingrese número TATC o TSTC" value="{{ request('numero_tatc') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -140,10 +140,10 @@
                                         <div class="form-group mb-3">
                                             <label for="tipo_contenedor" class="form-label text-white">Tipo de Contenedor</label>
                                             <select name="tipo_contenedor" id="tipo_contenedor" class="form-control">
-                                                <option value="*">Todos</option>
-                                                <option value="20">20 pies</option>
-                                                <option value="40">40 pies</option>
-                                                <option value="45">45 pies</option>
+                                                <option value="*" {{ (request('tipo_contenedor') == '*' || !request('tipo_contenedor')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="20" {{ request('tipo_contenedor') == '20' ? 'selected' : '' }}>20 pies</option>
+                                                <option value="40" {{ request('tipo_contenedor') == '40' ? 'selected' : '' }}>40 pies</option>
+                                                <option value="45" {{ request('tipo_contenedor') == '45' ? 'selected' : '' }}>45 pies</option>
                                             </select>
                                         </div>
                                     </div>
@@ -151,9 +151,9 @@
                                         <div class="form-group mb-3">
                                             <label for="estado_contenedor" class="form-label text-white">Estado del Contenedor</label>
                                             <select name="estado_contenedor" id="estado_contenedor" class="form-control">
-                                                <option value="*">Todos</option>
-                                                <option value="OP">OP - Operativo</option>
-                                                <option value="DM">DM - Dañado</option>
+                                                <option value="*" {{ (request('estado_contenedor') == '*' || !request('estado_contenedor')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="OP" {{ request('estado_contenedor') == 'OP' ? 'selected' : '' }}>OP - Operativo</option>
+                                                <option value="DM" {{ request('estado_contenedor') == 'DM' ? 'selected' : '' }}>DM - Dañado</option>
                                             </select>
                                         </div>
                                     </div>
