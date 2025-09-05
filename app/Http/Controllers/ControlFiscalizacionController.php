@@ -55,7 +55,7 @@ class ControlFiscalizacionController extends Controller
     {
         $query = collect();
 
-        // Obtener TATCs
+        // Obtener TATCs SIN salidas (para evitar duplicados)
         $tatcs = Tatc::with(['user', 'aduana', 'empresaTransportista'])
             ->when($request->tipo && $request->tipo !== '*', function($q) use ($request) {
                 // Si se selecciona TSTC (2), no mostrar TATCs
@@ -88,6 +88,7 @@ class ControlFiscalizacionController extends Controller
                 }
                 return $q;
             })
+            ->whereDoesntHave('salidas') // Solo TATCs SIN salidas para evitar duplicados
             ->get()
             ->map(function($tatc) {
                 return [
