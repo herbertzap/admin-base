@@ -70,25 +70,55 @@
                                                 <td class="fw-bold">Vigencia:</td>
                                                 <td>
                                                     @php
-                                                        $fechaVencimiento = $registro->created_at->addYear();
-                                                        $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
-                                                        $estaVencido = $diasRestantes < 0;
-                                                        $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                        // Verificar si tiene salidas por cancelación
+                                                        $tieneCancelacion = $registro->salidas()->where('tipo_salida', 'Cancelación')->where('estado', 'Aprobado')->exists();
+                                                        $tieneInternacion = $registro->salidas()->where('tipo_salida', 'Declaración de Internación')->where('estado', 'Aprobado')->exists();
+                                                        $tieneTraspaso = $registro->salidas()->where('tipo_salida', 'Traspaso')->where('estado', 'Aprobado')->exists();
+                                                        
+                                                        if ($tieneCancelacion) {
+                                                            $estadoVigencia = 'Cancelado';
+                                                            $claseBadge = 'bg-danger';
+                                                            $icono = 'fas fa-ban';
+                                                            $textoVigencia = 'Cancelado por salida';
+                                                        } elseif ($tieneInternacion) {
+                                                            $estadoVigencia = 'Internado';
+                                                            $claseBadge = 'bg-info';
+                                                            $icono = 'fas fa-check-circle';
+                                                            $textoVigencia = 'Internado';
+                                                        } elseif ($tieneTraspaso) {
+                                                            $estadoVigencia = 'Traspasado';
+                                                            $claseBadge = 'bg-warning';
+                                                            $icono = 'fas fa-exchange-alt';
+                                                            $textoVigencia = 'Traspasado';
+                                                        } else {
+                                                            // Solo calcular vigencia si no tiene salidas
+                                                            $fechaVencimiento = $registro->created_at->addYear();
+                                                            $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
+                                                            $estaVencido = $diasRestantes < 0;
+                                                            $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                            
+                                                            if ($estaVencido) {
+                                                                $estadoVigencia = 'Vencido';
+                                                                $claseBadge = 'bg-danger';
+                                                                $icono = 'fas fa-exclamation-triangle';
+                                                                $textoVigencia = 'Vencido desde ' . $fechaVencimiento->format('d/m/Y');
+                                                            } elseif ($porVencer) {
+                                                                $estadoVigencia = 'Por vencer';
+                                                                $claseBadge = 'bg-warning';
+                                                                $icono = 'fas fa-clock';
+                                                                $textoVigencia = 'Vigente hasta ' . $fechaVencimiento->format('d/m/Y') . ' (' . $diasRestantes . ' días)';
+                                                            } else {
+                                                                $estadoVigencia = 'Vigente';
+                                                                $claseBadge = 'bg-success';
+                                                                $icono = 'fas fa-check-circle';
+                                                                $textoVigencia = 'Vigente hasta ' . $fechaVencimiento->format('d/m/Y') . ' (' . $diasRestantes . ' días)';
+                                                            }
+                                                        }
                                                     @endphp
                                                     
-                                                    @if($estaVencido)
-                                                        <span class="badge bg-danger">
-                                                            <i class="fas fa-exclamation-triangle"></i> Vencido desde {{ $fechaVencimiento->format('d/m/Y') }}
-                                                        </span>
-                                                    @elseif($porVencer)
-                                                        <span class="badge bg-warning">
-                                                            <i class="fas fa-clock"></i> Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }} ({{ $diasRestantes }} días)
-                                                        </span>
-                                                    @else
-                                                        <span class="badge bg-success">
-                                                            <i class="fas fa-check-circle"></i> Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }} ({{ $diasRestantes }} días)
-                                                        </span>
-                                                    @endif
+                                                    <span class="badge {{ $claseBadge }}">
+                                                        <i class="{{ $icono }}"></i> {{ $textoVigencia }}
+                                                    </span>
                                                 </td>
                                             </tr>
                                         </table>

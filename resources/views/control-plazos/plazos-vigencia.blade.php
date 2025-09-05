@@ -112,25 +112,49 @@
                                                         </td>
                                                         <td>
                                                             @php
-                                                                $fechaVencimiento = $tatc->created_at->addYear();
-                                                                $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
-                                                                $estaVencido = $diasRestantes < 0;
-                                                                $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                                // Verificar si tiene salidas
+                                                                $tieneCancelacion = $tatc->salidas()->where('tipo_salida', 'Cancelación')->where('estado', 'Aprobado')->exists();
+                                                                $tieneInternacion = $tatc->salidas()->where('tipo_salida', 'Declaración de Internación')->where('estado', 'Aprobado')->exists();
+                                                                $tieneTraspaso = $tatc->salidas()->where('tipo_salida', 'Traspaso')->where('estado', 'Aprobado')->exists();
+                                                                
+                                                                if ($tieneCancelacion) {
+                                                                    $estadoVigencia = 'Cancelado';
+                                                                    $claseBadge = 'bg-gradient-danger';
+                                                                    $textoVigencia = 'Cancelado';
+                                                                } elseif ($tieneInternacion) {
+                                                                    $estadoVigencia = 'Internado';
+                                                                    $claseBadge = 'bg-gradient-info';
+                                                                    $textoVigencia = 'Internado';
+                                                                } elseif ($tieneTraspaso) {
+                                                                    $estadoVigencia = 'Traspasado';
+                                                                    $claseBadge = 'bg-gradient-warning';
+                                                                    $textoVigencia = 'Traspasado';
+                                                                } else {
+                                                                    // Solo calcular vigencia si no tiene salidas
+                                                                    $fechaVencimiento = $tatc->created_at->addYear();
+                                                                    $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
+                                                                    $estaVencido = $diasRestantes < 0;
+                                                                    $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
+                                                                    
+                                                                    if ($estaVencido) {
+                                                                        $estadoVigencia = 'Vencido';
+                                                                        $claseBadge = 'bg-gradient-danger';
+                                                                        $textoVigencia = 'Vencido desde ' . $fechaVencimiento->format('d/m/Y');
+                                                                    } elseif ($porVencer) {
+                                                                        $estadoVigencia = 'Por vencer';
+                                                                        $claseBadge = 'bg-gradient-warning';
+                                                                        $textoVigencia = 'Vigente hasta ' . $fechaVencimiento->format('d/m/Y');
+                                                                    } else {
+                                                                        $estadoVigencia = 'Vigente';
+                                                                        $claseBadge = 'bg-gradient-success';
+                                                                        $textoVigencia = 'Vigente hasta ' . $fechaVencimiento->format('d/m/Y');
+                                                                    }
+                                                                }
                                                             @endphp
                                                             
-                                                            @if($estaVencido)
-                                                                <span class="badge badge-sm bg-gradient-danger">
-                                                                    Vencido desde {{ $fechaVencimiento->format('d/m/Y') }}
-                                                                </span>
-                                                            @elseif($porVencer)
-                                                                <span class="badge badge-sm bg-gradient-warning">
-                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
-                                                                </span>
-                                                            @else
-                                                                <span class="badge badge-sm bg-gradient-success">
-                                                                    Vigente hasta {{ $fechaVencimiento->format('d/m/Y') }}
-                                                                </span>
-                                                            @endif
+                                                            <span class="badge badge-sm {{ $claseBadge }}">
+                                                                {{ $textoVigencia }}
+                                                            </span>
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="btn-group" role="group">
