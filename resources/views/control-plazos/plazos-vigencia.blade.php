@@ -113,7 +113,7 @@
                                                         <td>
                                                             @php
                                                                 $fechaVencimiento = $tatc->created_at->addYear();
-                                                                $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+                                                                $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
                                                                 $estaVencido = $diasRestantes < 0;
                                                                 $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
                                                             @endphp
@@ -228,7 +228,7 @@
                                                         <td>
                                                             @php
                                                                 $fechaVencimiento = $tstc->created_at->addYear();
-                                                                $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+                                                                $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
                                                                 $estaVencido = $diasRestantes < 0;
                                                                 $porVencer = $diasRestantes <= 30 && $diasRestantes >= 0;
                                                             @endphp

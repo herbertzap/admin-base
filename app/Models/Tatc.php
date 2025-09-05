@@ -344,6 +344,6 @@ class Tatc extends Model
      */
     public function getDiasRestantesAttribute()
     {
-        return now()->diffInDays($this->fecha_vencimiento, false);
+        return floor(now()->diffInDays($this->fecha_vencimiento, false));
     }
 }

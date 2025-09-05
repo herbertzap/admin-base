@@ -193,7 +193,7 @@ class ControlPlazosController extends Controller
         // Escribir datos
         foreach ($registros as $registro) {
             $fechaVencimiento = $registro->created_at->addYear();
-            $diasRestantes = now()->diffInDays($fechaVencimiento, false);
+            $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
             $vigencia = $diasRestantes < 0 ? 'Vencido' : ($diasRestantes <= 30 ? 'Por vencer' : 'Vigente');
             
             $row = [
