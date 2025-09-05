@@ -27,10 +27,8 @@ class ControlPlazosController extends Controller
             ->paginate(15);
 
         // Solo TSTCs que NO tienen salidas registradas (realmente vigentes)
+        // Nota: Las salidas solo están relacionadas con TATCs, no con TSTCs
         $tstcsVigentes = Tstc::with(['user.operador', 'aduana'])
-            ->whereDoesntHave('salidas', function($query) {
-                $query->where('estado', '!=', 'Cancelado');
-            })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
