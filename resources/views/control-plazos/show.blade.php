@@ -1,5 +1,5 @@
 <x-layout>
-    <x-navbars.sidebar activePage="control-plazos"></x-navbars.sidebar>
+    <x-navbars.sidebar activePage="plazos-vigencia"></x-navbars.sidebar>
     
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <x-navbars.navs.auth titlePage="Detalle de {{ strtoupper($tipo) }}"></x-navbars.navs.auth>
