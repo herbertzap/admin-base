@@ -337,6 +337,18 @@
             </li>
             <!-- Fin Manual del Sistema -->
 
+            <!-- Procedimientos de Respaldo -->
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'procedimientos-respaldo' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('procedimientos-respaldo.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">backup</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Procedimientos de Respaldo</span>
+                </a>
+            </li>
+            <!-- Fin Procedimientos de Respaldo -->
+
             <!-- Tickets Soporte -->
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'tickets' ? ' active bg-gradient-primary' : '' }} " data-bs-toggle="collapse" href="#ticketsMenu" role="button" aria-expanded="{{ $activePage == 'tickets' ? 'true' : 'false' }}" aria-controls="ticketsMenu">

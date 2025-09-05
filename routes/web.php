@@ -27,6 +27,7 @@ use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\ControlPlazosController;
 use App\Http\Controllers\ControlInventariosController;
 use App\Http\Controllers\ControlFiscalizacionController;
+use App\Http\Controllers\ProcedimientosRespaldoController;
 
 
 
@@ -161,4 +162,14 @@ Route::prefix('hermes')->name('hermes.')->middleware(['auth'])->group(function (
 Route::prefix('manual')->name('manual.')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\ManualController::class, 'index'])->name('index');
     Route::get('/pdf', [App\Http\Controllers\ManualController::class, 'pdf'])->name('pdf');
+});
+
+// Rutas de Procedimientos de Respaldo
+Route::prefix('procedimientos-respaldo')->name('procedimientos-respaldo.')->middleware(['auth'])->group(function () {
+    Route::get('/', [ProcedimientosRespaldoController::class, 'index'])->name('index');
+    Route::get('/pdf', [ProcedimientosRespaldoController::class, 'pdf'])->name('pdf');
+    Route::post('/respaldar-db', [ProcedimientosRespaldoController::class, 'respaldarBaseDatos'])->name('respaldar-db');
+    Route::post('/respaldar-archivos', [ProcedimientosRespaldoController::class, 'respaldarArchivos'])->name('respaldar-archivos');
+    Route::get('/listar', [ProcedimientosRespaldoController::class, 'listarRespaldos'])->name('listar');
+    Route::get('/descargar/{archivo}', [ProcedimientosRespaldoController::class, 'descargarRespaldo'])->name('descargar');
 });
