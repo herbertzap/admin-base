@@ -510,48 +510,8 @@
     }
 
     function limpiarFiltros() {
-        try {
-            // Limpiar todos los campos del formulario
-            document.getElementById('formList').reset();
-            
-            // Restablecer valores por defecto
-            document.getElementById('tipo').value = '*';
-            document.getElementById('estado').value = '*';
-            document.getElementById('filtro_fechaIngreso').checked = true;
-            document.getElementById('filtro_fechaSalida').checked = false;
-            document.getElementById('aduana_id').value = '*';
-            document.getElementById('salida_cancelacion_aduana_id').value = '*';
-            document.getElementById('lugardeposito_id').value = '*';
-            document.getElementById('numero_contenedor').value = '';
-            document.getElementById('numero_tatc').value = '';
-            document.getElementById('tipo_contenedor').value = '*';
-            document.getElementById('estado_contenedor').value = '*';
-            
-            // Restablecer fechas por defecto
-            document.getElementById('rango-fechas').value = '01/01/2019 - 31/12/2025';
-            document.getElementById('fecdes').value = '01/01/2019';
-            document.getElementById('fechas').value = '31/12/2025';
-            
-            // Actualizar el DateRangePicker si existe
-            if ($('#rango-fechas').data('daterangepicker')) {
-                $('#rango-fechas').data('daterangepicker').setStartDate(moment('01/01/2019', 'DD/MM/YYYY'));
-                $('#rango-fechas').data('daterangepicker').setEndDate(moment('31/12/2025', 'DD/MM/YYYY'));
-            }
-            
-            // Limpiar resultados
-            var resultadosDiv = document.querySelector('.box.box-solid');
-            if (resultadosDiv) {
-                resultadosDiv.remove();
-            }
-            
-            // Enviar formulario con valores por defecto para limpiar la búsqueda
-            document.getElementById('formList').submit();
-            
-        } catch (error) {
-            console.error('Error al limpiar filtros:', error);
-            // Si hay error, simplemente recargar la página
-            window.location.href = window.location.pathname;
-        }
+        // Simplemente recargar la página sin parámetros para limpiar todos los filtros
+        window.location.href = window.location.pathname;
     }
 </script>
 @endpush
