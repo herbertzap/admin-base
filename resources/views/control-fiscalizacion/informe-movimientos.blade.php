@@ -75,9 +75,9 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa-calendar-alt"></i>
                                                 </span>
-                                                <input type="text" class="form-control" id="rango-fechas" name="rango-fechas" autocomplete="off" value="{{ request('rango-fechas', '01/01/2025 - 29/08/2025') }}" required />
-                                                <input type="hidden" class="form-control" name="fecdes" id="fecdes" value="{{ request('fecdes', '01/01/2025') }}" required>
-                                                <input type="hidden" class="form-control" name="fechas" id="fechas" value="{{ request('fechas', '29/08/2025') }}" required>
+                                                <input type="text" class="form-control" id="rango-fechas" name="rango-fechas" autocomplete="off" value="{{ request('rango-fechas', '01/01/2019 - 31/12/2025') }}" required />
+                                                <input type="hidden" class="form-control" name="fecdes" id="fecdes" value="{{ request('fecdes', '01/01/2019') }}" required>
+                                                <input type="hidden" class="form-control" name="fechas" id="fechas" value="{{ request('fechas', '31/12/2025') }}" required>
                                             </div>
                                         </div>
                                     </div>
@@ -390,8 +390,8 @@
                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 firstDay: 1
             },
-            startDate: moment('01/01/2025', 'DD/MM/YYYY'),
-            endDate: moment('29/08/2025', 'DD/MM/YYYY'),
+            startDate: moment('01/01/2019', 'DD/MM/YYYY'),
+            endDate: moment('31/12/2025', 'DD/MM/YYYY'),
             ranges: {
                 'Hoy': [moment(), moment()],
                 'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
