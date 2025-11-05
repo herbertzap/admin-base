@@ -50,7 +50,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        // 'password' => 'hashed', // REMOVIDO: Causa doble hasheo con Hash::make()
         'ultimo_movimiento' => 'datetime',
         'fecha_renovacion_password' => 'datetime',
         'cambio_password_requerido' => 'boolean',

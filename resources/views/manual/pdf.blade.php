@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual del Sistema MITATC</title>
+    <title>Manual del Sistema CONTENEDORES PRICER</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -174,7 +174,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>📚 Manual del Sistema MITATC</h1>
+        <h1>📚 Manual del Sistema CONTENEDORES PRICER</h1>
         <p>Sistema de Administración de Contenedores</p>
         <p>Versión 2.0 | Fecha: {{ now()->format('d/m/Y') }}</p>
     </div>
@@ -202,7 +202,7 @@
     <div class="section">
         <h2>1. 📖 Presentación del Sistema</h2>
         
-        <p><strong>MITATC</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
+        <p><strong>CONTENEDORES PRICER</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
         
         <h3>Características Principales:</h3>
         <ul>
@@ -257,7 +257,7 @@
     <div class="section">
         <h2>4. 🏠 Pantalla Principal y Navegación</h2>
         
-        <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de MITATC, la que se compone de varias opciones:</p>
+        <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de CONTENEDORES PRICER, la que se compone de varias opciones:</p>
         
         <div class="three-columns">
             <div>
@@ -394,7 +394,7 @@
     <div class="section">
         <h2>9. 🎫 Sistema de Tickets</h2>
         
-        <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de MITATC a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
+        <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de CONTENEDORES PRICER a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
         
         <h3>Características del Sistema de Tickets:</h3>
         <ul>
@@ -420,7 +420,7 @@
         </ul>
 
         <div class="alert alert-info">
-            <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con MITATC, el cual se compone de dos opciones: costo mensual o costo por ticket.
+            <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con CONTENEDORES PRICER, el cual se compone de dos opciones: costo mensual o costo por ticket.
         </div>
     </div>
 
@@ -460,7 +460,7 @@
     <div class="section">
         <h2>11. 💾 Procedimientos de Respaldo</h2>
         
-        <p>MITATC se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
+        <p>CONTENEDORES PRICER se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
         
         <h3>Sistema de Respaldos Automáticos:</h3>
         <ul>
@@ -567,7 +567,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p><strong>Manual del Sistema MITATC</strong></p>
+        <p><strong>Manual del Sistema CONTENEDORES PRICER</strong></p>
         <p>Versión: 2.0 | Fecha: {{ now()->format('d/m/Y') }}</p>
         <p>Sistema de Administración de Contenedores con Integración HERMES</p>
         <p><small>Basado en la Resolución Exenta Nº 5660 del 20 de diciembre de 2018</small></p>

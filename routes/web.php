@@ -173,3 +173,18 @@ Route::prefix('procedimientos-respaldo')->name('procedimientos-respaldo.')->midd
     Route::get('/listar', [ProcedimientosRespaldoController::class, 'listarRespaldos'])->name('listar');
     Route::get('/descargar/{archivo}', [ProcedimientosRespaldoController::class, 'descargarRespaldo'])->name('descargar');
 });
+
+// Rutas de Procedimientos de Operación
+Route::prefix('procedimientos-operacion')->name('procedimientos-operacion.')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\ProcedimientosOperacionController::class, 'index'])->name('index');
+    Route::get('/pdf', [App\Http\Controllers\ProcedimientosOperacionController::class, 'pdf'])->name('pdf');
+});
+
+// Rutas públicas para documentos (sin autenticación)
+Route::get('/manual-sistema', function () {
+    return response()->file(public_path('docs/Manual_Sistema_Contenedores_Pricer.pdf'));
+})->name('manual-sistema-publico');
+
+Route::get('/procedimientos-respaldo', function () {
+    return response()->file(public_path('docs/Procedimientos_Respaldo_Contenedores_Pricer.pdf'));
+})->name('procedimientos-respaldo-publico');

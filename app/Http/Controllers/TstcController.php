@@ -36,7 +36,14 @@ class TstcController extends Controller
      */
     public function create()
     {
+        // Validar que el usuario tenga un operador asignado
         $userOperador = Auth::user()->operador;
+        
+        if (!$userOperador) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Debe tener un operador asignado para registrar TSTC. Por favor contacte al administrador del sistema.');
+        }
+        
         $tiposContenedor = TipoContenedor::where('estado', 'Activo')->orderBy('descripcion')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
         $empresasTransportistas = EmpresaTransportista::where('estado', 'Activo')->orderBy('nombre_empresa')->get();
@@ -185,7 +192,14 @@ class TstcController extends Controller
      */
     public function edit(Tstc $tstc)
     {
+        // Validar que el usuario tenga un operador asignado
         $userOperador = Auth::user()->operador;
+        
+        if (!$userOperador) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Debe tener un operador asignado para editar TSTC. Por favor contacte al administrador del sistema.');
+        }
+        
         $tiposContenedor = TipoContenedor::where('estado', 'Activo')->orderBy('descripcion')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
         $empresasTransportistas = EmpresaTransportista::where('estado', 'Activo')->orderBy('nombre_empresa')->get();

@@ -3,6 +3,41 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-navbars.navs.auth titlePage="Mi Panel"></x-navbars.navs.auth>
         <div class="container-fluid py-4">
+            <!-- Mensajes Flash -->
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show shadow-lg" role="alert" style="border-left: 4px solid #28a745;">
+                    <strong><i class="fas fa-check-circle me-2"></i>Éxito!</strong> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show shadow-lg" role="alert" style="border-left: 4px solid #dc3545; background-color: #f8d7da; color: #721c24;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle fa-2x me-3" style="color: #dc3545;"></i>
+                        <div>
+                            <strong style="font-size: 1.1rem;">¡Atención!</strong>
+                            <p class="mb-0 mt-1" style="font-size: 1rem;">{{ session('error') }}</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('warning'))
+                <div class="alert alert-warning alert-dismissible fade show shadow-lg" role="alert" style="border-left: 4px solid #ffc107;">
+                    <strong><i class="fas fa-info-circle me-2"></i>Aviso!</strong> {{ session('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div class="alert alert-info alert-dismissible fade show shadow-lg" role="alert" style="border-left: 4px solid #17a2b8;">
+                    <strong><i class="fas fa-info-circle me-2"></i>Información:</strong> {{ session('info') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <!-- Tarjetas de Resumen (KPIs) -->
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">

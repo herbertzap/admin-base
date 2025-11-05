@@ -1,0 +1,67 @@
+========================================
+   CREDENCIALES ACTUALIZADAS DEL SISTEMA
+========================================
+
+URL: https://contenedores.pricer.cl/sign-in
+
+SUPER ADMINISTRADOR:
+--------------------
+📧 Email: herbert.zapata19@gmail.com
+🔑 Contraseña: Admin2025!
+👤 Nombre: Herbert Zapata
+🎯 Rol: Super Admin (puede hacer todo)
+
+ADMINISTRADOR:
+--------------
+📧 Email: imm@pricer.cl
+🔑 Contraseña: Pricer2025#Secure
+👤 Nombre: Ignacio Morales Mutis
+🎯 Rol: Admin
+
+USUARIO ADICIONAL:
+------------------
+📧 Email: admin@pricer.cl
+🔑 Contraseña: admin123
+👤 Nombre: Administrador Sistema
+🎯 Rol: Admin
+
+========================================
+   PERMISOS DE CADA USUARIO
+========================================
+
+HERBERT ZAPATA (Super Admin):
+✅ Puede crear, editar y eliminar usuarios
+✅ Puede asignar roles admin a otros usuarios
+✅ Puede cambiar contraseñas de cualquier usuario
+✅ Acceso total a todos los módulos
+
+IGNACIO MORALES (Admin):
+✅ Puede crear usuarios normales
+✅ NO puede asignar roles super-admin
+✅ Puede cambiar contraseñas (excepto super-admin)
+✅ Acceso a todos los módulos operativos
+
+========================================
+   RECOMENDACIONES
+========================================
+
+1. Usar herbert.zapata19@gmail.com para:
+   - Gestión de usuarios y roles
+   - Configuraciones del sistema
+   - Asignación de permisos
+
+2. Usar imm@pricer.cl para:
+   - Operaciones diarias
+   - Presentaciones a clientes
+   - Gestión de TATC/TSTC
+
+3. Cambiar estas contraseñas después
+   de la presentación a los clientes
+
+========================================
+Última actualización: 2025-10-09
+Estado: ✅ VERIFICADO Y FUNCIONANDO
+========================================
+
+
+

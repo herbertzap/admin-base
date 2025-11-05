@@ -82,7 +82,11 @@
                                                 </td>
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
-                                                        {{ $traspaso->tatc->user->operador->nombre_operador ?? 'N/A' }}
+                                                        @if($traspaso->tatc && $traspaso->tatc->user && $traspaso->tatc->user->operador)
+                                                            {{ $traspaso->tatc->user->operador->codigo ?? '' }} - {{ $traspaso->tatc->user->operador->nombre_operador ?? 'N/A' }}
+                                                        @else
+                                                            N/A
+                                                        @endif
                                                     </p>
                                                 </td>
                                                 <td>
@@ -97,7 +101,11 @@
                                                 </td>
                                                 <td>
                                                     <p class="text-xs font-weight-bold mb-0">
-                                                        {{ $traspaso->operador_destino ?? 'N/A' }}
+                                                        @if($traspaso->operador_destino)
+                                                            {{ $traspaso->operador_destino }}
+                                                        @else
+                                                            N/A
+                                                        @endif
                                                     </p>
                                                 </td>
                                                 <td>

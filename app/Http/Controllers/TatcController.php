@@ -36,7 +36,14 @@ class TatcController extends Controller
      */
     public function create()
     {
+        // Validar que el usuario tenga un operador asignado
         $userOperador = Auth::user()->operador;
+        
+        if (!$userOperador) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Debe tener un operador asignado para registrar TATC. Por favor contacte al administrador del sistema.');
+        }
+        
         $tiposContenedor = TipoContenedor::where('estado', 'Activo')->orderBy('descripcion')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
         $empresasTransportistas = EmpresaTransportista::where('estado', 'Activo')->orderBy('nombre_empresa')->get();
@@ -281,7 +288,14 @@ class TatcController extends Controller
                 ->with('error', 'Este TATC no puede ser modificado porque ya tiene salidas registradas.');
         }
 
+        // Validar que el usuario tenga un operador asignado
         $userOperador = Auth::user()->operador;
+        
+        if (!$userOperador) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Debe tener un operador asignado para editar TATC. Por favor contacte al administrador del sistema.');
+        }
+        
         $tiposContenedor = TipoContenedor::where('estado', 'Activo')->orderBy('descripcion')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
         $empresasTransportistas = EmpresaTransportista::where('estado', 'Activo')->orderBy('nombre_empresa')->get();

@@ -134,7 +134,8 @@ class SalidaController extends Controller
                 'tipo_salida' => 'required|in:internacion,cancelacion,traspaso',
                 'tatc_destino' => 'required|string|max:50',
                 'fecha_traspaso' => 'required|string',
-                'operador_destino' => 'required|string|max:50',
+                'operador_destino_id' => 'required|exists:operadors,id',
+                'operador_destino' => 'nullable|string|max:200', // Campo hidden con código y nombre
                 'lugar_deposito_origen' => 'nullable|string|max:200',
                 'lugar_deposito_destino' => 'nullable|string|max:200',
                 'valor_contenedor_traspaso' => 'nullable|numeric',
@@ -181,7 +182,20 @@ class SalidaController extends Controller
             } elseif ($tipoSalida === 'traspaso') {
                 $datosSalida['fecha_salida'] = \Carbon\Carbon::parse($request->fecha_traspaso)->format('Y-m-d');
                 $datosSalida['tatc_destino'] = $request->tatc_destino;
-                $datosSalida['operador_destino'] = $request->operador_destino;
+                
+                // Obtener operador destino con código
+                if ($request->operador_destino_id) {
+                    $operadorDestino = \App\Models\Operador::find($request->operador_destino_id);
+                    if ($operadorDestino) {
+                        // Guardar en formato: "CODIGO - NOMBRE"
+                        $datosSalida['operador_destino'] = $operadorDestino->codigo . ' - ' . $operadorDestino->nombre_operador;
+                    } else {
+                        $datosSalida['operador_destino'] = $request->operador_destino ?? 'N/A';
+                    }
+                } else {
+                    $datosSalida['operador_destino'] = $request->operador_destino ?? 'N/A';
+                }
+                
                 $datosSalida['lugar_deposito_origen'] = $request->lugar_deposito_origen;
                 $datosSalida['lugar_deposito_destino'] = $request->lugar_deposito_destino;
                 $datosSalida['valor_contenedor_traspaso'] = $request->valor_contenedor_traspaso;

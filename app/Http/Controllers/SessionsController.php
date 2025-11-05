@@ -32,6 +32,12 @@ class SessionsController extends Controller
 
         session()->regenerate();
 
+        // Actualizar último movimiento del usuario
+        $user = auth()->user();
+        if ($user) {
+            $user->update(['ultimo_movimiento' => now()]);
+        }
+
         return redirect('/dashboard');
 
     }
@@ -63,7 +69,7 @@ class SessionsController extends Controller
             request()->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => ($password)
+                    'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
     
                 $user->save();

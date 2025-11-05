@@ -7,9 +7,36 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header pb-0">
-                            <h6>Usuarios</h6>
+                            <h6>Editar Usuario: {{ $user->name }}</h6>
                         </div>
                         <div class="card-body">
+                            <!-- Mensajes Flash -->
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show shadow-lg" role="alert">
+                                    <strong><i class="fas fa-check-circle me-2"></i>Éxito!</strong> {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show shadow-lg" role="alert">
+                                    <strong><i class="fas fa-exclamation-triangle me-2"></i>Error!</strong> {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            @if($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Por favor corrija los siguientes errores:</strong>
+                                    <ul class="mb-0">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
                             <form action="{{ route('user-management.update', $user) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
@@ -30,14 +57,29 @@
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Operador</label>
-                                                <select name="operador_id" class="form-control bg-white text-dark border @error('operador_id') is-invalid @enderror" {{ !$currentUser->isAdmin() ? 'disabled' : '' }}>
-                                                    <option value="">Sin operador asignado</option>
-                                                    @foreach($operadores as $operador)
-                                                        <option value="{{ $operador->id }}" {{ old('operador_id', $user->operador_id) == $operador->id ? 'selected' : '' }}>
-                                                            {{ $operador->codigo }} | {{ $operador->nombre_operador }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                                @if(!$currentUser->isAdmin())
+                                                    <!-- Campo readonly con un hidden para enviar el valor -->
+                                                    <select class="form-control bg-light text-dark border" disabled>
+                                                        <option value="">Sin operador asignado</option>
+                                                        @foreach($operadores as $operador)
+                                                            <option value="{{ $operador->id }}" {{ old('operador_id', $user->operador_id) == $operador->id ? 'selected' : '' }}>
+                                                                {{ $operador->codigo }} | {{ $operador->nombre_operador }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="hidden" name="operador_id" value="{{ $user->operador_id }}">
+                                                    <small class="text-muted">Solo administradores pueden cambiar el operador</small>
+                                                @else
+                                                    <!-- Campo editable para administradores -->
+                                                    <select name="operador_id" class="form-control bg-white text-dark border @error('operador_id') is-invalid @enderror">
+                                                        <option value="">Sin operador asignado</option>
+                                                        @foreach($operadores as $operador)
+                                                            <option value="{{ $operador->id }}" {{ old('operador_id', $user->operador_id) == $operador->id ? 'selected' : '' }}>
+                                                                {{ $operador->codigo }} | {{ $operador->nombre_operador }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
                                                 @error('operador_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror

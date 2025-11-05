@@ -56,7 +56,7 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Operador</label>
-                                                    <input type="text" class="form-control bg-white text-dark border" name="operador" value="{{ $userOperador->codigo }} | {{ $userOperador->rut_operador }} | {{ $userOperador->nombre_operador }}" readonly>
+                                                    <input type="text" class="form-control bg-white text-dark border" name="operador" value="{{ $userOperador ? $userOperador->codigo . ' | ' . $userOperador->rut_operador . ' | ' . $userOperador->nombre_operador : 'Sin operador asignado' }}" readonly>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Nº Contenedor</label>

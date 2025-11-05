@@ -30,7 +30,13 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Operador</th>
-                                                    <td>{{ $tatc->user->operador->nombre_operador ?? 'N/A' }}</td>
+                                                    <td>
+                                                        @if($tatc->user && $tatc->user->operador)
+                                                            {{ $tatc->user->operador->codigo ?? '' }} - {{ $tatc->user->operador->nombre_operador ?? 'N/A' }}
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
                                                     <th>Aduana de Ingreso</th>
                                                     <td>{{ $tatc->aduana_ingreso }} - {{ $tatc->aduana->nombre_aduana ?? 'N/A' }}</td>
                                                 </tr>
@@ -188,8 +194,17 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="operador_destino">Operador Destino</label>
-                                                <input type="text" class="form-control" id="operador_destino" name="operador_destino" placeholder="Ingrese Operador Destino">
+                                                <label for="operador_destino_id">Operador Destino (O.C.)</label>
+                                                <select class="form-control" id="operador_destino_id" name="operador_destino_id" required>
+                                                    <option value="">Seleccione Operador de Destino</option>
+                                                    @foreach(\App\Models\Operador::where('estado', 'Activo')->orderBy('nombre_operador')->get() as $operador)
+                                                        <option value="{{ $operador->id }}" {{ old('operador_destino_id') == $operador->id ? 'selected' : '' }}>
+                                                            {{ $operador->codigo }} - {{ $operador->nombre_operador }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="hidden" id="operador_destino" name="operador_destino">
+                                                <small class="text-muted">Seleccione el operador de destino con su código</small>
                                             </div>
                                         </div>
                                     </div>
@@ -392,12 +407,28 @@
                     } else if (tipoSalidaValue === 'traspaso') {
                         var tatcDestino = document.getElementById('tatc_destino').value;
                         var fechaTraspaso = document.getElementById('fecha_traspaso').value;
-                        var operadorDestino = document.getElementById('operador_destino').value;
-                        if (!tatcDestino || !fechaTraspaso || !operadorDestino) {
+                        var operadorDestinoId = document.getElementById('operador_destino_id').value;
+                        if (!tatcDestino || !fechaTraspaso || !operadorDestinoId) {
                             e.preventDefault();
                             alert('Debe completar el TATC Destino, Fecha de Traspaso y Operador Destino');
                             return false;
                         }
+                    }
+                });
+            }
+            
+            // Actualizar campo hidden operador_destino cuando se selecciona un operador
+            var operadorDestinoSelect = document.getElementById('operador_destino_id');
+            if (operadorDestinoSelect) {
+                operadorDestinoSelect.addEventListener('change', function() {
+                    var selectedOption = this.options[this.selectedIndex];
+                    if (selectedOption.value) {
+                        // Obtener código y nombre del operador seleccionado
+                        var texto = selectedOption.text.trim();
+                        // El formato es: "CODIGO - NOMBRE"
+                        document.getElementById('operador_destino').value = texto;
+                    } else {
+                        document.getElementById('operador_destino').value = '';
                     }
                 });
             }

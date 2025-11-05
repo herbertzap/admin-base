@@ -90,6 +90,56 @@ class ControlFiscalizacionController extends Controller
             })
             ->whereDoesntHave('salidas') // Solo TATCs SIN salidas para evitar duplicados
             ->get()
+            ->filter(function($tatc) use ($request) {
+                // Filtro por vigencia de títulos
+                if ($request->vigencia_titulos && $request->vigencia_titulos !== '*') {
+                    $fechaVencimiento = $tatc->created_at->copy()->addYear();
+                    $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
+                    
+                    if ($request->vigencia_titulos === 'vigentes' && $diasRestantes < 0) {
+                        return false; // Vencido, no es vigente
+                    }
+                    if ($request->vigencia_titulos === 'vencidos' && $diasRestantes >= 0) {
+                        return false; // Vigente, no está vencido
+                    }
+                    if ($request->vigencia_titulos === 'por_vencer' && ($diasRestantes > 30 || $diasRestantes < 0)) {
+                        return false; // No está por vencer (30 días)
+                    }
+                }
+                
+                // Filtro por fecha de vencimiento
+                if ($request->fecha_vencimiento_desde || $request->fecha_vencimiento_hasta) {
+                    $fechaVencimiento = $tatc->created_at->copy()->addYear();
+                    
+                    if ($request->fecha_vencimiento_desde) {
+                        $fechaDesde = Carbon::parse($request->fecha_vencimiento_desde)->startOfDay();
+                        if ($fechaVencimiento->lt($fechaDesde)) {
+                            return false;
+                        }
+                    }
+                    
+                    if ($request->fecha_vencimiento_hasta) {
+                        $fechaHasta = Carbon::parse($request->fecha_vencimiento_hasta)->endOfDay();
+                        if ($fechaVencimiento->gt($fechaHasta)) {
+                            return false;
+                        }
+                    }
+                }
+                
+                // Filtro por prórroga
+                if ($request->con_prorroga && $request->con_prorroga !== '*') {
+                    $tieneProrroga = $tatc->prorrogas()->exists();
+                    
+                    if ($request->con_prorroga === 'si' && !$tieneProrroga) {
+                        return false; // Solicita con prórroga pero no tiene
+                    }
+                    if ($request->con_prorroga === 'no' && $tieneProrroga) {
+                        return false; // Solicita sin prórroga pero tiene
+                    }
+                }
+                
+                return true;
+            })
             ->map(function($tatc) {
                 return [
                     'numero_contenedor' => $tatc->numero_contenedor,
@@ -145,6 +195,53 @@ class ControlFiscalizacionController extends Controller
                 return $q;
             })
             ->get()
+            ->filter(function($tstc) use ($request) {
+                // Filtro por vigencia de títulos
+                if ($request->vigencia_titulos && $request->vigencia_titulos !== '*') {
+                    $fechaVencimiento = $tstc->created_at->copy()->addYear();
+                    $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
+                    
+                    if ($request->vigencia_titulos === 'vigentes' && $diasRestantes < 0) {
+                        return false; // Vencido, no es vigente
+                    }
+                    if ($request->vigencia_titulos === 'vencidos' && $diasRestantes >= 0) {
+                        return false; // Vigente, no está vencido
+                    }
+                    if ($request->vigencia_titulos === 'por_vencer' && ($diasRestantes > 30 || $diasRestantes < 0)) {
+                        return false; // No está por vencer (30 días)
+                    }
+                }
+                
+                // Filtro por fecha de vencimiento
+                if ($request->fecha_vencimiento_desde || $request->fecha_vencimiento_hasta) {
+                    $fechaVencimiento = $tstc->created_at->copy()->addYear();
+                    
+                    if ($request->fecha_vencimiento_desde) {
+                        $fechaDesde = Carbon::parse($request->fecha_vencimiento_desde)->startOfDay();
+                        if ($fechaVencimiento->lt($fechaDesde)) {
+                            return false;
+                        }
+                    }
+                    
+                    if ($request->fecha_vencimiento_hasta) {
+                        $fechaHasta = Carbon::parse($request->fecha_vencimiento_hasta)->endOfDay();
+                        if ($fechaVencimiento->gt($fechaHasta)) {
+                            return false;
+                        }
+                    }
+                }
+                
+                // Filtro por prórroga (TSTCs no tienen prórrogas, solo TATCs)
+                if ($request->con_prorroga && $request->con_prorroga !== '*') {
+                    // TSTCs no tienen prórrogas según el modelo
+                    if ($request->con_prorroga === 'si') {
+                        return false; // Solicita con prórroga pero TSTCs no tienen
+                    }
+                    // Si solicita sin prórroga, todos los TSTCs cumplen
+                }
+                
+                return true;
+            })
             ->map(function($tstc) {
                 return [
                     'numero_contenedor' => $tstc->numero_contenedor,

@@ -31,14 +31,14 @@
                                     @endif
                                     <div class="input-group input-group-outline mt-3">
                                         <label class="form-label text-white">Correo Electrónico</label>
-                                        <input type="email" class="form-control" name="email" value="" style="color: white; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(231,80,52,0.3);">
+                                        <input type="email" class="form-control" name="email" value="" style="color: #ffffff; background-color: rgba(255,255,255,0.15); border: 1px solid rgba(231,80,52,0.5);" placeholder="correo@ejemplo.com">
                                     </div>
                                     @error('email')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                     <div class="input-group input-group-outline mt-3">
                                         <label class="form-label text-white">Contraseña</label>
-                                        <input type="password" class="form-control" name="password" value='' style="color: white; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(231,80,52,0.3);">
+                                        <input type="password" class="form-control" name="password" value='' style="color: #ffffff; background-color: rgba(255,255,255,0.15); border: 1px solid rgba(231,80,52,0.5);" placeholder="••••••••">
                                     </div>
                                     @error('password')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
@@ -69,6 +69,41 @@
             </div>
         </div>
     </main>
+    @push('css')
+<style>
+    /* Estilos para mejorar la visibilidad de los inputs en el login */
+    .input-group input.form-control {
+        color: #ffffff !important;
+        background-color: rgba(255,255,255,0.15) !important;
+        border: 1px solid rgba(231,80,52,0.5) !important;
+        font-weight: 500 !important;
+    }
+    
+    .input-group input.form-control:focus {
+        color: #ffffff !important;
+        background-color: rgba(255,255,255,0.2) !important;
+        border: 1px solid #e75034 !important;
+        box-shadow: 0 0 0 0.2rem rgba(231,80,52,0.25) !important;
+    }
+    
+    .input-group input.form-control::placeholder {
+        color: rgba(255,255,255,0.5) !important;
+    }
+    
+    /* Asegurar que el autofill sea visible */
+    .input-group input.form-control:-webkit-autofill,
+    .input-group input.form-control:-webkit-autofill:hover,
+    .input-group input.form-control:-webkit-autofill:focus {
+        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.15) inset !important;
+        transition: background-color 5000s ease-in-out 0s !important;
+    }
+    
+    .input-group label.form-label {
+        color: rgba(255,255,255,0.8) !important;
+    }
+</style>
+@endpush
     @push('js')
 <script src="{{ asset('assets') }}/js/jquery.min.js"></script>
 <script>

@@ -96,6 +96,14 @@ class UserManagementController extends Controller
             $operadorId = $currentUser->operador_id;
         }
         
+        // Si no hay operador asignado, asignar el operador único por defecto si solo hay uno
+        if (empty($operadorId)) {
+            $operadoresActivos = \App\Models\Operador::where('estado', 'Activo')->get();
+            if ($operadoresActivos->count() === 1) {
+                $operadorId = $operadoresActivos->first()->id;
+            }
+        }
+        
         $data = $request->only([
             'name', 'email', 'rut_usuario', 'estado'
         ]);
@@ -175,11 +183,17 @@ class UserManagementController extends Controller
             'operador_id' => 'nullable|exists:operadors,id',
             'estado' => 'required|in:Activo,Inactivo',
             'fotografia' => 'nullable|file|image|max:2048',
-            'roles' => 'required|array',
+            'roles' => 'nullable|array', // Cambiado a nullable para permitir mantener roles actuales
         ]);
         
         // Verificar permisos para asignar roles
         $selectedRoles = $request->input('roles', []);
+        
+        // Si no se enviaron roles, mantener los actuales
+        if (empty($selectedRoles)) {
+            $selectedRoles = $user->roles->pluck('name')->toArray();
+        }
+        
         if (!$currentUser->isSuperAdmin()) {
             // Solo super admin puede asignar roles admin
             $adminRoles = ['admin', 'super-admin'];
@@ -199,15 +213,28 @@ class UserManagementController extends Controller
         // Actualizar contraseña si se proporciona
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
+            Log::info('Actualizando contraseña de usuario', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'updated_by' => $currentUser->email
+            ]);
         }
         
         // Asignar operador automáticamente si el usuario actual es operador
+        $operadorId = $request->input('operador_id');
         if (!$currentUser->isAdmin() && $currentUser->hasOperador()) {
-            $data['operador_id'] = $currentUser->operador_id;
-        } else {
-            $data['operador_id'] = $request->input('operador_id');
+            $operadorId = $currentUser->operador_id;
         }
         
+        // Si no hay operador asignado, asignar el operador único por defecto si solo hay uno
+        if (empty($operadorId)) {
+            $operadoresActivos = \App\Models\Operador::where('estado', 'Activo')->get();
+            if ($operadoresActivos->count() === 1) {
+                $operadorId = $operadoresActivos->first()->id;
+            }
+        }
+        
+        $data['operador_id'] = $operadorId;
         $data['ultimo_movimiento'] = now();
         
         // Manejo de fotografía
@@ -219,13 +246,21 @@ class UserManagementController extends Controller
             $data['fotografia'] = $request->file('fotografia')->store('fotografias', 'public');
         }
         
-        $user->update($data);
+        // Actualizar usuario
+        $updated = $user->update($data);
+        
+        Log::info('Usuario actualizado', [
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'updated_fields' => array_keys($data),
+            'success' => $updated
+        ]);
         
         // Actualizar roles
         $user->syncRoles($selectedRoles);
         
         return redirect()->route('user-management.index')
-            ->with('success', 'Usuario actualizado exitosamente.');
+            ->with('success', 'Usuario actualizado exitosamente. ' . ($request->filled('password') ? 'Contraseña cambiada correctamente.' : ''));
     }
 
     /**

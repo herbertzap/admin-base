@@ -15,6 +15,21 @@
                             </div>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
+                            <!-- Mensajes Flash -->
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show shadow-lg mx-3 mb-3" role="alert">
+                                    <strong><i class="fas fa-check-circle me-2"></i>Éxito!</strong> {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show shadow-lg mx-3 mb-3" role="alert">
+                                    <strong><i class="fas fa-exclamation-triangle me-2"></i>Error!</strong> {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead>

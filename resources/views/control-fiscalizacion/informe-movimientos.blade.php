@@ -159,6 +159,46 @@
                                     </div>
                                 </div>
 
+                                <!-- Filtros de Vigencia y Vencimiento -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="vigencia_titulos" class="form-label text-white">Vigencia de Títulos</label>
+                                            <select name="vigencia_titulos" id="vigencia_titulos" class="form-control">
+                                                <option value="*" {{ (request('vigencia_titulos') == '*' || !request('vigencia_titulos')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="vigentes" {{ request('vigencia_titulos') == 'vigentes' ? 'selected' : '' }}>Vigentes</option>
+                                                <option value="vencidos" {{ request('vigencia_titulos') == 'vencidos' ? 'selected' : '' }}>Vencidos</option>
+                                                <option value="por_vencer" {{ request('vigencia_titulos') == 'por_vencer' ? 'selected' : '' }}>Por Vencer (30 días)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="fecha_vencimiento_desde" class="form-label text-white">Fecha Vencimiento Desde</label>
+                                            <input type="date" name="fecha_vencimiento_desde" id="fecha_vencimiento_desde" class="form-control" value="{{ request('fecha_vencimiento_desde') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mb-3">
+                                            <label for="fecha_vencimiento_hasta" class="form-label text-white">Fecha Vencimiento Hasta</label>
+                                            <input type="date" name="fecha_vencimiento_hasta" id="fecha_vencimiento_hasta" class="form-control" value="{{ request('fecha_vencimiento_hasta') }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="con_prorroga" class="form-label text-white">Estado de Prórroga</label>
+                                            <select name="con_prorroga" id="con_prorroga" class="form-control">
+                                                <option value="*" {{ (request('con_prorroga') == '*' || !request('con_prorroga')) ? 'selected' : '' }}>Todos</option>
+                                                <option value="si" {{ request('con_prorroga') == 'si' ? 'selected' : '' }}>Con Prórroga</option>
+                                                <option value="no" {{ request('con_prorroga') == 'no' ? 'selected' : '' }}>Sin Prórroga</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="d-flex justify-content-start gap-3">
