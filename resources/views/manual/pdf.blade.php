@@ -174,14 +174,14 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1>📚 Manual del Sistema CONTENEDORES PRICER</h1>
+        <h1>Manual del Sistema CONTENEDORES PRICER</h1>
         <p>Sistema de Administración de Contenedores</p>
         <p>Versión 2.0 | Fecha: {{ now()->format('d/m/Y') }}</p>
     </div>
 
     <!-- Tabla de Contenidos -->
     <div class="toc">
-        <h3>📋 Tabla de Contenidos</h3>
+        <h3>Tabla de Contenidos</h3>
         <ol>
             <li><strong>Presentación del Sistema</strong></li>
             <li><strong>Control de Acceso</strong></li>
@@ -200,28 +200,28 @@
 
     <!-- 1. Presentación del Sistema -->
     <div class="section">
-        <h2>1. 📖 Presentación del Sistema</h2>
+        <h2>1. Presentación del Sistema</h2>
         
         <p><strong>CONTENEDORES PRICER</strong> es una plataforma que reúne e integra todos los componentes necesarios para permitir la gestión, administración y comunicación de las operaciones con contenedores en Aduana, además de tener una gran integración con los procesos solicitados por la aduana en la resolución exenta Nº 5660 del 20 de diciembre del 2018.</p>
         
         <h3>Características Principales:</h3>
         <ul>
-            <li>✅ <strong>Fácil de manejar e intuitiva</strong> - Funciona bajo el navegador web</li>
-            <li>✅ <strong>Multiplataforma</strong> - Soporte para Tablet y dispositivos móviles</li>
-            <li>✅ <strong>Sin limitaciones</strong> - No tiene limitación de tiempo ni ubicación</li>
-            <li>✅ <strong>Único requerimiento</strong> - Conexión a internet</li>
-            <li>✅ <strong>Sistema modular</strong> - Adaptado según requerimientos específicos de cada operador</li>
-            <li>✅ <strong>Integración HERMES</strong> - Comunicación automática con el sistema aduanero</li>
+            <li><strong>Fácil de manejar e intuitiva</strong> - Funciona bajo el navegador web</li>
+            <li><strong>Multiplataforma</strong> - Soporte para Tablet y dispositivos móviles</li>
+            <li><strong>Sin limitaciones</strong> - No tiene limitación de tiempo ni ubicación</li>
+            <li><strong>Único requerimiento</strong> - Conexión a internet</li>
+            <li><strong>Sistema modular</strong> - Adaptado según requerimientos específicos de cada operador</li>
+            <li><strong>Integración HERMES</strong> - Comunicación automática con el sistema aduanero</li>
         </ul>
 
         <div class="alert alert-info">
-            <strong>💡 Recomendación:</strong> Use el sistema de Ticket incluido en el sistema para reportar problemas o solicitar mejoras. Con esto estaremos en contacto en tiempo real y tendremos un historial de sus solicitudes.
+            <strong>Recomendación:</strong> Use el sistema de Ticket incluido en el sistema para reportar problemas o solicitar mejoras. Con esto estaremos en contacto en tiempo real y tendremos un historial de sus solicitudes.
         </div>
     </div>
 
     <!-- 2. Control de Acceso -->
     <div class="section">
-        <h2>2. 🔐 Control de Acceso</h2>
+        <h2>2. Control de Acceso</h2>
         
         <p>Es la pantalla inicial del sistema, ésta brinda el control y la seguridad que necesita la información de cada operador. Se utiliza para validar el acceso a los usuarios autorizados al sistema.</p>
         
@@ -232,13 +232,41 @@
         </ul>
 
         <div class="alert alert-warning">
-            <strong>⚠️ Importante:</strong> Para ingresar al sistema, debe digitar su correo electrónico y la contraseña correspondiente. El sistema también incluye la opción "Recordarme" para mantener la sesión activa.
+            <strong>Importante:</strong> Para ingresar al sistema, debe digitar su correo electrónico y la contraseña correspondiente. El sistema también incluye la opción "Recordarme" para mantener la sesión activa.
         </div>
+
+        <h3>Usuarios de Ejemplo:</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+            <thead>
+                <tr style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Usuario</th>
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Correo Electrónico</th>
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Contraseña</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Usuario 1</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">operador1@contenedores.pricer.cl</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Pricer2025#Secure</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Usuario 2</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">operador2@contenedores.pricer.cl</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Pricer2025#Secure</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Usuario 3</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">operador3@contenedores.pricer.cl</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Pricer2025#Secure</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- 3. Recuperación de Contraseña -->
     <div class="section">
-        <h2>3. 🔑 Recuperación de Contraseña</h2>
+        <h2>3. Recuperación de Contraseña</h2>
         
         <p>En caso de olvidar su contraseña puede iniciar el proceso de recuperación, con el cual podremos validar su acceso y enviar las indicaciones para obtener una nueva contraseña a su correo electrónico registrado en el sistema.</p>
         
@@ -255,21 +283,21 @@
 
     <!-- 4. Pantalla Principal -->
     <div class="section">
-        <h2>4. 🏠 Pantalla Principal y Navegación</h2>
+        <h2>4. Pantalla Principal y Navegación</h2>
         
         <p>Una vez validado el acceso al sistema, podrá ver la pantalla principal de CONTENEDORES PRICER, la que se compone de varias opciones:</p>
         
         <div class="three-columns">
             <div>
-                <h3>📋 Menú Principal</h3>
+                <h3>Menú Principal</h3>
                 <p>En la parte izquierda de la pantalla el sistema muestra los módulos y menús que tiene acceso con su clave.</p>
             </div>
             <div>
-                <h3>👤 Menú Usuario</h3>
+                <h3>Menú Usuario</h3>
                 <p>En la parte superior derecha, en el lugar que sale su nombre, podrá encontrar un menú con diferentes opciones, como actualizar sus datos, crear tickets o solicitar ayuda.</p>
             </div>
             <div>
-                <h3>📊 Mi Panel</h3>
+                <h3>Mi Panel</h3>
                 <p>El sistema incluye un panel con información útil de cada módulo que compone el sistema. Al pasar el puntero del mouse por cada opción el sistema le mostrará información sobre ese contenido.</p>
             </div>
         </div>
@@ -277,7 +305,7 @@
 
     <!-- 5. Gestión de TATCs -->
     <div class="section">
-        <h2>5. 📦 Gestión de TATCs</h2>
+        <h2>5. Gestión de TATCs</h2>
         
         <p>Los TATCs (Temporales de Admisión para Tránsito de Contenedores) son el núcleo del sistema. Aquí podrá gestionar todos los aspectos relacionados con estos documentos.</p>
         
@@ -304,7 +332,7 @@
 
     <!-- 6. Gestión de TSTCs -->
     <div class="section">
-        <h2>6. 📤 Gestión de TSTCs</h2>
+        <h2>6. Gestión de TSTCs</h2>
         
         <p>Los TSTCs (Temporales de Salida para Tránsito de Contenedores) permiten gestionar las salidas de contenedores del depósito.</p>
         
@@ -323,22 +351,22 @@
 
     <!-- 7. Registro de Salidas -->
     <div class="section">
-        <h2>7. 🚪 Registro de Salidas</h2>
+        <h2>7. Registro de Salidas</h2>
         
         <p>En este módulo podrá realizar salidas a los TATC registrados. El sistema integra la opción de generar salidas por Declaración de Internación, por Cancelación y Salidas por Traspaso, cada una con la información solicitada por la Aduana.</p>
         
         <h3>Tipos de Salida:</h3>
         <div class="three-columns">
             <div>
-                <h4>📋 Declaración de Internación</h4>
+                <h4>Declaración de Internación</h4>
                 <p>Para contenedores que ingresan al país definitivamente.</p>
             </div>
             <div>
-                <h4>❌ Cancelación</h4>
+                <h4>Cancelación</h4>
                 <p>Para cancelar un TATC existente.</p>
             </div>
             <div>
-                <h4>🔄 Traspaso</h4>
+                <h4>Traspaso</h4>
                 <p>Para transferir contenedores entre operadores.</p>
             </div>
         </div>
@@ -362,7 +390,7 @@
 
     <!-- 8. Control de Plazos -->
     <div class="section">
-        <h2>8. ⏰ Control de Plazos</h2>
+        <h2>8. Control de Plazos</h2>
         
         <p>En este módulo se registran las fechas de emisión de los respectivos títulos asociando y calculando las fechas de vencimiento según la normativa aduanera.</p>
         
@@ -392,7 +420,7 @@
 
     <!-- 9. Sistema de Tickets -->
     <div class="section">
-        <h2>9. 🎫 Sistema de Tickets</h2>
+        <h2>9. Sistema de Tickets</h2>
         
         <p>El sistema incluye un completo sistema de tickets de soporte. La idea principal de este módulo es poder entregar soporte técnico sobre el uso de CONTENEDORES PRICER a los usuarios, además de generar un seguimiento y un historial de lo solicitado.</p>
         
@@ -420,13 +448,13 @@
         </ul>
 
         <div class="alert alert-info">
-            <strong>💡 Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con CONTENEDORES PRICER, el cual se compone de dos opciones: costo mensual o costo por ticket.
+            <strong>Modalidades de Soporte:</strong> El uso del sistema de ticket dependerá del contrato que tenga con CONTENEDORES PRICER, el cual se compone de dos opciones: costo mensual o costo por ticket.
         </div>
     </div>
 
     <!-- 10. Integración HERMES -->
     <div class="section">
-        <h2>10. 🌐 Integración HERMES</h2>
+        <h2>10. Integración HERMES</h2>
         
         <p>El sistema se integra automáticamente con HERMES, el sistema oficial de la Aduana de Chile, enviando mensajes en tiempo real para todas las operaciones.</p>
         
@@ -440,11 +468,11 @@
 
         <h3>Características de la Integración:</h3>
         <ul>
-            <li>✅ <strong>Envío Automático:</strong> Todos los mensajes se envían automáticamente</li>
-            <li>✅ <strong>Monitoreo en Tiempo Real:</strong> Seguimiento de todas las comunicaciones</li>
-            <li>✅ <strong>Historial Completo:</strong> Logs detallados de mensajes enviados</li>
-            <li>✅ <strong>Reintentos Automáticos:</strong> En caso de fallo en la comunicación</li>
-            <li>✅ <strong>Validación de Respuestas:</strong> Verificación de recepción por HERMES</li>
+            <li><strong>Envío Automático:</strong> Todos los mensajes se envían automáticamente</li>
+            <li><strong>Monitoreo en Tiempo Real:</strong> Seguimiento de todas las comunicaciones</li>
+            <li><strong>Historial Completo:</strong> Logs detallados de mensajes enviados</li>
+            <li><strong>Reintentos Automáticos:</strong> En caso de fallo en la comunicación</li>
+            <li><strong>Validación de Respuestas:</strong> Verificación de recepción por HERMES</li>
         </ul>
 
         <h3>Módulo de Monitoreo HERMES:</h3>
@@ -458,7 +486,7 @@
 
     <!-- 11. Procedimientos de Respaldo -->
     <div class="section">
-        <h2>11. 💾 Procedimientos de Respaldo</h2>
+        <h2>11. Procedimientos de Respaldo</h2>
         
         <p>CONTENEDORES PRICER se ejecuta en un ambiente CentOS Linux, manejado con WHM/cPanel, lo que brinda una gran capa de seguridad, además de implementar una serie de aplicaciones de seguridad como firewall, protección para ataques de fuerza bruta, protección para ataques DDOS, etc.</p>
         
@@ -485,17 +513,17 @@
         </ul>
 
         <div class="alert alert-success">
-            <strong>✅ Garantía de Seguridad:</strong> Toda la información de archivos y bases de datos está respaldada en 3 ubicaciones distintas con el fin de no perder ni un kb de información de los clientes.
+            <strong>Garantía de Seguridad:</strong> Toda la información de archivos y bases de datos está respaldada en 3 ubicaciones distintas con el fin de no perder ni un kb de información de los clientes.
         </div>
     </div>
 
     <!-- 12. Información Técnica -->
     <div class="section">
-        <h2>12. ⚙️ Información Técnica</h2>
+        <h2>12. Información Técnica</h2>
         
         <div class="two-columns">
             <div>
-                <h3>🔧 Tecnologías Backend</h3>
+                <h3>Tecnologías Backend</h3>
                 <ul>
                     <li><strong>Framework:</strong> Laravel 11</li>
                     <li><strong>Base de Datos:</strong> MySQL</li>
@@ -508,7 +536,7 @@
             </div>
             
             <div>
-                <h3>🎨 Tecnologías Frontend</h3>
+                <h3>Tecnologías Frontend</h3>
                 <ul>
                     <li><strong>Templates:</strong> Blade</li>
                     <li><strong>CSS Framework:</strong> Tailwind CSS</li>
@@ -520,7 +548,7 @@
             </div>
         </div>
 
-        <h3>🔒 Medidas de Seguridad:</h3>
+        <h3>Medidas de Seguridad:</h3>
         <ul>
             <li>Firewall configurado</li>
             <li>Protección contra ataques de fuerza bruta</li>
@@ -530,7 +558,7 @@
             <li>Logs de auditoría completos</li>
         </ul>
 
-        <h3>📊 Características del Sistema:</h3>
+        <h3>Características del Sistema:</h3>
         <ul>
             <li>Arquitectura modular y escalable</li>
             <li>API RESTful para integraciones</li>
@@ -543,17 +571,17 @@
 
     <!-- Contacto y Soporte -->
     <div class="section">
-        <h2>📞 Contacto y Soporte</h2>
+        <h2>Contacto y Soporte</h2>
         
         <div class="two-columns">
             <div class="contact-info">
-                <h4>👨‍💻 Desarrollador</h4>
+                <h4>Desarrollador</h4>
                 <p><strong>Herbert Zapata</strong></p>
                 <p>Email: herbert.zapata19@gmail.com</p>
             </div>
             
             <div class="contact-info">
-                <h4>🏢 Empresa</h4>
+                <h4>Empresa</h4>
                 <p><strong>Contenedores Tomás Dagnino Vicencio E.I.R.L</strong></p>
                 <p>RUT: 76666087-8</p>
                 <p>Código HERMES: S46</p>
@@ -561,7 +589,7 @@
         </div>
         
         <div class="alert alert-info">
-            <strong>💡 Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
+            <strong>Soporte Técnico:</strong> Para soporte técnico, reportar problemas o solicitar mejoras, utilice el sistema de Tickets integrado en la plataforma. Esto nos permitirá darle seguimiento en tiempo real a sus solicitudes.
         </div>
     </div>
 

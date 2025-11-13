@@ -15,27 +15,85 @@
                         </div>
                         <div class="card-body px-0 pb-2">
                             <!-- Filtros -->
-                            <div class="row mx-3 mb-3">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-outline">
-                                        <label class="form-label">Buscar...</label>
-                                        <input type="text" id="searchInput" class="form-control">
+                            <form action="{{ route('control-plazos.registro-traspaso') }}" method="GET" class="mx-3 mb-3">
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-3">
+                                        <label for="searchInput" class="form-label">Buscar</label>
+                                        <input
+                                            type="text"
+                                            id="searchInput"
+                                            name="search"
+                                            class="form-control"
+                                            placeholder="TATC, contenedor, operador"
+                                            value="{{ old('search', $search) }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="fecha_traspaso_desde" class="form-label">Fecha de traspaso desde</label>
+                                        <input
+                                            type="date"
+                                            id="fecha_traspaso_desde"
+                                            name="fecha_traspaso_desde"
+                                            class="form-control"
+                                            value="{{ old('fecha_traspaso_desde', $fechaTraspasoDesde) }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="fecha_traspaso_hasta" class="form-label">Fecha de traspaso hasta</label>
+                                        <input
+                                            type="date"
+                                            id="fecha_traspaso_hasta"
+                                            name="fecha_traspaso_hasta"
+                                            class="form-control"
+                                            value="{{ old('fecha_traspaso_hasta', $fechaTraspasoHasta) }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="aduana" class="form-label">Aduana</label>
+                                        <select id="aduana" name="aduana" class="form-control">
+                                            <option value="">Todas las aduanas</option>
+                                            @foreach($aduanas as $aduanaItem)
+                                                <option value="{{ $aduanaItem->codigo }}" {{ $aduana === $aduanaItem->codigo ? 'selected' : '' }}>
+                                                    {{ $aduanaItem->codigo }} - {{ $aduanaItem->nombre_aduana }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <select id="itemsPerPage" class="form-control">
-                                        <option value="10">10 por página</option>
-                                        <option value="25" selected>25 por página</option>
-                                        <option value="50">50 por página</option>
-                                        <option value="100">100 por página</option>
-                                    </select>
+                                <div class="row g-3 align-items-end mt-3">
+                                    <div class="col-md-3">
+                                        <label for="estado" class="form-label">Estado</label>
+                                        <select id="estado" name="estado" class="form-control">
+                                            <option value="">Todos los estados</option>
+                                            @foreach($estadosDisponibles as $estadoItem)
+                                                <option value="{{ $estadoItem }}" {{ $estado === $estadoItem ? 'selected' : '' }}>
+                                                    {{ $estadoItem }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="itemsPerPage" class="form-label">Registros por página</label>
+                                        <select id="itemsPerPage" name="per_page" class="form-control">
+                                            @foreach([10, 25, 50, 100] as $option)
+                                                <option value="{{ $option }}" {{ (int) $perPage === $option ? 'selected' : '' }}>
+                                                    {{ $option }} por página
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-center">
+                                        <button type="submit" class="btn btn-primary me-2">
+                                            <i class="fas fa-filter"></i> Aplicar filtros
+                                        </button>
+                                        <a href="{{ route('control-plazos.registro-traspaso') }}" class="btn btn-outline-secondary">
+                                            <i class="fas fa-undo"></i> Limpiar
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 text-md-end">
+                                        <a href="{{ route('control-plazos.exportar', ['tipo' => 'tatc']) }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-download"></i> Exportar Traspasos
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <a href="{{ route('control-plazos.exportar', ['tipo' => 'tatc']) }}" class="btn btn-info btn-sm">
-                                        <i class="fas fa-download"></i> Exportar Traspasos
-                                    </a>
-                                </div>
-                            </div>
+                            </form>
 
                             <!-- Tabla de Traspasos -->
                             <div class="table-responsive p-0">
@@ -109,8 +167,17 @@
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    <span class="badge badge-sm bg-gradient-info">
-                                                        Traspasado
+                                                    @php
+                                                        $estadoColor = match($traspaso->estado) {
+                                                            'Aprobado' => 'success',
+                                                            'Pendiente' => 'warning',
+                                                            'Rechazado' => 'danger',
+                                                            'Cancelado' => 'secondary',
+                                                            default => 'info'
+                                                        };
+                                                    @endphp
+                                                    <span class="badge badge-sm bg-gradient-{{ $estadoColor }}">
+                                                        {{ $traspaso->estado ?? 'Traspasado' }}
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">

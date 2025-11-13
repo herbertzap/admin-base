@@ -14,6 +14,7 @@ class Tstc extends Model
     protected $fillable = [
         'numero_tstc',
         'operador_id',
+        'codigo_operador_destino_oc',
         'fecha_emision_tstc',
         'numero_contenedor',
         'tipo_contenedor',

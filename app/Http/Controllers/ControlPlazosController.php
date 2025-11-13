@@ -17,65 +17,312 @@ class ControlPlazosController extends Controller
     /**
      * Plazos de Vigencia - Lista de TATC/TSTC vigentes
      */
-    public function plazosVigencia()
+    public function plazosVigencia(Request $request)
     {
+        $search = $request->input('search');
+        $aduana = $request->input('aduana');
+        $fechaVigenciaDesde = $request->input('fecha_vigencia_desde');
+        $fechaVigenciaHasta = $request->input('fecha_vigencia_hasta');
+        $perPage = (int) $request->input('per_page', 25);
+        $perPage = $perPage > 0 ? $perPage : 25;
+
+        $aduanas = AduanaChile::where('estado', 'Activo')
+            ->orderBy('nombre_aduana')
+            ->get();
+
         // Solo TATCs que NO tienen salidas registradas (realmente vigentes)
-        $tatcsVigentes = Tatc::with(['user.operador', 'aduana'])
-            ->whereDoesntHave('salidas', function($query) {
+        $tatcsQuery = Tatc::with(['user.operador', 'aduana'])
+            ->whereDoesntHave('salidas', function ($query) {
                 $query->where('estado', '!=', 'Cancelado');
-            })
+            });
+
+        if ($search) {
+            $tatcsQuery->where(function ($query) use ($search) {
+                $query->where('numero_tatc', 'like', "%{$search}%")
+                    ->orWhere('numero_contenedor', 'like', "%{$search}%")
+                    ->orWhereHas('user.operador', function ($q) use ($search) {
+                        $q->where('nombre_operador', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($aduana) {
+            $tatcsQuery->where('aduana_ingreso', $aduana);
+        }
+
+        if ($fechaVigenciaDesde) {
+            $fechaCreacionDesde = \Carbon\Carbon::parse($fechaVigenciaDesde)->subYear();
+            $tatcsQuery->whereDate('created_at', '>=', $fechaCreacionDesde);
+        }
+        if ($fechaVigenciaHasta) {
+            $fechaCreacionHasta = \Carbon\Carbon::parse($fechaVigenciaHasta)->subYear();
+            $tatcsQuery->whereDate('created_at', '<=', $fechaCreacionHasta);
+        }
+
+        $tatcsVigentes = $tatcsQuery
             ->orderBy('created_at', 'desc')
-            ->paginate(15);
+            ->paginate($perPage, ['*'], 'tatc_page')
+            ->appends($request->query());
 
         // Solo TSTCs que NO tienen salidas registradas (realmente vigentes)
         // Nota: Las salidas solo están relacionadas con TATCs, no con TSTCs
-        $tstcsVigentes = Tstc::with(['user.operador', 'aduana'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $tstcsQuery = Tstc::with(['user.operador', 'aduana']);
 
-        return view('control-plazos.plazos-vigencia', compact('tatcsVigentes', 'tstcsVigentes'))
+        if ($search) {
+            $tstcsQuery->where(function ($query) use ($search) {
+                $query->where('numero_tstc', 'like', "%{$search}%")
+                    ->orWhere('numero_contenedor', 'like', "%{$search}%")
+                    ->orWhereHas('user.operador', function ($q) use ($search) {
+                        $q->where('nombre_operador', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($aduana) {
+            $tstcsQuery->where('aduana_salida', $aduana);
+        }
+
+        if ($fechaVigenciaDesde) {
+            $fechaCreacionDesde = \Carbon\Carbon::parse($fechaVigenciaDesde)->subYear();
+            $tstcsQuery->whereDate('created_at', '>=', $fechaCreacionDesde);
+        }
+        if ($fechaVigenciaHasta) {
+            $fechaCreacionHasta = \Carbon\Carbon::parse($fechaVigenciaHasta)->subYear();
+            $tstcsQuery->whereDate('created_at', '<=', $fechaCreacionHasta);
+        }
+
+        $tstcsVigentes = $tstcsQuery
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'tstc_page')
+            ->appends($request->query());
+
+        return view('control-plazos.plazos-vigencia', compact(
+            'tatcsVigentes',
+            'tstcsVigentes',
+            'aduanas',
+            'perPage',
+            'search',
+            'aduana',
+            'fechaVigenciaDesde',
+            'fechaVigenciaHasta'
+        ))
             ->with('titlePage', 'Plazos de Vigencia');
     }
 
     /**
      * Registro de Cancelación - Lista de TATC/TSTC cancelados
      */
-    public function registroCancelacion()
+    public function registroCancelacion(Request $request)
     {
-        $cancelaciones = Salida::with(['tatc.user.operador', 'tatc.aduana'])
-            ->where('tipo_salida', 'Cancelación')
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $search = $request->input('search');
+        $aduana = $request->input('aduana');
+        $fechaCancelacionDesde = $request->input('fecha_cancelacion_desde');
+        $fechaCancelacionHasta = $request->input('fecha_cancelacion_hasta');
+        $perPage = (int) $request->input('per_page', 25);
+        $perPage = $perPage > 0 ? $perPage : 25;
 
-        return view('control-plazos.registro-cancelacion', compact('cancelaciones'))
+        $aduanas = AduanaChile::where('estado', 'Activo')
+            ->orderBy('nombre_aduana')
+            ->get();
+
+        $cancelacionesQuery = Salida::with(['tatc.user.operador', 'tatc.aduana'])
+            ->where('tipo_salida', 'Cancelación');
+
+        if ($search) {
+            $cancelacionesQuery->where(function ($query) use ($search) {
+                $query->where('numero_contenedor', 'like', "%{$search}%")
+                    ->orWhere('numero_salida', 'like', "%{$search}%")
+                    ->orWhereHas('tatc', function ($q) use ($search) {
+                        $q->where('numero_tatc', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tatc.user.operador', function ($q) use ($search) {
+                        $q->where('nombre_operador', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($aduana) {
+            $cancelacionesQuery->whereHas('tatc', function ($q) use ($aduana) {
+                $q->where('aduana_ingreso', $aduana);
+            });
+        }
+
+        if ($fechaCancelacionDesde) {
+            $cancelacionesQuery->whereDate('fecha_salida', '>=', $fechaCancelacionDesde);
+        }
+        if ($fechaCancelacionHasta) {
+            $cancelacionesQuery->whereDate('fecha_salida', '<=', $fechaCancelacionHasta);
+        }
+
+        $cancelaciones = $cancelacionesQuery
+            ->orderBy('fecha_salida', 'desc')
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        return view('control-plazos.registro-cancelacion', compact(
+            'cancelaciones',
+            'aduanas',
+            'search',
+            'aduana',
+            'fechaCancelacionDesde',
+            'fechaCancelacionHasta',
+            'perPage'
+        ))
             ->with('titlePage', 'Registro de Cancelación');
     }
 
     /**
      * Registro de Prórrogas - Lista de TATC/TSTC con prórrogas
      */
-    public function registroProrrogas()
+    public function registroProrrogas(Request $request)
     {
-        // Mostrar prórrogas de la tabla prorrogas
-        $prorrogas = Prorroga::with(['tatc.user.operador', 'tatc.aduana', 'user'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $search = $request->input('search');
+        $aduana = $request->input('aduana');
+        $estado = $request->input('estado');
+        $fechaProrrogaDesde = $request->input('fecha_prorroga_desde');
+        $fechaProrrogaHasta = $request->input('fecha_prorroga_hasta');
+        $perPage = (int) $request->input('per_page', 25);
+        $perPage = $perPage > 0 ? $perPage : 25;
 
-        return view('control-plazos.registro-prorrogas', compact('prorrogas'))
+        $aduanas = AduanaChile::where('estado', 'Activo')
+            ->orderBy('nombre_aduana')
+            ->get();
+
+        $estadosDisponibles = Prorroga::select('estado')
+            ->distinct()
+            ->pluck('estado')
+            ->filter()
+            ->sort()
+            ->values();
+
+        $prorrogasQuery = Prorroga::with(['tatc.user.operador', 'tatc.aduana', 'user']);
+
+        if ($search) {
+            $prorrogasQuery->where(function ($query) use ($search) {
+                $query->where('numero_prorroga', 'like', "%{$search}%")
+                    ->orWhere('motivo', 'like', "%{$search}%")
+                    ->orWhereHas('tatc', function ($q) use ($search) {
+                        $q->where('numero_tatc', 'like', "%{$search}%")
+                            ->orWhere('numero_contenedor', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tatc.user.operador', function ($q) use ($search) {
+                        $q->where('nombre_operador', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($aduana) {
+            $prorrogasQuery->whereHas('tatc', function ($q) use ($aduana) {
+                $q->where('aduana_ingreso', $aduana);
+            });
+        }
+
+        if ($estado) {
+            $prorrogasQuery->where('estado', $estado);
+        }
+
+        if ($fechaProrrogaDesde) {
+            $prorrogasQuery->whereDate('fecha_solicitud', '>=', $fechaProrrogaDesde);
+        }
+        if ($fechaProrrogaHasta) {
+            $prorrogasQuery->whereDate('fecha_solicitud', '<=', $fechaProrrogaHasta);
+        }
+
+        $prorrogas = $prorrogasQuery
+            ->orderBy('fecha_solicitud', 'desc')
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        return view('control-plazos.registro-prorrogas', compact(
+            'prorrogas',
+            'aduanas',
+            'estadosDisponibles',
+            'search',
+            'aduana',
+            'estado',
+            'fechaProrrogaDesde',
+            'fechaProrrogaHasta',
+            'perPage'
+        ))
             ->with('titlePage', 'Registro de Prórrogas');
     }
 
     /**
      * Registro de Traspaso - Lista de TATC/TSTC con traspasos
      */
-    public function registroTraspaso()
+    public function registroTraspaso(Request $request)
     {
-        $traspasos = Salida::with(['tatc.user.operador', 'tatc.aduana'])
-            ->where('tipo_salida', 'Traspaso')
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+        $search = $request->input('search');
+        $aduana = $request->input('aduana');
+        $estado = $request->input('estado');
+        $fechaTraspasoDesde = $request->input('fecha_traspaso_desde');
+        $fechaTraspasoHasta = $request->input('fecha_traspaso_hasta');
+        $perPage = (int) $request->input('per_page', 25);
+        $perPage = $perPage > 0 ? $perPage : 25;
 
-        return view('control-plazos.registro-traspaso', compact('traspasos'))
+        $aduanas = AduanaChile::where('estado', 'Activo')
+            ->orderBy('nombre_aduana')
+            ->get();
+
+        $estadosDisponibles = Salida::where('tipo_salida', 'Traspaso')
+            ->select('estado')
+            ->distinct()
+            ->pluck('estado')
+            ->filter()
+            ->sort()
+            ->values();
+
+        $traspasosQuery = Salida::with(['tatc.user.operador', 'tatc.aduana'])
+            ->where('tipo_salida', 'Traspaso');
+
+        if ($search) {
+            $traspasosQuery->where(function ($query) use ($search) {
+                $query->where('numero_contenedor', 'like', "%{$search}%")
+                    ->orWhere('numero_salida', 'like', "%{$search}%")
+                    ->orWhere('tatc_destino', 'like', "%{$search}%")
+                    ->orWhere('operador_destino', 'like', "%{$search}%")
+                    ->orWhereHas('tatc', function ($q) use ($search) {
+                        $q->where('numero_tatc', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('tatc.user.operador', function ($q) use ($search) {
+                        $q->where('nombre_operador', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($aduana) {
+            $traspasosQuery->whereHas('tatc', function ($q) use ($aduana) {
+                $q->where('aduana_ingreso', $aduana);
+            });
+        }
+
+        if ($estado) {
+            $traspasosQuery->where('estado', $estado);
+        }
+
+        if ($fechaTraspasoDesde) {
+            $traspasosQuery->whereDate('fecha_salida', '>=', $fechaTraspasoDesde);
+        }
+        if ($fechaTraspasoHasta) {
+            $traspasosQuery->whereDate('fecha_salida', '<=', $fechaTraspasoHasta);
+        }
+
+        $traspasos = $traspasosQuery
+            ->orderBy('fecha_salida', 'desc')
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        return view('control-plazos.registro-traspaso', compact(
+            'traspasos',
+            'aduanas',
+            'estadosDisponibles',
+            'search',
+            'aduana',
+            'estado',
+            'fechaTraspasoDesde',
+            'fechaTraspasoHasta',
+            'perPage'
+        ))
             ->with('titlePage', 'Registro de Traspaso');
     }
 

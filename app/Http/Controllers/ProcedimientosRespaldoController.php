@@ -33,6 +33,22 @@ class ProcedimientosRespaldoController extends Controller
     }
 
     /**
+     * Mostrar PDF de procedimientos de respaldo en el navegador (público)
+     */
+    public function pdfPublico()
+    {
+        $data = [
+            'fecha' => now()->format('d/m/Y'),
+            'version' => '2.0'
+        ];
+
+        $pdf = Pdf::loadView('procedimientos-respaldo.pdf', $data);
+        $pdf->setPaper('A4', 'portrait');
+        
+        return $pdf->stream('Procedimientos_Respaldo_Contenedores_Pricer_' . now()->format('Y-m-d') . '.pdf');
+    }
+
+    /**
      * Ejecutar respaldo de base de datos
      */
     public function respaldarBaseDatos()

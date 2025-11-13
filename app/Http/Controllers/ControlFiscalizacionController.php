@@ -21,9 +21,29 @@ class ControlFiscalizacionController extends Controller
         $aduanas = AduanaChile::where('estado', 'Activo')->orderBy('codigo')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
 
-        // Procesar filtros si se envió el formulario
+        // Procesar filtros si hay parámetros de búsqueda válidos
         $resultados = null;
-        if ($request->isMethod('post')) {
+        
+        // Lista de parámetros que cuentan como filtros (excluyendo 'filtro' que siempre está presente)
+        $parametrosFiltro = [
+            'tipo', 'estado', 'fecha_desde', 'fecha_hasta', 
+            'aduana_id', 'numero_contenedor', 'numero_tatc', 'tipo_contenedor', 
+            'estado_contenedor', 'lugardeposito_id', 'vigencia_titulos', 
+            'fecha_vencimiento_desde', 'fecha_vencimiento_hasta', 'con_prorroga',
+            'salida_cancelacion_aduana_id'
+        ];
+        
+        $tieneFiltros = false;
+        foreach ($parametrosFiltro as $parametro) {
+            $valor = $request->input($parametro);
+            if ($valor !== null && $valor !== '' && $valor !== '*') {
+                $tieneFiltros = true;
+                break;
+            }
+        }
+        
+        // Si solo hay 'filtro' seleccionado pero no hay fechas, no procesar
+        if ($tieneFiltros || ($request->has('filtro') && ($request->fecha_desde || $request->fecha_hasta))) {
             $resultados = $this->procesarFiltrosMovimientos($request);
         }
 
@@ -39,9 +59,29 @@ class ControlFiscalizacionController extends Controller
         $aduanas = AduanaChile::where('estado', 'Activo')->orderBy('codigo')->get();
         $lugaresDeposito = LugarDeposito::where('estado', 'Activo')->orderBy('nombre_deposito')->get();
 
-        // Procesar filtros si se envió el formulario
+        // Procesar filtros si hay parámetros de búsqueda válidos
         $resultados = null;
-        if ($request->isMethod('post')) {
+        
+        // Lista de parámetros que cuentan como filtros (excluyendo 'filtro' que siempre está presente)
+        $parametrosFiltro = [
+            'tipo', 'estado', 'fecha_desde', 'fecha_hasta', 
+            'aduana_id', 'numero_contenedor', 'numero_tatc', 'tipo_contenedor', 
+            'estado_contenedor', 'lugardeposito_id', 'vigencia_titulos', 
+            'fecha_vencimiento_desde', 'fecha_vencimiento_hasta', 'con_prorroga',
+            'salida_cancelacion_aduana_id'
+        ];
+        
+        $tieneFiltros = false;
+        foreach ($parametrosFiltro as $parametro) {
+            $valor = $request->input($parametro);
+            if ($valor !== null && $valor !== '' && $valor !== '*') {
+                $tieneFiltros = true;
+                break;
+            }
+        }
+        
+        // Si solo hay 'filtro' seleccionado pero no hay fechas, no procesar
+        if ($tieneFiltros || ($request->has('filtro') && ($request->fecha_desde || $request->fecha_hasta))) {
             $resultados = $this->procesarFiltrosBusqueda($request);
         }
 
@@ -81,10 +121,15 @@ class ControlFiscalizacionController extends Controller
             })
             ->when($request->filtro == '0', function($q) use ($request) {
                 // Filtro por fecha de ingreso
-                if ($request->fecdes && $request->fechas) {
-                    $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                    $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                    return $q->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
+                if ($request->fecha_desde || $request->fecha_hasta) {
+                    if ($request->fecha_desde) {
+                        $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                        $q->where('ingreso_pais', '>=', $fechaInicio);
+                    }
+                    if ($request->fecha_hasta) {
+                        $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                        $q->where('ingreso_pais', '<=', $fechaFin);
+                    }
                 }
                 return $q;
             })
@@ -95,15 +140,29 @@ class ControlFiscalizacionController extends Controller
                 if ($request->vigencia_titulos && $request->vigencia_titulos !== '*') {
                     $fechaVencimiento = $tatc->created_at->copy()->addYear();
                     $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
-                    
-                    if ($request->vigencia_titulos === 'vigentes' && $diasRestantes < 0) {
-                        return false; // Vencido, no es vigente
-                    }
-                    if ($request->vigencia_titulos === 'vencidos' && $diasRestantes >= 0) {
-                        return false; // Vigente, no está vencido
-                    }
-                    if ($request->vigencia_titulos === 'por_vencer' && ($diasRestantes > 30 || $diasRestantes < 0)) {
-                        return false; // No está por vencer (30 días)
+                    $tieneProrroga = $tatc->prorrogas()->exists();
+
+                    switch ($request->vigencia_titulos) {
+                        case 'vigentes':
+                            if ($diasRestantes < 0) {
+                                return false; // Vencido, no es vigente
+                            }
+                            break;
+                        case 'vencidos':
+                            if ($diasRestantes >= 0) {
+                                return false; // Vigente, no está vencido
+                            }
+                            break;
+                        case 'por_vencer':
+                            if ($diasRestantes > 30 || $diasRestantes < 0) {
+                                return false; // No está por vencer (30 días)
+                            }
+                            break;
+                        case 'prorroga':
+                            if (!$tieneProrroga) {
+                                return false; // No tiene prórroga asociada
+                            }
+                            break;
                     }
                 }
                 
@@ -187,10 +246,15 @@ class ControlFiscalizacionController extends Controller
             })
             ->when($request->filtro == '0', function($q) use ($request) {
                 // Filtro por fecha de ingreso
-                if ($request->fecdes && $request->fechas) {
-                    $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                    $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                    return $q->whereBetween('fecha_emision_tstc', [$fechaInicio, $fechaFin]);
+                if ($request->fecha_desde || $request->fecha_hasta) {
+                    if ($request->fecha_desde) {
+                        $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                        $q->where('fecha_emision_tstc', '>=', $fechaInicio);
+                    }
+                    if ($request->fecha_hasta) {
+                        $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                        $q->where('fecha_emision_tstc', '<=', $fechaFin);
+                    }
                 }
                 return $q;
             })
@@ -201,14 +265,24 @@ class ControlFiscalizacionController extends Controller
                     $fechaVencimiento = $tstc->created_at->copy()->addYear();
                     $diasRestantes = floor(now()->diffInDays($fechaVencimiento, false));
                     
-                    if ($request->vigencia_titulos === 'vigentes' && $diasRestantes < 0) {
-                        return false; // Vencido, no es vigente
-                    }
-                    if ($request->vigencia_titulos === 'vencidos' && $diasRestantes >= 0) {
-                        return false; // Vigente, no está vencido
-                    }
-                    if ($request->vigencia_titulos === 'por_vencer' && ($diasRestantes > 30 || $diasRestantes < 0)) {
-                        return false; // No está por vencer (30 días)
+                    switch ($request->vigencia_titulos) {
+                        case 'vigentes':
+                            if ($diasRestantes < 0) {
+                                return false; // Vencido, no es vigente
+                            }
+                            break;
+                        case 'vencidos':
+                            if ($diasRestantes >= 0) {
+                                return false; // Vigente, no está vencido
+                            }
+                            break;
+                        case 'por_vencer':
+                            if ($diasRestantes > 30 || $diasRestantes < 0) {
+                                return false; // No está por vencer (30 días)
+                            }
+                            break;
+                        case 'prorroga':
+                            return false; // TSTCs no tienen prórrogas asociadas
                     }
                 }
                 
@@ -275,6 +349,14 @@ class ControlFiscalizacionController extends Controller
                 }
                 return $q;
             })
+            ->when($request->aduana_id && $request->aduana_id !== '*', function($q) use ($request) {
+                return $q->whereHas('tatc', function($query) use ($request) {
+                    $query->where('aduana_ingreso', $request->aduana_id);
+                });
+            })
+            ->when($request->salida_cancelacion_aduana_id && $request->salida_cancelacion_aduana_id !== '*', function($q) use ($request) {
+                return $q->where('aduana_salida', $request->salida_cancelacion_aduana_id);
+            })
             ->when($request->numero_contenedor, function($q) use ($request) {
                 return $q->whereHas('tatc', function($query) use ($request) {
                     $query->where('numero_contenedor', 'like', '%' . $request->numero_contenedor . '%');
@@ -295,12 +377,33 @@ class ControlFiscalizacionController extends Controller
                     $query->where('estado_contenedor', $request->estado_contenedor);
                 });
             })
+            ->when($request->filtro == '0', function($q) use ($request) {
+                // Filtro por fecha de ingreso (del TATC relacionado)
+                if ($request->fecha_desde || $request->fecha_hasta) {
+                    return $q->whereHas('tatc', function($query) use ($request) {
+                        if ($request->fecha_desde) {
+                            $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                            $query->where('ingreso_pais', '>=', $fechaInicio);
+                        }
+                        if ($request->fecha_hasta) {
+                            $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                            $query->where('ingreso_pais', '<=', $fechaFin);
+                        }
+                    });
+                }
+                return $q;
+            })
             ->when($request->filtro == '1', function($q) use ($request) {
                 // Filtro por fecha de salida
-                if ($request->fecdes && $request->fechas) {
-                    $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                    $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                    return $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+                if ($request->fecha_desde || $request->fecha_hasta) {
+                    if ($request->fecha_desde) {
+                        $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                        $q->where('created_at', '>=', $fechaInicio);
+                    }
+                    if ($request->fecha_hasta) {
+                        $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                        $q->where('created_at', '<=', $fechaFin);
+                    }
                 }
                 return $q;
             })
@@ -392,20 +495,30 @@ class ControlFiscalizacionController extends Controller
                         });
                     })
                     ->when($request->filtro == '0', function($q) use ($request) {
-                        if ($request->fecdes && $request->fechas) {
-                            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                            return $q->whereHas('tatc', function($query) use ($fechaInicio, $fechaFin) {
-                                $query->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
+                        if ($request->fecha_desde || $request->fecha_hasta) {
+                            return $q->whereHas('tatc', function($query) use ($request) {
+                                if ($request->fecha_desde) {
+                                    $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                                    $query->where('ingreso_pais', '>=', $fechaInicio);
+                                }
+                                if ($request->fecha_hasta) {
+                                    $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                                    $query->where('ingreso_pais', '<=', $fechaFin);
+                                }
                             });
                         }
                         return $q;
                     })
                     ->when($request->filtro == '1', function($q) use ($request) {
-                        if ($request->fecdes && $request->fechas) {
-                            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                            return $q->whereBetween('created_at', [$fechaInicio, $fechaFin]);
+                        if ($request->fecha_desde || $request->fecha_hasta) {
+                            if ($request->fecha_desde) {
+                                $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                                $q->where('created_at', '>=', $fechaInicio);
+                            }
+                            if ($request->fecha_hasta) {
+                                $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                                $q->where('created_at', '<=', $fechaFin);
+                            }
                         }
                         return $q;
                     })
@@ -458,10 +571,15 @@ class ControlFiscalizacionController extends Controller
                         return $q->where('estado_contenedor', $request->estado_contenedor);
                     })
                     ->when($request->filtro == '0', function($q) use ($request) {
-                        if ($request->fecdes && $request->fechas) {
-                            $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                            $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                            return $q->whereBetween('ingreso_pais', [$fechaInicio, $fechaFin]);
+                        if ($request->fecha_desde || $request->fecha_hasta) {
+                            if ($request->fecha_desde) {
+                                $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                                $q->where('ingreso_pais', '>=', $fechaInicio);
+                            }
+                            if ($request->fecha_hasta) {
+                                $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                                $q->where('ingreso_pais', '<=', $fechaFin);
+                            }
                         }
                         return $q;
                     })
@@ -516,10 +634,15 @@ class ControlFiscalizacionController extends Controller
                     return $q->where('estado_contenedor', $request->estado_contenedor);
                 })
                 ->when($request->filtro == '0', function($q) use ($request) {
-                    if ($request->fecdes && $request->fechas) {
-                        $fechaInicio = Carbon::createFromFormat('d/m/Y', $request->fecdes)->startOfDay();
-                        $fechaFin = Carbon::createFromFormat('d/m/Y', $request->fechas)->endOfDay();
-                        return $q->whereBetween('fecha_emision_tstc', [$fechaInicio, $fechaFin]);
+                    if ($request->fecha_desde || $request->fecha_hasta) {
+                        if ($request->fecha_desde) {
+                            $fechaInicio = Carbon::parse($request->fecha_desde)->startOfDay();
+                            $q->where('fecha_emision_tstc', '>=', $fechaInicio);
+                        }
+                        if ($request->fecha_hasta) {
+                            $fechaFin = Carbon::parse($request->fecha_hasta)->endOfDay();
+                            $q->where('fecha_emision_tstc', '<=', $fechaFin);
+                        }
                     }
                     return $q;
                 })
@@ -654,8 +777,8 @@ class ControlFiscalizacionController extends Controller
             'tipo' => $request->tipo,
             'estado' => $request->estado,
             'filtro' => $request->filtro,
-            'fecha_desde' => $request->fecdes,
-            'fecha_hasta' => $request->fechas,
+            'fecha_desde' => $request->fecha_desde,
+            'fecha_hasta' => $request->fecha_hasta,
             'aduana_ingreso' => $request->aduana_id,
             'aduana_salida' => $request->salida_cancelacion_aduana_id,
             'lugar_deposito' => $request->lugardeposito_id

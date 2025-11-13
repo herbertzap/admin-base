@@ -36,6 +36,16 @@ class SessionsController extends Controller
         $user = auth()->user();
         if ($user) {
             $user->update(['ultimo_movimiento' => now()]);
+            
+            // Si es usuario de aduana, agregar notificación
+            if ($user->isAduana()) {
+                \Log::info('Usuario de Aduana conectado', [
+                    'user_id' => $user->id,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'fecha' => now()->format('Y-m-d H:i:s')
+                ]);
+            }
         }
 
         return redirect('/dashboard');

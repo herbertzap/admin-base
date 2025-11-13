@@ -59,6 +59,10 @@
                                                     <input type="text" class="form-control bg-white text-dark border" name="operador" value="{{ $userOperador ? $userOperador->codigo . ' | ' . $userOperador->rut_operador . ' | ' . $userOperador->nombre_operador : 'Sin operador asignado' }}" readonly>
                                                 </div>
                                                 <div class="mb-3">
+                                                    <label class="form-label">Código de operador de destino (O.C.)</label>
+                                                    <input type="text" class="form-control bg-white text-dark border" name="codigo_operador_destino_oc" id="codigo_operador_destino_oc" value="{{ old('codigo_operador_destino_oc') }}" placeholder="Ingrese código de operador de destino" maxlength="50">
+                                                </div>
+                                                <div class="mb-3">
                                                     <label class="form-label">Nº Contenedor</label>
                                                     <input type="text" class="form-control bg-white text-dark border" name="numero_contenedor" id="numero_contenedor" value="{{ old('numero_contenedor') }}" placeholder="Número de Contenedor" maxlength="12" minlength="12" required>
                                                 </div>

@@ -96,6 +96,7 @@ class TstcController extends Controller
             'rut_chofer' => 'nullable|string|max:20',
             'patente_camion' => 'nullable|string|max:20',
             'documento_transporte' => 'nullable|string|max:50',
+            'codigo_operador_destino_oc' => 'nullable|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -118,6 +119,7 @@ class TstcController extends Controller
             $tstc = Tstc::create([
                 'numero_tstc' => $numeroTstc,
                 'operador_id' => $userOperador->id,
+                'codigo_operador_destino_oc' => $data['codigo_operador_destino_oc'] ?? null,
                 'fecha_emision_tstc' => $data['fecha_emision_tstc'] ?? now()->format('Y-m-d'),
                 'numero_contenedor' => $data['numero_contenedor'],
                 'tipo_contenedor' => $data['tipo_contenedor'],
@@ -256,6 +258,7 @@ class TstcController extends Controller
             'rut_chofer' => 'nullable|string|max:20',
             'patente_camion' => 'nullable|string|max:20',
             'documento_transporte' => 'nullable|string|max:50',
+            'codigo_operador_destino_oc' => 'nullable|string|max:50',
         ]);
 
         if ($validator->fails()) {
@@ -271,6 +274,7 @@ class TstcController extends Controller
             $tstc->update([
                 'numero_contenedor' => $data['numero_contenedor'],
                 'tipo_contenedor' => $data['tipo_contenedor'],
+                'codigo_operador_destino_oc' => $data['codigo_operador_destino_oc'] ?? null,
                 'tipo_salida' => $data['tipo_salida'],
                 'salida_pais' => $data['salida_pais'],
                 'salida_deposito' => $data['salida_deposito'],

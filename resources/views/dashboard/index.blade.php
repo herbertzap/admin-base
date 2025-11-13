@@ -254,10 +254,22 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <a href="#" class="text-white text-sm font-weight-bold mb-0">
-                                                            {{ $usuario->name }}
-                                                        </a>
-                                                        <p class="text-xs text-secondary mb-0">{{ $usuario->ultimo_movimiento ? \Carbon\Carbon::parse($usuario->ultimo_movimiento)->format('d/m/Y H:i:s') : 'Nunca' }}</p>
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="#" class="text-white text-sm font-weight-bold mb-0">
+                                                                {{ $usuario->name }}
+                                                            </a>
+                                                            @if($usuario->isAduana())
+                                                                <span class="badge badge-sm bg-gradient-info ms-2" title="Usuario de Aduana">
+                                                                    <i class="fas fa-shield-alt"></i> Aduana
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                        <p class="text-xs text-secondary mb-0">
+                                                            {{ $usuario->ultimo_movimiento ? \Carbon\Carbon::parse($usuario->ultimo_movimiento)->format('d/m/Y H:i:s') : 'Nunca' }}
+                                                            @if($usuario->isAduana() && $usuario->ultimo_movimiento && \Carbon\Carbon::parse($usuario->ultimo_movimiento)->isToday())
+                                                                <span class="badge badge-sm bg-gradient-success ms-1">Hoy</span>
+                                                            @endif
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </td>

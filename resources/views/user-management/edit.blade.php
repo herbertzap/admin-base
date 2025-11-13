@@ -72,13 +72,13 @@
                                                 @else
                                                     <!-- Campo editable para administradores -->
                                                     <select name="operador_id" class="form-control bg-white text-dark border @error('operador_id') is-invalid @enderror">
-                                                        <option value="">Sin operador asignado</option>
-                                                        @foreach($operadores as $operador)
-                                                            <option value="{{ $operador->id }}" {{ old('operador_id', $user->operador_id) == $operador->id ? 'selected' : '' }}>
-                                                                {{ $operador->codigo }} | {{ $operador->nombre_operador }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    <option value="">Sin operador asignado</option>
+                                                    @foreach($operadores as $operador)
+                                                        <option value="{{ $operador->id }}" {{ old('operador_id', $user->operador_id) == $operador->id ? 'selected' : '' }}>
+                                                            {{ $operador->codigo }} | {{ $operador->nombre_operador }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 @endif
                                                 @error('operador_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>

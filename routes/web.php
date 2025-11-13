@@ -180,11 +180,19 @@ Route::prefix('procedimientos-operacion')->name('procedimientos-operacion.')->mi
     Route::get('/pdf', [App\Http\Controllers\ProcedimientosOperacionController::class, 'pdf'])->name('pdf');
 });
 
-// Rutas públicas para documentos (sin autenticación)
-Route::get('/manual-sistema', function () {
-    return response()->file(public_path('docs/Manual_Sistema_Contenedores_Pricer.pdf'));
-})->name('manual-sistema-publico');
+// Rutas del Manual de Usuario para Aduana
+Route::prefix('manual-aduana')->name('manual-aduana.')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\ManualAduanaController::class, 'index'])->name('index');
+    Route::get('/pdf', [App\Http\Controllers\ManualAduanaController::class, 'pdf'])->name('pdf');
+});
 
-Route::get('/procedimientos-respaldo', function () {
-    return response()->file(public_path('docs/Procedimientos_Respaldo_Contenedores_Pricer.pdf'));
-})->name('procedimientos-respaldo-publico');
+// Rutas de Procedimientos de Cambio de Claves
+Route::prefix('procedimientos-cambio-claves')->name('procedimientos-cambio-claves.')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\ProcedimientosCambioClavesController::class, 'index'])->name('index');
+    Route::get('/pdf', [App\Http\Controllers\ProcedimientosCambioClavesController::class, 'pdf'])->name('pdf');
+});
+
+// Rutas públicas para documentos (sin autenticación)
+Route::get('/manual-sistema', [App\Http\Controllers\ManualController::class, 'pdfPublico'])->name('manual-sistema-publico');
+
+Route::get('/procedimientos-respaldo', [ProcedimientosRespaldoController::class, 'pdfPublico'])->name('procedimientos-respaldo-publico');

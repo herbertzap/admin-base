@@ -22,4 +22,13 @@ class ManualController extends Controller
         $pdf = \PDF::loadView('manual.pdf');
         return $pdf->download('Manual_Sistema_Contenedores_Pricer_' . now()->format('Y-m-d') . '.pdf');
     }
+
+    /**
+     * Mostrar PDF del manual en el navegador (público)
+     */
+    public function pdfPublico()
+    {
+        $pdf = \PDF::loadView('manual.pdf');
+        return $pdf->stream('Manual_Sistema_Contenedores_Pricer_' . now()->format('Y-m-d') . '.pdf');
+    }
 }

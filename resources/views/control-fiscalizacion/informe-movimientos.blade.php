@@ -25,8 +25,7 @@
 
                         <div class="card-body">
                             <!-- Filtros Mejorados -->
-                            <form method="POST" id="formList" name="formList" enctype="multipart/form-data">
-                                @csrf
+                            <form method="GET" id="formList" name="formList" action="{{ route('control-fiscalizacion.informe-movimientos') }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
@@ -70,14 +69,16 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="rango-fechas" class="form-label text-white">Selección de Fechas</label>
-                                            <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-calendar-alt"></i>
-                                                </span>
-                                                <input type="text" class="form-control" id="rango-fechas" name="rango-fechas" autocomplete="off" value="{{ request('rango-fechas', '01/01/2019 - 31/12/2025') }}" required />
-                                                <input type="hidden" class="form-control" name="fecdes" id="fecdes" value="{{ request('fecdes', '01/01/2019') }}" required>
-                                                <input type="hidden" class="form-control" name="fechas" id="fechas" value="{{ request('fechas', '31/12/2025') }}" required>
+                                            <label class="form-label text-white">Rango de Fechas</label>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label for="fecha_desde" class="form-label text-white small">Desde</label>
+                                                    <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="{{ request('fecha_desde') }}" />
+                                                </div>
+                                                <div class="col-6">
+                                                    <label for="fecha_hasta" class="form-label text-white small">Hasta</label>
+                                                    <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="{{ request('fecha_hasta') }}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -169,6 +170,7 @@
                                                 <option value="vigentes" {{ request('vigencia_titulos') == 'vigentes' ? 'selected' : '' }}>Vigentes</option>
                                                 <option value="vencidos" {{ request('vigencia_titulos') == 'vencidos' ? 'selected' : '' }}>Vencidos</option>
                                                 <option value="por_vencer" {{ request('vigencia_titulos') == 'por_vencer' ? 'selected' : '' }}>Por Vencer (30 días)</option>
+                                                <option value="prorroga" {{ request('vigencia_titulos') == 'prorroga' ? 'selected' : '' }}>Con Prórroga</option>
                                             </select>
                                         </div>
                                     </div>
@@ -205,9 +207,9 @@
                                             <button type="submit" class="btn btn-primary btn-lg px-4" style="background: linear-gradient(135deg, #e75034 0%, #c73e2a 100%); border: none;">
                                                 <i class="fas fa-search"></i> FILTRAR
                                             </button>
-                                            <button type="button" class="btn btn-secondary btn-lg px-4" id="btnLimpiarFiltros">
+                                            <a href="{{ route('control-fiscalizacion.informe-movimientos') }}" class="btn btn-secondary btn-lg px-4">
                                                 <i class="fas fa-eraser"></i> LIMPIAR FILTROS
-                                            </button>
+                                            </a>
                                             <button type="button" class="btn btn-success btn-lg px-4" onclick="exportarResultados()">
                                                 <i class="fas fa-file-excel"></i> EXPORTAR
                                             </button>
@@ -417,44 +419,9 @@
 
 @push('js')
 <script>
-    $(function() {
-        // Configurar DateRangePicker
-        $('#rango-fechas').daterangepicker({
-            locale: {
-                format: 'DD/MM/YYYY',
-                separator: ' - ',
-                applyLabel: 'Aplicar',
-                cancelLabel: 'Cancelar',
-                fromLabel: 'Desde',
-                toLabel: 'Hasta',
-                customRangeLabel: 'Personalizado',
-                weekLabel: 'S',
-                daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                firstDay: 1
-            },
-            startDate: moment('01/01/2019', 'DD/MM/YYYY'),
-            endDate: moment('31/12/2025', 'DD/MM/YYYY'),
-            ranges: {
-                'Hoy': [moment(), moment()],
-                'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-                'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-                'Este mes': [moment().startOf('month'), moment().endOf('month')],
-                'Mes pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, function(start, end, label) {
-            $('#fecdes').val(start.format('DD/MM/YYYY'));
-            $('#fechas').val(end.format('DD/MM/YYYY'));
-        });
-
-        // Configurar Inputmask para fechas
-        $('[data-inputmask]').inputmask();
-    });
-
     function exportarResultados() {
-        // Obtener los datos del formulario
-        var formData = new FormData(document.getElementById('formList'));
+        // Obtener todos los parámetros de la URL
+        var params = new URLSearchParams(window.location.search);
         
         // Crear un formulario temporal para enviar los datos
         var tempForm = document.createElement('form');
@@ -469,14 +436,14 @@
         csrfToken.value = '{{ csrf_token() }}';
         tempForm.appendChild(csrfToken);
         
-        // Agregar todos los campos del formulario
-        for (var pair of formData.entries()) {
+        // Agregar todos los parámetros de la URL
+        params.forEach(function(value, key) {
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = pair[0];
-            input.value = pair[1];
+            input.name = key;
+            input.value = value;
             tempForm.appendChild(input);
-        }
+        });
         
         document.body.appendChild(tempForm);
         tempForm.submit();
@@ -484,8 +451,8 @@
     }
     
     function imprimirResultados() {
-        // Obtener los datos del formulario
-        var formData = new FormData(document.getElementById('formList'));
+        // Obtener todos los parámetros de la URL
+        var params = new URLSearchParams(window.location.search);
         
         // Crear un formulario temporal para enviar los datos
         var tempForm = document.createElement('form');
@@ -500,14 +467,14 @@
         csrfToken.value = '{{ csrf_token() }}';
         tempForm.appendChild(csrfToken);
         
-        // Agregar todos los campos del formulario
-        for (var pair of formData.entries()) {
+        // Agregar todos los parámetros de la URL
+        params.forEach(function(value, key) {
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = pair[0];
-            input.value = pair[1];
+            input.name = key;
+            input.value = value;
             tempForm.appendChild(input);
-        }
+        });
         
         document.body.appendChild(tempForm);
         tempForm.submit();
@@ -549,15 +516,5 @@
         return $(row).children('td').eq(index).text();
     }
 
-    // Event listener para el botón limpiar filtros
-    document.addEventListener('DOMContentLoaded', function() {
-        const btnLimpiarFiltros = document.getElementById('btnLimpiarFiltros');
-        if (btnLimpiarFiltros) {
-            btnLimpiarFiltros.addEventListener('click', function() {
-                // Simplemente recargar la página sin parámetros para limpiar todos los filtros
-                window.location.href = window.location.pathname;
-            });
-        }
-    });
 </script>
 @endpush

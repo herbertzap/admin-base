@@ -37,6 +37,13 @@
                                                     <label class="form-label">Operador</label>
                                                     <input type="text" class="form-control bg-light" value="{{ Auth::user()->operador ? Auth::user()->operador->codigo . ' | ' . Auth::user()->operador->nombre_operador : 'Sin operador asignado' }}" readonly>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Código de operador de destino (O.C.)</label>
+                                                    <input type="text" class="form-control bg-white text-dark border @error('codigo_operador_destino_oc') is-invalid @enderror" name="codigo_operador_destino_oc" id="codigo_operador_destino_oc" value="{{ old('codigo_operador_destino_oc', $tstc->codigo_operador_destino_oc) }}" placeholder="Ingrese código de operador de destino" maxlength="50">
+                                                    @error('codigo_operador_destino_oc')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
                                                 
                                                 <div class="mb-3">
                                                     <label class="form-label">Tipo de Salida *</label>

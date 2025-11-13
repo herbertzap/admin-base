@@ -81,6 +81,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Verificar si el usuario es de aduana
+     */
+    public function isAduana(): bool
+    {
+        return $this->hasRole('Aduana');
+    }
+
+    /**
      * Verificar si el usuario tiene operador asociado
      */
     public function hasOperador(): bool

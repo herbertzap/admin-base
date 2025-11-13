@@ -91,6 +91,36 @@
                     <div class="alert alert-warning">
                         <strong>Importante:</strong> Para ingresar al sistema, debe digitar su correo electrónico y la contraseña correspondiente. El sistema también incluye la opción "Recordarme" para mantener la sesión activa.
                     </div>
+
+                    <h6>Usuarios de Ejemplo:</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Contraseña</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Usuario 1</td>
+                                    <td>operador1@contenedores.pricer.cl</td>
+                                    <td>Pricer2025#Secure</td>
+                                </tr>
+                                <tr>
+                                    <td>Usuario 2</td>
+                                    <td>operador2@contenedores.pricer.cl</td>
+                                    <td>Pricer2025#Secure</td>
+                                </tr>
+                                <tr>
+                                    <td>Usuario 3</td>
+                                    <td>operador3@contenedores.pricer.cl</td>
+                                    <td>Pricer2025#Secure</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -268,22 +298,64 @@
                     
                     <h6>Funcionalidades del Control de Plazos:</h6>
                     <ul>
-                        <li><strong>Plazos de Vigencia:</strong> Visualización de TATCs vigentes y próximos a vencer</li>
-                        <li><strong>Registro de Cancelaciones:</strong> Control de TATCs cancelados</li>
-                        <li><strong>Registro de Prórrogas:</strong> Seguimiento de extensiones de plazo</li>
-                        <li><strong>Registro de Traspasos:</strong> Control de transferencias entre operadores</li>
+                        <li><strong>Plazos de Vigencia:</strong> Visualización de TATCs y TSTCs vigentes con filtros avanzados</li>
+                        <li><strong>Registro de Cancelaciones:</strong> Control de TATCs cancelados con filtros por fecha y aduana</li>
+                        <li><strong>Registro de Prórrogas:</strong> Seguimiento de extensiones de plazo con filtros por estado</li>
+                        <li><strong>Registro de Traspasos:</strong> Control de transferencias entre operadores con filtros por fecha, aduana y estado</li>
                     </ul>
+
+                    <h6>8.1 Plazos de Vigencia</h6>
+                    <p>Muestra los TATCs y TSTCs vigentes con sus fechas de vencimiento. Incluye filtros avanzados:</p>
+                    <ul>
+                        <li><strong>Búsqueda:</strong> Por número TATC/TSTC, contenedor u operador</li>
+                        <li><strong>Fecha de Vigencia:</strong> Rango desde/hasta para filtrar por fecha de vencimiento</li>
+                        <li><strong>Aduana:</strong> Filtrar por aduana de ingreso</li>
+                        <li><strong>Registros por página:</strong> 10, 25, 50 o 100 registros</li>
+                    </ul>
+                    <p>La columna "Fecha de vencimiento (Vigencia)" muestra el estado de cada título.</p>
+
+                    <h6>8.2 Registro de Cancelaciones</h6>
+                    <p>Lista todos los TATCs cancelados con filtros:</p>
+                    <ul>
+                        <li><strong>Búsqueda:</strong> Por número TATC, contenedor u operador</li>
+                        <li><strong>Fecha de Cancelación:</strong> Rango desde/hasta</li>
+                        <li><strong>Aduana:</strong> Filtrar por aduana de ingreso</li>
+                        <li><strong>Registros por página:</strong> Configurable</li>
+                    </ul>
+
+                    <h6>8.3 Registro de Prórrogas</h6>
+                    <p>Gestiona las prórrogas solicitadas con filtros completos:</p>
+                    <ul>
+                        <li><strong>Búsqueda:</strong> Por número de prórroga, TATC, contenedor u operador</li>
+                        <li><strong>Fecha de Solicitud:</strong> Rango desde/hasta</li>
+                        <li><strong>Aduana:</strong> Filtrar por aduana de ingreso</li>
+                        <li><strong>Estado:</strong> Filtrar por estado de la prórroga (Pendiente, Aprobado, Rechazado, etc.)</li>
+                        <li><strong>Registros por página:</strong> Configurable</li>
+                    </ul>
+
+                    <h6>8.4 Registro de Traspasos</h6>
+                    <p>Control de transferencias entre operadores con filtros avanzados:</p>
+                    <ul>
+                        <li><strong>Búsqueda:</strong> Por número TATC, contenedor, operador origen o destino</li>
+                        <li><strong>Fecha de Traspaso:</strong> Rango desde/hasta</li>
+                        <li><strong>Aduana:</strong> Filtrar por aduana de ingreso</li>
+                        <li><strong>Estado:</strong> Filtrar por estado del traspaso (Pendiente, Aprobado, Rechazado, Cancelado)</li>
+                        <li><strong>Registros por página:</strong> Configurable</li>
+                    </ul>
+                    <p>Los estados se muestran con colores: <span class="badge bg-success">Aprobado</span>, <span class="badge bg-warning">Pendiente</span>, <span class="badge bg-danger">Rechazado</span>, <span class="badge bg-secondary">Cancelado</span></p>
 
                     <h6>Indicadores Visuales:</h6>
                     <ul>
-                        <li><span class="badge bg-success">Verde:</span> TATCs vigentes</li>
-                        <li><span class="badge bg-danger">Rojo:</span> TATCs vencidos</li>
-                        <li><span class="badge bg-warning">Amarillo:</span> TATCs próximos a vencer</li>
+                        <li><span class="badge bg-success">Verde:</span> TATCs vigentes / Traspasos aprobados</li>
+                        <li><span class="badge bg-danger">Rojo:</span> TATCs vencidos / Traspasos rechazados</li>
+                        <li><span class="badge bg-warning">Amarillo:</span> TATCs próximos a vencer / Traspasos pendientes</li>
                     </ul>
 
                     <h6>Funcionalidades Adicionales:</h6>
                     <ul>
-                        <li>Búsqueda de registros por diferentes criterios</li>
+                        <li>Búsqueda avanzada con múltiples filtros combinables</li>
+                        <li>Paginación configurable</li>
+                        <li>Exportación de datos a Excel</li>
                         <li>Visualización detallada de cada registro</li>
                         <li>Impresión de fichas individuales</li>
                         <li>Edición de datos (según permisos)</li>
@@ -325,6 +397,9 @@
                                 <li>Número TATC/TSTC (búsqueda específica)</li>
                                 <li>Tipo de Contenedor (20, 40, 45 pies)</li>
                                 <li>Estado del Contenedor (OP - Operativo, DM - Dañado)</li>
+                                <li><strong>Vigencia de Títulos:</strong> Filtrar por vigentes, vencidos, por vencer (30 días) o con prórroga</li>
+                                <li><strong>Fecha de Vencimiento:</strong> Rango desde/hasta para filtrar por fecha de vencimiento</li>
+                                <li><strong>Con Prórroga:</strong> Filtrar títulos con o sin prórrogas activas</li>
                             </ul>
                         </li>
                         <li><strong>Visualización de Datos:</strong>
